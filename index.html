@@ -922,17 +922,18 @@ ${meta.notes?`【特殊需求】${meta.notes}`:''}
       body: JSON.stringify({ system: sys, userPrompt: usr })
     });
     
+    const data = await res.json();
+    
     if (!res.ok) {
-        const errData = await res.json();
-        throw new Error(errData.error || '伺服器發生錯誤');
+        throw new Error(data.error || '伺服器發生錯誤，請檢查後端日誌');
     }
 
-    const parsed = await res.json();
-    S.generated = {data: parsed, meta};
-    saveScript(parsed, meta);
+    S.generated = {data: data, meta};
+    saveScript(data, meta);
     notify('腳本生成成功，已自動存入歷史記錄！','ok');
   } catch(e) {
-    notify('生成失敗，請稍後再試：'+e.message,'err');
+    console.error(e);
+    notify('生成失敗，請稍後再試：' + e.message, 'err');
   }
   S.genLoading=false; render();
 }
@@ -1070,7 +1071,7 @@ function buildScriptCard(s,showDel=false) {
     <div class="script-card-meta">
       <span class="meta-tag">${PLATFORM_MAP[s.platform]||s.platform}</span>
       <span class="meta-tag">${s.duration}秒</span>
-      <span class="meta-tag">${s.scenes||0}场景</span>
+      <span class="meta-tag">${s.scenes||0}場景</span>
       <span class="meta-tag">${date}</span>
       ${isTeamScript?`<span class="shared-dot">👥 團隊</span>`:''}
       ${s.shared&&!isTeamScript?`<span class="shared-dot">🔗 已分享</span>`:''}
