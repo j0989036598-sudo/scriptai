@@ -9,7 +9,7 @@ export default async function handler(req, res) {
 
     if (!apiKey) throw new Error('Vercel 沒抓到 API Key');
 
-    // 🌟 第一重保險：嚴厲警告 AI 絕對不能寫錯格式
+    // 🌟 第一重保險：嚴厲警告 AI 絕對不能寫錯格式 (防止破圖)
     const enhancedSystem = (system || '') + `
 \n\n【非常重要：JSON 格式嚴格規定】
 1. 絕對不能有任何 markdown 標記 (如 \`\`\`json)。
@@ -26,7 +26,7 @@ export default async function handler(req, res) {
       },
       body: JSON.stringify({
         model: 'claude-3-5-sonnet-20241022',
-        max_tokens: 4000, // ✅ 關鍵修復：乖乖改回官方允許的安全極限值 4000！
+        max_tokens: 2000, // ✅ 關鍵修復：降到 2000，保護新帳號的每分鐘額度不被塞爆！
         system: enhancedSystem,
         messages: [{ role: 'user', content: userPrompt || '請幫我寫一個腳本' }]
       })
@@ -34,9 +34,13 @@ export default async function handler(req, res) {
 
     const data = await aiRes.json();
     
+    // 🌟 專門攔截 Anthropic 的限速錯誤，給出白話文提示
     if (!aiRes.ok || data.error) {
+      if (aiRes.status === 429 || data.error?.type === 'rate_limit_error') {
+        throw new Error('新帳號每分鐘生成次數達上限，請等待 1 分鐘後再試喔！⏳');
+      }
       const errorMsg = data.error?.message || JSON.stringify(data);
-      throw new Error(`${errorMsg}`);
+      throw new Error(`Anthropic: ${errorMsg}`);
     }
 
     let raw = data.content[0].text;
@@ -44,10 +48,10 @@ export default async function handler(req, res) {
     // 🌟 第二重保險：後端自動洗掉 AI 偶爾手殘寫錯的格式
     raw = raw.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
     const jsonMatch = raw.match(/\{[\s\S]*\}/);
-    if (!jsonMatch) throw new Error('AI 回傳格式無法解析');
+    if (!jsonMatch) throw new Error('AI 回傳格式無法解析，請重試');
     
     let jsonString = jsonMatch[0];
-    // 自動修復：把陣列或物件結尾多餘的逗號偷偷刪掉，避免網頁解析失敗
+    // 自動修復：把陣列或物件結尾多餘的逗號偷偷刪掉
     jsonString = jsonString.replace(/,\s*([\]}])/g, '$1');
     
     const parsed = JSON.parse(jsonString);
