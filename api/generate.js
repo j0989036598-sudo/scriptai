@@ -5,7 +5,9 @@ export default async function handler(req, res) {
 
   try {
     const { system, userPrompt } = req.body;
-    const apiKey = process.env.ANTHROPIC_API_KEY;
+    
+    // 🌟 保險：自動清除鑰匙前後不小心複製到的「隱形空白鍵」
+    const apiKey = (process.env.ANTHROPIC_API_KEY || '').trim(); 
 
     if (!apiKey) throw new Error('Vercel 沒抓到 API Key');
 
@@ -16,6 +18,7 @@ export default async function handler(req, res) {
 3. 對話或內容中若出現雙引號 (") 必須替換為單引號 (')。
 4. 必須輸出完整、閉合的 JSON。`;
 
+    // 呼叫 API
     const aiRes = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
@@ -24,8 +27,9 @@ export default async function handler(req, res) {
         'anthropic-version': '2023-06-01'
       },
       body: JSON.stringify({
-        model: 'claude-3-5-sonnet-20241022', // 回歸最強大腦
-        max_tokens: 2500,
+        // 🌟 終極殺招：使用官方萬用別名，強制繞過伺服器版本阻擋！
+        model: 'claude-3-5-sonnet-latest', 
+        max_tokens: 2000,
         system: enhancedSystem,
         messages: [{ role: 'user', content: userPrompt || '請幫我寫一個腳本' }]
       })
@@ -33,16 +37,17 @@ export default async function handler(req, res) {
 
     const data = await aiRes.json();
     
-    // 🚨 這次我們不藏了！Anthropic 說什麼，我們就直接顯示什麼！
+    // 🚨 這次如果再報錯，我把 Anthropic 祖宗十八代的錯誤代碼全印出來給您看！
     if (!aiRes.ok || data.error) {
-       const errorMsg = data.error?.message || JSON.stringify(data);
-       throw new Error(`【官方真實報錯】: ${errorMsg}`);
+       const errType = data.error?.type || '未知錯誤';
+       const errMsg = data.error?.message || JSON.stringify(data);
+       throw new Error(`Anthropic 拒絕連線 (${errType})：${errMsg}`);
     }
 
     let raw = data.content[0].text;
     raw = raw.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
     const jsonMatch = raw.match(/\{[\s\S]*\}/);
-    if (!jsonMatch) throw new Error('AI 格式跑掉啦，請再按一次生成');
+    if (!jsonMatch) throw new Error('AI 生成的內容不是 JSON，請再按一次');
     
     let jsonString = jsonMatch[0].replace(/,\s*([\]}])/g, '$1'); 
     
