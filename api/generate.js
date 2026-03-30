@@ -6,7 +6,7 @@ export default async function handler(req, res) {
   try {
     const { system, userPrompt } = req.body;
     
-    // 🌟 保險：自動清除鑰匙前後不小心複製到的「隱形空白鍵」
+    // 🌟 自動清除鑰匙前後的空白鍵
     const apiKey = (process.env.ANTHROPIC_API_KEY || '').trim(); 
 
     if (!apiKey) throw new Error('Vercel 沒抓到 API Key');
@@ -27,9 +27,9 @@ export default async function handler(req, res) {
         'anthropic-version': '2023-06-01'
       },
       body: JSON.stringify({
-        // 🌟 終極殺招：使用官方萬用別名，強制繞過伺服器版本阻擋！
-        model: 'claude-3-5-sonnet-latest', 
-        max_tokens: 2000,
+        // 🚀 最大的烏龍解開了！用回您一開始寫的最正確、最新的 4 代大腦！
+        model: 'claude-sonnet-4-20250514', 
+        max_tokens: 2500,
         system: enhancedSystem,
         messages: [{ role: 'user', content: userPrompt || '請幫我寫一個腳本' }]
       })
@@ -37,7 +37,6 @@ export default async function handler(req, res) {
 
     const data = await aiRes.json();
     
-    // 🚨 這次如果再報錯，我把 Anthropic 祖宗十八代的錯誤代碼全印出來給您看！
     if (!aiRes.ok || data.error) {
        const errType = data.error?.type || '未知錯誤';
        const errMsg = data.error?.message || JSON.stringify(data);
