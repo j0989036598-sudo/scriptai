@@ -1,1410 +1,1402 @@
-{\rtf1\ansi\ansicpg950\cocoartf2867
-\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
-{\colortbl;\red255\green255\blue255;}
-{\*\expandedcolortbl;;}
-\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ScriptAI Pro — 短影音腳本智能體</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0A0D14;--bg2:#111520;--bg3:#161B2A;--bg4:#1D2438;--bg5:#242B3D;
+  --border:#ffffff12;--border2:#ffffff20;--border3:#ffffff30;
+  --text:#F0F2F8;--text2:#9AA3B8;--text3:#5C6480;
+  --coral:#FF6B4A;--coral2:#FF8A6E;--coral-bg:#FF6B4A18;
+  --teal:#00D4AA;--teal-bg:#00D4AA14;
+  --amber:#FFB84D;--amber-bg:#FFB84D14;
+  --purple:#9B7FFF;--purple-bg:#9B7FFF14;
+  --red:#FF4D6A;--red-bg:#FF4D6A14;
+  --r:10px;--r2:14px;--r3:18px;
+}
+body{font-family:'Noto Sans TC',-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+/* SCROLLBAR */
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-thumb{background:var(--border3);border-radius:4px}
+/* LAYOUT */
+.layout{display:flex;height:100vh;overflow:hidden}
+/* NAV */
+.nav{width:220px;min-width:220px;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
+.nav-logo{padding:20px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
+.nav-logo-icon{width:32px;height:32px;background:linear-gradient(135deg,var(--coral),var(--amber));border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.nav-logo-text{font-size:15px;font-weight:700}
+.nav-logo-badge{font-size:9px;font-weight:700;background:var(--coral);color:#fff;padding:2px 6px;border-radius:4px;margin-left:2px}
+.nav-links{flex:1;padding:12px 0;overflow-y:auto}
+.nav-link{display:flex;align-items:center;gap:10px;padding:10px 18px;font-size:13px;color:var(--text2);cursor:pointer;transition:all .15s;border-radius:0}
+.nav-link:hover{color:var(--text);background:var(--bg3)}
+.nav-link.active{color:var(--coral);background:var(--coral-bg);font-weight:600}
+.nav-link .nicon{font-size:16px;width:20px;text-align:center}
+.nav-section{padding:6px 18px 4px;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text3);margin-top:8px}
+.nav-bottom{padding:12px;border-top:1px solid var(--border)}
+.nav-user{display:flex;align-items:center;gap:10px;padding:10px;background:var(--bg3);border-radius:var(--r);cursor:pointer}
+.nav-avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--coral),var(--amber));display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0}
+.nav-user-info{flex:1;min-width:0}
+.nav-user-name{font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nav-user-plan{font-size:10px;color:var(--text3)}
+/* MAIN */
+.main{flex:1;overflow-y:auto;display:flex;flex-direction:column}
+.page{padding:28px 32px;flex:1}
+.page-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:28px}
+.page-title{font-size:22px;font-weight:700}
+.page-sub{font-size:13px;color:var(--text3);margin-top:4px}
+/* CARDS */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r3);padding:20px}
+.card-sm{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:16px}
+/* GRID */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+/* STAT CARD */
+.stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:16px 18px}
+.stat-val{font-size:26px;font-weight:700;line-height:1;margin-bottom:6px}
+.stat-lbl{font-size:12px;color:var(--text3)}
+.stat-trend{font-size:11px;margin-top:4px}
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 16px;border-radius:var(--r);font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;transition:all .15s;border:1px solid transparent;white-space:nowrap}
+.btn-primary{background:linear-gradient(135deg,var(--coral),var(--amber));color:#fff;border:none}
+.btn-primary:hover{opacity:.9;transform:translateY(-1px)}
+.btn-secondary{background:var(--bg3);border-color:var(--border2);color:var(--text2)}
+.btn-secondary:hover{border-color:var(--border3);color:var(--text)}
+.btn-ghost{background:transparent;border-color:var(--border);color:var(--text2)}
+.btn-ghost:hover{background:var(--bg3);color:var(--text)}
+.btn-danger{background:var(--red-bg);border-color:var(--red);color:var(--red)}
+.btn-sm{padding:6px 12px;font-size:12px}
+.btn:disabled{opacity:.4;cursor:not-allowed;transform:none!important}
+/* FORMS */
+.field{display:flex;flex-direction:column;gap:5px;margin-bottom:14px}
+.lbl{font-size:12px;font-weight:600;color:var(--text2);letter-spacing:.3px}
+.inp,.sel,.ta{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);color:var(--text);font-family:inherit;font-size:13px;padding:9px 12px;width:100%;transition:border-color .15s}
+.inp:focus,.sel:focus,.ta:focus{outline:none;border-color:var(--coral)}
+.inp::placeholder{color:var(--text3)}
+.ta{resize:vertical;min-height:72px;line-height:1.6}
+.sel option{background:var(--bg3)}
+/* CHIPS */
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{background:var(--bg3);border:1px solid var(--border);border-radius:7px;padding:5px 11px;font-size:12px;color:var(--text2);cursor:pointer;transition:all .15s;user-select:none}
+.chip:hover{border-color:var(--border2);color:var(--text)}
+.chip.on{background:var(--coral-bg);border-color:var(--coral);color:var(--coral);font-weight:600}
+.chip.teal.on{background:var(--teal-bg);border-color:var(--teal);color:var(--teal)}
+/* BADGES */
+.badge{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:6px}
+.badge-free{background:var(--bg4);color:var(--text3)}
+.badge-pro{background:var(--coral-bg);color:var(--coral);border:1px solid var(--coral)40}
+.badge-team{background:var(--teal-bg);color:var(--teal);border:1px solid var(--teal)40}
+/* NOTIFICATION */
+.notif{position:fixed;top:20px;right:20px;z-index:9999;padding:12px 18px;border-radius:var(--r2);font-size:13px;font-weight:600;animation:slideIn .3s ease;max-width:320px}
+.notif-ok{background:#00D4AA;color:#003D30}
+.notif-err{background:#FF4D6A;color:#fff}
+.notif-info{background:#9B7FFF;color:#fff}
+@keyframes slideIn{from{transform:translateX(40px);opacity:0}to{transform:translateX(0);opacity:1}}
+/* AUTH */
+.auth-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--bg);padding:20px}
+.auth-box{width:100%;max-width:420px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r3);padding:36px;position:relative;overflow:hidden}
+.auth-box::before{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;background:radial-gradient(var(--coral-bg),transparent 70%);border-radius:50%}
+.auth-logo{display:flex;align-items:center;gap:10px;margin-bottom:28px}
+.auth-tabs{display:flex;background:var(--bg3);border-radius:9px;padding:3px;margin-bottom:24px}
+.auth-tab{flex:1;padding:8px;border:none;background:transparent;color:var(--text3);font-family:inherit;font-size:13px;cursor:pointer;border-radius:7px;transition:all .15s;font-weight:500}
+.auth-tab.active{background:var(--bg);color:var(--text);box-shadow:0 1px 4px #0006}
+.auth-divider{text-align:center;font-size:12px;color:var(--text3);margin:16px 0;position:relative}
+.auth-divider::before{content:'';position:absolute;left:0;top:50%;width:40%;height:1px;background:var(--border)}
+.auth-divider::after{content:'';position:absolute;right:0;top:50%;width:40%;height:1px;background:var(--border)}
+/* PLAN CARDS */
+.plan-card{border:1px solid var(--border);border-radius:var(--r2);padding:18px;cursor:pointer;transition:all .2s;position:relative}
+.plan-card:hover{border-color:var(--border2)}
+.plan-card.selected{border-color:var(--coral);background:var(--coral-bg)}
+.plan-popular{position:absolute;top:-10px;right:16px;background:var(--coral);color:#fff;font-size:9px;font-weight:700;padding:2px 10px;border-radius:6px;letter-spacing:1px}
+.plan-price{font-size:22px;font-weight:700;margin:8px 0 4px}
+.plan-price span{font-size:13px;font-weight:400;color:var(--text3)}
+.plan-features{list-style:none;margin-top:10px}
+.plan-features li{font-size:12px;color:var(--text2);padding:3px 0;display:flex;align-items:center;gap:6px}
+.plan-features li::before{content:'✓';color:var(--teal);font-weight:700;font-size:11px}
+/* USAGE BAR */
+.usage-bar{background:var(--bg4);border-radius:6px;height:6px;overflow:hidden;margin:6px 0}
+.usage-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,var(--teal),var(--coral));transition:width .5s}
+/* HISTORY */
+.script-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.script-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:16px;transition:all .15s;cursor:default}
+.script-card:hover{border-color:var(--border2);transform:translateY(-1px)}
+.script-card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:10px}
+.script-card-title{font-size:13px;font-weight:700;line-height:1.5;flex:1}
+.platform-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.script-card-meta{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.meta-tag{font-size:10px;padding:2px 8px;border-radius:5px;background:var(--bg3);color:var(--text3);border:1px solid var(--border)}
+.script-card-actions{display:flex;gap:6px;flex-wrap:wrap}
+/* TEAM */
+.member-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}
+.member-row:last-child{border-bottom:none}
+.member-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0}
+.member-info{flex:1;min-width:0}
+.member-name{font-size:13px;font-weight:600}
+.member-email{font-size:11px;color:var(--text3)}
+/* GENERATOR */
+.gen-layout{display:flex;gap:20px;align-items:flex-start}
+.gen-sidebar{width:340px;min-width:340px;position:sticky;top:0}
+.gen-output{flex:1;min-width:0}
+/* SCENE */
+.scene-card{border-left:3px solid var(--coral);background:var(--bg3);border-radius:0 var(--r) var(--r) 0;padding:14px 16px;margin-bottom:12px}
+.scene-hdr{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+.scene-num{background:var(--coral);color:#fff;font-size:10px;font-weight:700;padding:2px 7px;border-radius:5px}
+.scene-ts{font-size:11px;color:var(--coral);font-weight:700;font-variant-numeric:tabular-nums}
+.scene-emo{font-size:11px;color:var(--text3);margin-left:auto}
+.scene-ttl{font-size:13px;font-weight:700;margin-bottom:6px}
+.scene-row{font-size:12px;color:var(--text2);line-height:1.7;margin-bottom:2px}
+.scene-row b{color:var(--text3);font-size:10px;font-weight:700;margin-right:4px}
+.dlg-box{background:var(--bg4);border-radius:8px;padding:10px 12px;margin-top:8px}
+.dlg-lbl{font-size:9px;font-weight:700;letter-spacing:1.5px;color:var(--text3);margin-bottom:6px}
+.dlg-line{font-size:12px;line-height:1.7;padding:2px 0}
+.dlg-sp{font-weight:700;margin-right:4px}
+.dlg-tone{font-size:10px;color:var(--text3);margin-left:4px}
+.caption-tag{background:var(--amber-bg);border:1px solid var(--amber)30;color:var(--amber);font-size:11px;padding:4px 10px;border-radius:6px;margin-top:8px;display:inline-block}
+/* SCHEDULE */
+.sch-row{display:flex;gap:14px;padding:11px 0;border-bottom:1px solid var(--border)}
+.sch-row:last-child{border-bottom:none}
+.sch-time{min-width:80px}
+.sch-t{font-size:13px;font-weight:700;color:var(--coral);font-variant-numeric:tabular-nums}
+.sch-d{font-size:10px;color:var(--text3);margin-top:2px}
+.sch-task{font-size:13px;font-weight:600;margin-bottom:3px}
+.sch-note{font-size:11px;color:var(--text2);line-height:1.6}
+.sch-type{font-size:9px;font-weight:700;padding:2px 7px;border-radius:5px;display:inline-block;margin-top:4px}
+.sch-prep{background:var(--purple-bg);color:var(--purple)}
+.sch-shoot{background:var(--coral-bg);color:var(--coral)}
+.sch-wrap{background:var(--teal-bg);color:var(--teal)}
+.sch-break{background:var(--amber-bg);color:var(--amber)}
+/* PROPS */
+.props-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.prop-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:14px}
+.prop-icon{font-size:22px;margin-bottom:8px}
+.prop-name{font-size:12px;font-weight:700;margin-bottom:3px}
+.prop-desc{font-size:11px;color:var(--text3);line-height:1.6}
+.prop-pri{font-size:9px;font-weight:700;padding:2px 7px;border-radius:5px;display:inline-block;margin-top:5px}
+.pri-must{background:var(--coral-bg);color:var(--coral)}
+.pri-opt{background:var(--teal-bg);color:var(--teal)}
+/* TABS */
+.tabs{display:flex;background:var(--bg3);border-radius:10px;padding:3px;margin-bottom:18px}
+.tab{flex:1;padding:7px;border:none;background:transparent;color:var(--text3);font-family:inherit;font-size:12px;cursor:pointer;border-radius:8px;transition:all .15s;font-weight:500}
+.tab.on{background:var(--bg);color:var(--text);box-shadow:0 1px 4px #0005}
+/* LOADING */
+.spin{width:36px;height:36px;border:3px solid var(--border2);border-top-color:var(--coral);border-radius:50%;animation:rot .7s linear infinite}
+@keyframes rot{to{transform:rotate(360deg)}}
+.loading-box{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:60px 20px}
+.loading-txt{font-size:13px;color:var(--text3);animation:pulse 1.4s ease infinite}
+@keyframes pulse{0%,100%{opacity:.5}50%{opacity:1}}
+/* EMPTY */
+.empty-box{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:60px 20px;text-align:center}
+.empty-icon{font-size:48px;opacity:.25}
+.empty-ttl{font-size:16px;font-weight:700;color:var(--text2)}
+.empty-sub{font-size:13px;color:var(--text3);line-height:1.7;max-width:320px}
+/* MODAL */
+.modal-bg{position:fixed;inset:0;background:#00000080;z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px}
+.modal{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r3);padding:28px;width:100%;max-width:480px;max-height:90vh;overflow-y:auto}
+.modal-title{font-size:17px;font-weight:700;margin-bottom:4px}
+.modal-sub{font-size:12px;color:var(--text3);margin-bottom:20px}
+/* SETTINGS */
+.settings-section{margin-bottom:28px}
+.settings-row{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border)}
+.settings-row:last-child{border-bottom:none}
+.settings-lbl{font-size:13px;font-weight:600}
+.settings-sub{font-size:11px;color:var(--text3);margin-top:2px}
+/* INVITE CODE */
+.invite-box{background:var(--bg3);border:1px dashed var(--border3);border-radius:var(--r);padding:16px;text-align:center}
+.invite-code{font-size:28px;font-weight:700;letter-spacing:8px;color:var(--teal);margin:8px 0}
+/* PLATFORM GRID */
+.platform-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.platform-btn{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:10px 8px;text-align:center;cursor:pointer;transition:all .15s;font-size:12px;color:var(--text2)}
+.platform-btn:hover{border-color:var(--border2);color:var(--text)}
+.platform-btn.on{background:var(--coral-bg);border-color:var(--coral);color:var(--coral);font-weight:600}
+.p-icon{font-size:20px;display:block;margin-bottom:4px}
+/* SEARCH */
+.search-row{display:flex;gap:10px;margin-bottom:20px;align-items:center}
+.search-inp{flex:1}
+/* SHARED BADGE */
+.shared-dot{display:inline-flex;align-items:center;gap:4px;font-size:10px;color:var(--teal);background:var(--teal-bg);border:1px solid var(--teal)30;padding:2px 7px;border-radius:5px}
+/* PROGRESS */
+.prog-row{display:flex;align-items:center;gap:10px;margin-bottom:4px}
+.prog-lbl{font-size:12px;color:var(--text2);flex:1}
+.prog-val{font-size:12px;font-weight:700;color:var(--text);min-width:60px;text-align:right}
+/* HOOK CARD */
+.hook-card{background:var(--bg3);border:1px solid var(--coral)30;border-left:4px solid var(--coral);border-radius:0 var(--r) var(--r) 0;padding:14px 16px;margin-bottom:16px}
+.hook-lbl{font-size:9px;font-weight:700;letter-spacing:2px;color:var(--coral);margin-bottom:6px}
+.hook-text{font-size:15px;font-weight:700;line-height:1.6;color:var(--coral);margin-bottom:8px}
+.hook-highlight{font-size:12px;color:var(--text2);background:var(--bg4);padding:8px 10px;border-radius:7px}
+/* TAGS */
+.tag-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.hash-tag{background:var(--purple-bg);color:var(--purple);border:1px solid var(--purple)30;padding:3px 10px;border-radius:12px;font-size:11px}
+/* UPGRADE BANNER */
+.upgrade-banner{background:linear-gradient(135deg,var(--coral-bg),var(--amber-bg));border:1px solid var(--coral)30;border-radius:var(--r2);padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px}
+.banner-txt{font-size:13px;font-weight:600}
+.banner-sub{font-size:11px;color:var(--text2);margin-top:2px}
+/* RESP */
+@media(max-width:900px){
+  .nav{width:60px;min-width:60px}
+  .nav-logo-text,.nav-logo-badge,.nav-section,.nav-link span,.nav-user-info{display:none}
+  .nav-link{justify-content:center;padding:12px}
+  .nav-link .nicon{margin:0;font-size:18px}
+  .grid4{grid-template-columns:1fr 1fr}
+  .gen-layout{flex-direction:column}
+  .gen-sidebar{width:100%;min-width:auto;position:static}
+}
+@media(max-width:600px){
+  .page{padding:16px}
+  .grid3{grid-template-columns:1fr}
+  .grid2{grid-template-columns:1fr}
+  .props-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+// ================================================================
+// ⚙️ SUPABASE CONFIG（可選填入，留空則使用本地儲存模式）
+// ================================================================
+const SUPABASE_URL = '';   // 例：https://xxxx.supabase.co
+const SUPABASE_KEY = '';   // 例：eyJhb...
+// 注意：若填入Supabase設定，需建立以下資料表：
+// - profiles (id, name, plan, usage_count, usage_month, team_id, team_role)
+// - scripts (id, user_id, team_id, title, topic, platform, duration, data, shared, created_at)
+// - teams (id, name, owner_id, invite_code, members)
+const USE_SUPABASE = SUPABASE_URL && SUPABASE_KEY;
 
-\f0\fs24 \cf0 <!DOCTYPE html>\
-<html lang="zh-TW">\
-<head>\
-<meta charset="UTF-8">\
-<meta name="viewport" content="width=device-width, initial-scale=1.0">\
-<title>ScriptAI Pro \'97 \uc0\u30701 \u24433 \u38899 \u33139 \u26412 \u26234 \u33021 \u39636 </title>\
-<style>\
-*\{margin:0;padding:0;box-sizing:border-box\}\
-:root\{\
-  --bg:#0A0D14;--bg2:#111520;--bg3:#161B2A;--bg4:#1D2438;--bg5:#242B3D;\
-  --border:#ffffff12;--border2:#ffffff20;--border3:#ffffff30;\
-  --text:#F0F2F8;--text2:#9AA3B8;--text3:#5C6480;\
-  --coral:#FF6B4A;--coral2:#FF8A6E;--coral-bg:#FF6B4A18;\
-  --teal:#00D4AA;--teal-bg:#00D4AA14;\
-  --amber:#FFB84D;--amber-bg:#FFB84D14;\
-  --purple:#9B7FFF;--purple-bg:#9B7FFF14;\
-  --red:#FF4D6A;--red-bg:#FF4D6A14;\
-  --r:10px;--r2:14px;--r3:18px;\
-\}\
-body\{font-family:'Noto Sans TC',-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh\}\
-/* SCROLLBAR */\
-::-webkit-scrollbar\{width:4px;height:4px\}\
-::-webkit-scrollbar-thumb\{background:var(--border3);border-radius:4px\}\
-/* LAYOUT */\
-.layout\{display:flex;height:100vh;overflow:hidden\}\
-/* NAV */\
-.nav\{width:220px;min-width:220px;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden\}\
-.nav-logo\{padding:20px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px\}\
-.nav-logo-icon\{width:32px;height:32px;background:linear-gradient(135deg,var(--coral),var(--amber));border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0\}\
-.nav-logo-text\{font-size:15px;font-weight:700\}\
-.nav-logo-badge\{font-size:9px;font-weight:700;background:var(--coral);color:#fff;padding:2px 6px;border-radius:4px;margin-left:2px\}\
-.nav-links\{flex:1;padding:12px 0;overflow-y:auto\}\
-.nav-link\{display:flex;align-items:center;gap:10px;padding:10px 18px;font-size:13px;color:var(--text2);cursor:pointer;transition:all .15s;border-radius:0\}\
-.nav-link:hover\{color:var(--text);background:var(--bg3)\}\
-.nav-link.active\{color:var(--coral);background:var(--coral-bg);font-weight:600\}\
-.nav-link .nicon\{font-size:16px;width:20px;text-align:center\}\
-.nav-section\{padding:6px 18px 4px;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text3);margin-top:8px\}\
-.nav-bottom\{padding:12px;border-top:1px solid var(--border)\}\
-.nav-user\{display:flex;align-items:center;gap:10px;padding:10px;background:var(--bg3);border-radius:var(--r);cursor:pointer\}\
-.nav-avatar\{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--coral),var(--amber));display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0\}\
-.nav-user-info\{flex:1;min-width:0\}\
-.nav-user-name\{font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis\}\
-.nav-user-plan\{font-size:10px;color:var(--text3)\}\
-/* MAIN */\
-.main\{flex:1;overflow-y:auto;display:flex;flex-direction:column\}\
-.page\{padding:28px 32px;flex:1\}\
-.page-head\{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:28px\}\
-.page-title\{font-size:22px;font-weight:700\}\
-.page-sub\{font-size:13px;color:var(--text3);margin-top:4px\}\
-/* CARDS */\
-.card\{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r3);padding:20px\}\
-.card-sm\{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:16px\}\
-/* GRID */\
-.grid2\{display:grid;grid-template-columns:1fr 1fr;gap:12px\}\
-.grid3\{display:grid;grid-template-columns:repeat(3,1fr);gap:12px\}\
-.grid4\{display:grid;grid-template-columns:repeat(4,1fr);gap:12px\}\
-/* STAT CARD */\
-.stat-card\{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:16px 18px\}\
-.stat-val\{font-size:26px;font-weight:700;line-height:1;margin-bottom:6px\}\
-.stat-lbl\{font-size:12px;color:var(--text3)\}\
-.stat-trend\{font-size:11px;margin-top:4px\}\
-/* BUTTONS */\
-.btn\{display:inline-flex;align-items:center;gap:6px;padding:9px 16px;border-radius:var(--r);font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;transition:all .15s;border:1px solid transparent;white-space:nowrap\}\
-.btn-primary\{background:linear-gradient(135deg,var(--coral),var(--amber));color:#fff;border:none\}\
-.btn-primary:hover\{opacity:.9;transform:translateY(-1px)\}\
-.btn-secondary\{background:var(--bg3);border-color:var(--border2);color:var(--text2)\}\
-.btn-secondary:hover\{border-color:var(--border3);color:var(--text)\}\
-.btn-ghost\{background:transparent;border-color:var(--border);color:var(--text2)\}\
-.btn-ghost:hover\{background:var(--bg3);color:var(--text)\}\
-.btn-danger\{background:var(--red-bg);border-color:var(--red);color:var(--red)\}\
-.btn-sm\{padding:6px 12px;font-size:12px\}\
-.btn:disabled\{opacity:.4;cursor:not-allowed;transform:none!important\}\
-/* FORMS */\
-.field\{display:flex;flex-direction:column;gap:5px;margin-bottom:14px\}\
-.lbl\{font-size:12px;font-weight:600;color:var(--text2);letter-spacing:.3px\}\
-.inp,.sel,.ta\{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);color:var(--text);font-family:inherit;font-size:13px;padding:9px 12px;width:100%;transition:border-color .15s\}\
-.inp:focus,.sel:focus,.ta:focus\{outline:none;border-color:var(--coral)\}\
-.inp::placeholder\{color:var(--text3)\}\
-.ta\{resize:vertical;min-height:72px;line-height:1.6\}\
-.sel option\{background:var(--bg3)\}\
-/* CHIPS */\
-.chips\{display:flex;flex-wrap:wrap;gap:6px\}\
-.chip\{background:var(--bg3);border:1px solid var(--border);border-radius:7px;padding:5px 11px;font-size:12px;color:var(--text2);cursor:pointer;transition:all .15s;user-select:none\}\
-.chip:hover\{border-color:var(--border2);color:var(--text)\}\
-.chip.on\{background:var(--coral-bg);border-color:var(--coral);color:var(--coral);font-weight:600\}\
-.chip.teal.on\{background:var(--teal-bg);border-color:var(--teal);color:var(--teal)\}\
-/* BADGES */\
-.badge\{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:6px\}\
-.badge-free\{background:var(--bg4);color:var(--text3)\}\
-.badge-pro\{background:var(--coral-bg);color:var(--coral);border:1px solid var(--coral)40\}\
-.badge-team\{background:var(--teal-bg);color:var(--teal);border:1px solid var(--teal)40\}\
-/* NOTIFICATION */\
-.notif\{position:fixed;top:20px;right:20px;z-index:9999;padding:12px 18px;border-radius:var(--r2);font-size:13px;font-weight:600;animation:slideIn .3s ease;max-width:320px\}\
-.notif-ok\{background:#00D4AA;color:#003D30\}\
-.notif-err\{background:#FF4D6A;color:#fff\}\
-.notif-info\{background:#9B7FFF;color:#fff\}\
-@keyframes slideIn\{from\{transform:translateX(40px);opacity:0\}to\{transform:translateX(0);opacity:1\}\}\
-/* AUTH */\
-.auth-wrap\{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--bg);padding:20px\}\
-.auth-box\{width:100%;max-width:420px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r3);padding:36px;position:relative;overflow:hidden\}\
-.auth-box::before\{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;background:radial-gradient(var(--coral-bg),transparent 70%);border-radius:50%\}\
-.auth-logo\{display:flex;align-items:center;gap:10px;margin-bottom:28px\}\
-.auth-tabs\{display:flex;background:var(--bg3);border-radius:9px;padding:3px;margin-bottom:24px\}\
-.auth-tab\{flex:1;padding:8px;border:none;background:transparent;color:var(--text3);font-family:inherit;font-size:13px;cursor:pointer;border-radius:7px;transition:all .15s;font-weight:500\}\
-.auth-tab.active\{background:var(--bg);color:var(--text);box-shadow:0 1px 4px #0006\}\
-.auth-divider\{text-align:center;font-size:12px;color:var(--text3);margin:16px 0;position:relative\}\
-.auth-divider::before\{content:'';position:absolute;left:0;top:50%;width:40%;height:1px;background:var(--border)\}\
-.auth-divider::after\{content:'';position:absolute;right:0;top:50%;width:40%;height:1px;background:var(--border)\}\
-/* PLAN CARDS */\
-.plan-card\{border:1px solid var(--border);border-radius:var(--r2);padding:18px;cursor:pointer;transition:all .2s;position:relative\}\
-.plan-card:hover\{border-color:var(--border2)\}\
-.plan-card.selected\{border-color:var(--coral);background:var(--coral-bg)\}\
-.plan-popular\{position:absolute;top:-10px;right:16px;background:var(--coral);color:#fff;font-size:9px;font-weight:700;padding:2px 10px;border-radius:6px;letter-spacing:1px\}\
-.plan-price\{font-size:22px;font-weight:700;margin:8px 0 4px\}\
-.plan-price span\{font-size:13px;font-weight:400;color:var(--text3)\}\
-.plan-features\{list-style:none;margin-top:10px\}\
-.plan-features li\{font-size:12px;color:var(--text2);padding:3px 0;display:flex;align-items:center;gap:6px\}\
-.plan-features li::before\{content:'\uc0\u10003 ';color:var(--teal);font-weight:700;font-size:11px\}\
-/* USAGE BAR */\
-.usage-bar\{background:var(--bg4);border-radius:6px;height:6px;overflow:hidden;margin:6px 0\}\
-.usage-fill\{height:100%;border-radius:6px;background:linear-gradient(90deg,var(--teal),var(--coral));transition:width .5s\}\
-/* HISTORY */\
-.script-grid\{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px\}\
-.script-card\{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:16px;transition:all .15s;cursor:default\}\
-.script-card:hover\{border-color:var(--border2);transform:translateY(-1px)\}\
-.script-card-head\{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:10px\}\
-.script-card-title\{font-size:13px;font-weight:700;line-height:1.5;flex:1\}\
-.platform-dot\{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:4px\}\
-.script-card-meta\{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px\}\
-.meta-tag\{font-size:10px;padding:2px 8px;border-radius:5px;background:var(--bg3);color:var(--text3);border:1px solid var(--border)\}\
-.script-card-actions\{display:flex;gap:6px;flex-wrap:wrap\}\
-/* TEAM */\
-.member-row\{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)\}\
-.member-row:last-child\{border-bottom:none\}\
-.member-avatar\{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0\}\
-.member-info\{flex:1;min-width:0\}\
-.member-name\{font-size:13px;font-weight:600\}\
-.member-email\{font-size:11px;color:var(--text3)\}\
-/* GENERATOR */\
-.gen-layout\{display:flex;gap:20px;align-items:flex-start\}\
-.gen-sidebar\{width:340px;min-width:340px;position:sticky;top:0\}\
-.gen-output\{flex:1;min-width:0\}\
-/* SCENE */\
-.scene-card\{border-left:3px solid var(--coral);background:var(--bg3);border-radius:0 var(--r) var(--r) 0;padding:14px 16px;margin-bottom:12px\}\
-.scene-hdr\{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap\}\
-.scene-num\{background:var(--coral);color:#fff;font-size:10px;font-weight:700;padding:2px 7px;border-radius:5px\}\
-.scene-ts\{font-size:11px;color:var(--coral);font-weight:700;font-variant-numeric:tabular-nums\}\
-.scene-emo\{font-size:11px;color:var(--text3);margin-left:auto\}\
-.scene-ttl\{font-size:13px;font-weight:700;margin-bottom:6px\}\
-.scene-row\{font-size:12px;color:var(--text2);line-height:1.7;margin-bottom:2px\}\
-.scene-row b\{color:var(--text3);font-size:10px;font-weight:700;margin-right:4px\}\
-.dlg-box\{background:var(--bg4);border-radius:8px;padding:10px 12px;margin-top:8px\}\
-.dlg-lbl\{font-size:9px;font-weight:700;letter-spacing:1.5px;color:var(--text3);margin-bottom:6px\}\
-.dlg-line\{font-size:12px;line-height:1.7;padding:2px 0\}\
-.dlg-sp\{font-weight:700;margin-right:4px\}\
-.dlg-tone\{font-size:10px;color:var(--text3);margin-left:4px\}\
-.caption-tag\{background:var(--amber-bg);border:1px solid var(--amber)30;color:var(--amber);font-size:11px;padding:4px 10px;border-radius:6px;margin-top:8px;display:inline-block\}\
-/* SCHEDULE */\
-.sch-row\{display:flex;gap:14px;padding:11px 0;border-bottom:1px solid var(--border)\}\
-.sch-row:last-child\{border-bottom:none\}\
-.sch-time\{min-width:80px\}\
-.sch-t\{font-size:13px;font-weight:700;color:var(--coral);font-variant-numeric:tabular-nums\}\
-.sch-d\{font-size:10px;color:var(--text3);margin-top:2px\}\
-.sch-task\{font-size:13px;font-weight:600;margin-bottom:3px\}\
-.sch-note\{font-size:11px;color:var(--text2);line-height:1.6\}\
-.sch-type\{font-size:9px;font-weight:700;padding:2px 7px;border-radius:5px;display:inline-block;margin-top:4px\}\
-.sch-prep\{background:var(--purple-bg);color:var(--purple)\}\
-.sch-shoot\{background:var(--coral-bg);color:var(--coral)\}\
-.sch-wrap\{background:var(--teal-bg);color:var(--teal)\}\
-.sch-break\{background:var(--amber-bg);color:var(--amber)\}\
-/* PROPS */\
-.props-grid\{display:grid;grid-template-columns:1fr 1fr;gap:10px\}\
-.prop-card\{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:14px\}\
-.prop-icon\{font-size:22px;margin-bottom:8px\}\
-.prop-name\{font-size:12px;font-weight:700;margin-bottom:3px\}\
-.prop-desc\{font-size:11px;color:var(--text3);line-height:1.6\}\
-.prop-pri\{font-size:9px;font-weight:700;padding:2px 7px;border-radius:5px;display:inline-block;margin-top:5px\}\
-.pri-must\{background:var(--coral-bg);color:var(--coral)\}\
-.pri-opt\{background:var(--teal-bg);color:var(--teal)\}\
-/* TABS */\
-.tabs\{display:flex;background:var(--bg3);border-radius:10px;padding:3px;margin-bottom:18px\}\
-.tab\{flex:1;padding:7px;border:none;background:transparent;color:var(--text3);font-family:inherit;font-size:12px;cursor:pointer;border-radius:8px;transition:all .15s;font-weight:500\}\
-.tab.on\{background:var(--bg);color:var(--text);box-shadow:0 1px 4px #0005\}\
-/* LOADING */\
-.spin\{width:36px;height:36px;border:3px solid var(--border2);border-top-color:var(--coral);border-radius:50%;animation:rot .7s linear infinite\}\
-@keyframes rot\{to\{transform:rotate(360deg)\}\}\
-.loading-box\{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:60px 20px\}\
-.loading-txt\{font-size:13px;color:var(--text3);animation:pulse 1.4s ease infinite\}\
-@keyframes pulse\{0%,100%\{opacity:.5\}50%\{opacity:1\}\}\
-/* EMPTY */\
-.empty-box\{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:60px 20px;text-align:center\}\
-.empty-icon\{font-size:48px;opacity:.25\}\
-.empty-ttl\{font-size:16px;font-weight:700;color:var(--text2)\}\
-.empty-sub\{font-size:13px;color:var(--text3);line-height:1.7;max-width:320px\}\
-/* MODAL */\
-.modal-bg\{position:fixed;inset:0;background:#00000080;z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px\}\
-.modal\{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r3);padding:28px;width:100%;max-width:480px;max-height:90vh;overflow-y:auto\}\
-.modal-title\{font-size:17px;font-weight:700;margin-bottom:4px\}\
-.modal-sub\{font-size:12px;color:var(--text3);margin-bottom:20px\}\
-/* SETTINGS */\
-.settings-section\{margin-bottom:28px\}\
-.settings-row\{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border)\}\
-.settings-row:last-child\{border-bottom:none\}\
-.settings-lbl\{font-size:13px;font-weight:600\}\
-.settings-sub\{font-size:11px;color:var(--text3);margin-top:2px\}\
-/* INVITE CODE */\
-.invite-box\{background:var(--bg3);border:1px dashed var(--border3);border-radius:var(--r);padding:16px;text-align:center\}\
-.invite-code\{font-size:28px;font-weight:700;letter-spacing:8px;color:var(--teal);margin:8px 0\}\
-/* PLATFORM GRID */\
-.platform-grid\{display:grid;grid-template-columns:1fr 1fr;gap:8px\}\
-.platform-btn\{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:10px 8px;text-align:center;cursor:pointer;transition:all .15s;font-size:12px;color:var(--text2)\}\
-.platform-btn:hover\{border-color:var(--border2);color:var(--text)\}\
-.platform-btn.on\{background:var(--coral-bg);border-color:var(--coral);color:var(--coral);font-weight:600\}\
-.p-icon\{font-size:20px;display:block;margin-bottom:4px\}\
-/* SEARCH */\
-.search-row\{display:flex;gap:10px;margin-bottom:20px;align-items:center\}\
-.search-inp\{flex:1\}\
-/* SHARED BADGE */\
-.shared-dot\{display:inline-flex;align-items:center;gap:4px;font-size:10px;color:var(--teal);background:var(--teal-bg);border:1px solid var(--teal)30;padding:2px 7px;border-radius:5px\}\
-/* PROGRESS */\
-.prog-row\{display:flex;align-items:center;gap:10px;margin-bottom:4px\}\
-.prog-lbl\{font-size:12px;color:var(--text2);flex:1\}\
-.prog-val\{font-size:12px;font-weight:700;color:var(--text);min-width:60px;text-align:right\}\
-/* HOOK CARD */\
-.hook-card\{background:var(--bg3);border:1px solid var(--coral)30;border-left:4px solid var(--coral);border-radius:0 var(--r) var(--r) 0;padding:14px 16px;margin-bottom:16px\}\
-.hook-lbl\{font-size:9px;font-weight:700;letter-spacing:2px;color:var(--coral);margin-bottom:6px\}\
-.hook-text\{font-size:15px;font-weight:700;line-height:1.6;color:var(--coral);margin-bottom:8px\}\
-.hook-highlight\{font-size:12px;color:var(--text2);background:var(--bg4);padding:8px 10px;border-radius:7px\}\
-/* TAGS */\
-.tag-row\{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px\}\
-.hash-tag\{background:var(--purple-bg);color:var(--purple);border:1px solid var(--purple)30;padding:3px 10px;border-radius:12px;font-size:11px\}\
-/* UPGRADE BANNER */\
-.upgrade-banner\{background:linear-gradient(135deg,var(--coral-bg),var(--amber-bg));border:1px solid var(--coral)30;border-radius:var(--r2);padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px\}\
-.banner-txt\{font-size:13px;font-weight:600\}\
-.banner-sub\{font-size:11px;color:var(--text2);margin-top:2px\}\
-/* RESP */\
-@media(max-width:900px)\{\
-  .nav\{width:60px;min-width:60px\}\
-  .nav-logo-text,.nav-logo-badge,.nav-section,.nav-link span,.nav-user-info\{display:none\}\
-  .nav-link\{justify-content:center;padding:12px\}\
-  .nav-link .nicon\{margin:0;font-size:18px\}\
-  .grid4\{grid-template-columns:1fr 1fr\}\
-  .gen-layout\{flex-direction:column\}\
-  .gen-sidebar\{width:100%;min-width:auto;position:static\}\
-\}\
-@media(max-width:600px)\{\
-  .page\{padding:16px\}\
-  .grid3\{grid-template-columns:1fr\}\
-  .grid2\{grid-template-columns:1fr\}\
-  .props-grid\{grid-template-columns:1fr\}\
-\}\
-</style>\
-</head>\
-<body>\
-<div id="app"></div>\
-<script>\
-// ================================================================\
-// \uc0\u9881 \u65039  SUPABASE CONFIG\u65288 \u21487 \u36984 \u22635 \u20837 \u65292 \u30041 \u31354 \u21063 \u20351 \u29992 \u26412 \u22320 \u20786 \u23384 \u27169 \u24335 \u65289 \
-// ================================================================\
-const SUPABASE_URL = '';   // \uc0\u20363 \u65306 https://xxxx.supabase.co\
-const SUPABASE_KEY = '';   // \uc0\u20363 \u65306 eyJhb...\
-// \uc0\u27880 \u24847 \u65306 \u33509 \u22635 \u20837 Supabase\u35373 \u23450 \u65292 \u38656 \u24314 \u31435 \u20197 \u19979 \u36039 \u26009 \u34920 \u65306 \
-// - profiles (id, name, plan, usage_count, usage_month, team_id, team_role)\
-// - scripts (id, user_id, team_id, title, topic, platform, duration, data, shared, created_at)\
-// - teams (id, name, owner_id, invite_code, members)\
-const USE_SUPABASE = SUPABASE_URL && SUPABASE_KEY;\
-\
-// ================================================================\
-// \uc0\u55357 \u56523  PLANS \u26041 \u26696 \u35373 \u23450 \
-// ================================================================\
-const PLANS = \{\
-  free:  \{name:'\uc0\u20813 \u36027 \u29256 ',price:0,   limit:5,  members:1,label:'Free', color:'var(--text3)'\},\
-  pro:   \{name:'\uc0\u23560 \u26989 \u29256 ',price:299, limit:50, members:1,label:'Pro',  color:'var(--coral)'\},\
-  team:  \{name:'\uc0\u22296 \u38538 \u29256 ',price:799, limit:-1, members:5,label:'Team', color:'var(--teal)'\},\
-\};\
-\
-const PLATFORM_MAP = \{tiktok:'TikTok',instagram:'Instagram Reels',youtube:'YouTube Shorts',threads:'Threads'\};\
-const AUDIENCE_MAP = \{general:'\uc0\u19968 \u33324 \u22823 \u30526 \u65288 18-45\u27506 \u65289 ',young:'\u24180 \u36629 \u26063 \u32676 \u65288 18-30\u27506 \u65289 ',parents:'\u29238 \u27597 \u26063 \u32676 ',office:'\u19978 \u29677 \u26063 ',senior:'\u29087 \u40801 \u26063 \u32676 \u65288 45+\u65289 ',student:'\u23416 \u29983 \u26063 \u32676 '\};\
-const BUSINESS_MAP = \{service:'\uc0\u26381 \u21209 \u26989 \u65288 \u35566 \u35426 /\u25945 \u32244 /\u39015 \u21839 \u65289 ',beauty:'\u32654 \u23481 \u32654 \u39662 ',food:'\u39184 \u39154 \u39135 \u21697 ',health:'\u20581 \u24247 \u39178 \u29983 ',education:'\u25945 \u32946 \u22521 \u35347 ',retail:'\u38646 \u21806 \u21830 \u21697 ',fitness:'\u20581 \u36523 \u36939 \u21205 ',other:'\u20854 \u20182 '\};\
-const PLATFORM_COLOR = \{tiktok:'#FF6B4A',instagram:'#C77DFF',youtube:'#FF4D4D',threads:'#9AA3B8'\};\
-\
-// ================================================================\
-// \uc0\u55357 \u56510  LOCAL STORAGE (Mock Backend)\
-// ================================================================\
-const LS = \{u:'sai_users',me:'sai_me',scripts:'sai_scripts',teams:'sai_teams'\};\
-const lsGet = (k,d=null)=>\{try\{const v=JSON.parse(localStorage.getItem(k));return v??d\}catch\{return d\}\};\
-const lsSet = (k,v)=>localStorage.setItem(k,JSON.stringify(v));\
-\
-// ================================================================\
-// \uc0\u55357 \u56550  STATE\
-// ================================================================\
-let S = \{\
-  user: lsGet(LS.me),\
-  view: 'auth',\
-  scripts: [],\
-  team: null,\
-  generated: null,\
-  genLoading: false,\
-  genTab: 0,\
-  authMode: 'login',\
-  histSearch: '',\
-  histFilter: 'all',\
-  genState: \{platform:'tiktok',styles:['\uc0\u34255 \u37857 \u20154 \u25484 \u37857 '],moods:['\u28331 \u26262 \u30274 \u30290 ']\},\
-  modal: null, // null | 'upgrade' | 'viewScript' | 'joinTeam' | 'createTeam'\
-  modalData: null,\
-  notif: null,\
-\};\
-\
-if (S.user) \{ S.view = 'dashboard'; _loadScripts(); _loadTeam(); \}\
-\
-// ================================================================\
-// \uc0\u55357 \u56592  AUTH\
-// ================================================================\
-function authLogin(email, pw) \{\
-  const users = lsGet(LS.u, []);\
-  const u = users.find(u=>u.email===email&&u.pw===pw);\
-  if (!u) throw new Error('\uc0\u24115 \u34399 \u25110 \u23494 \u30908 \u37679 \u35492 \u65292 \u35531 \u20877 \u35430 \u19968 \u27425 ');\
-  _resetMonthlyUsage(u, users);\
-  S.user = u; lsSet(LS.me, u);\
-\}\
-function authSignup(name, email, pw) \{\
-  const users = lsGet(LS.u, []);\
-  if (users.find(u=>u.email===email)) throw new Error('\uc0\u27492 \u20449 \u31665 \u24050 \u34987 \u20351 \u29992 ');\
-  const now = new Date();\
-  const u = \{id:_uid(),name,email,pw,plan:'free',usageCount:0,usageMonth:_monthKey(),teamId:null,teamRole:null,createdAt:now.toISOString()\};\
-  users.push(u); lsSet(LS.u, users);\
-  S.user = u; lsSet(LS.me, u);\
-\}\
-function authLogout() \{\
-  S.user=null; S.view='auth'; S.generated=null; S.scripts=[]; S.team=null;\
-  localStorage.removeItem(LS.me); render();\
-\}\
-function _resetMonthlyUsage(u, users) \{\
-  if (u.usageMonth !== _monthKey()) \{\
-    u.usageMonth = _monthKey(); u.usageCount = 0;\
-    const idx = users.findIndex(x=>x.id===u.id);\
-    if (idx>=0)\{users[idx]=u; lsSet(LS.u, users);\}\
-  \}\
-\}\
-\
-// ================================================================\
-// \uc0\u55357 \u56540  SCRIPTS\
-// ================================================================\
-function _loadScripts() \{\
-  const all = lsGet(LS.scripts, []);\
-  S.scripts = all.filter(s=>s.userId===S.user?.id||(S.user?.teamId&&s.teamId===S.user.teamId&&s.shared));\
-\}\
-function saveScript(data, meta) \{\
-  if (!canGenerate()) return;\
-  const s = \{\
-    id:_uid(),userId:S.user.id,teamId:S.user.teamId||null,\
-    shared:false,title:data.meta?.title||meta.topic,\
-    platform:meta.platform,duration:meta.duration,topic:meta.topic,\
-    scenes:data.scenes?.length||0,data,createdAt:new Date().toISOString()\
-  \};\
-  const all = lsGet(LS.scripts, []);\
-  all.unshift(s); lsSet(LS.scripts, all);\
-  _incrUsage(); _loadScripts();\
-\}\
-function delScript(id) \{\
-  lsSet(LS.scripts, lsGet(LS.scripts,[]).filter(s=>s.id!==id));\
-  _loadScripts(); render();\
-\}\
-function toggleShared(id) \{\
-  const all = lsGet(LS.scripts, []);\
-  const i = all.findIndex(s=>s.id===id);\
-  if(i>=0)\{all[i].shared=!all[i].shared; lsSet(LS.scripts,all); _loadScripts(); render();\}\
-\}\
-function _incrUsage() \{\
-  const users = lsGet(LS.u, []);\
-  const i = users.findIndex(u=>u.id===S.user.id);\
-  if(i>=0)\{\
-    if(users[i].usageMonth!==_monthKey())\{users[i].usageMonth=_monthKey();users[i].usageCount=0;\}\
-    users[i].usageCount=(users[i].usageCount||0)+1;\
-    lsSet(LS.u, users); S.user=users[i]; lsSet(LS.me, S.user);\
-  \}\
-\}\
-function canGenerate() \{\
-  if(!S.user) return false;\
-  const p = PLANS[S.user.plan];\
-  return p.limit===-1 || (S.user.usageCount||0) < p.limit;\
-\}\
-function remaining() \{\
-  if(!S.user) return 0;\
-  const p = PLANS[S.user.plan];\
-  return p.limit===-1 ? '\uc0\u8734 ' : Math.max(0, p.limit-(S.user.usageCount||0));\
-\}\
-function usagePct() \{\
-  if(!S.user) return 0;\
-  const p = PLANS[S.user.plan];\
-  if(p.limit===-1) return 20;\
-  return Math.min(100, Math.round(((S.user.usageCount||0)/p.limit)*100));\
-\}\
-\
-// ================================================================\
-// \uc0\u55357 \u56421  TEAM\
-// ================================================================\
-function _loadTeam() \{\
-  if(!S.user?.teamId)\{S.team=null;return;\}\
-  S.team = lsGet(LS.teams,[]).find(t=>t.id===S.user.teamId)||null;\
-\}\
-function createTeam(name) \{\
-  if(!name.trim()) throw new Error('\uc0\u35531 \u36664 \u20837 \u22296 \u38538 \u21517 \u31281 ');\
-  const t = \{id:_uid(),name:name.trim(),ownerId:S.user.id,inviteCode:_code(),\
-    members:[\{userId:S.user.id,name:S.user.name,email:S.user.email,role:'owner',joinedAt:new Date().toISOString()\}],\
-    createdAt:new Date().toISOString()\};\
-  const teams = lsGet(LS.teams,[]); teams.push(t); lsSet(LS.teams, teams);\
-  _updateUser(\{teamId:t.id,teamRole:'owner',plan:'team'\}); S.team=t;\
-\}\
-function joinTeam(code) \{\
-  if(!code.trim()) throw new Error('\uc0\u35531 \u36664 \u20837 \u36992 \u35531 \u30908 ');\
-  const teams = lsGet(LS.teams, []);\
-  const i = teams.findIndex(t=>t.inviteCode===code.trim().toUpperCase());\
-  if(i<0) throw new Error('\uc0\u36992 \u35531 \u30908 \u28961 \u25928 \u65292 \u35531 \u30906 \u35469 \u24460 \u20877 \u35430 ');\
-  if(teams[i].members.length>=5) throw new Error('\uc0\u27492 \u22296 \u38538 \u24050 \u36948 \u20154 \u25976 \u19978 \u38480 \u65288 5\u20154 \u65289 ');\
-  if(teams[i].members.find(m=>m.userId===S.user.id)) throw new Error('\uc0\u24744 \u24050 \u26159 \u27492 \u22296 \u38538 \u25104 \u21729 ');\
-  teams[i].members.push(\{userId:S.user.id,name:S.user.name,email:S.user.email,role:'member',joinedAt:new Date().toISOString()\});\
-  lsSet(LS.teams, teams);\
-  _updateUser(\{teamId:teams[i].id,teamRole:'member',plan:'team'\}); S.team=teams[i];\
-\}\
-function leaveTeam() \{\
-  if(!S.team) return;\
-  const teams = lsGet(LS.teams, []);\
-  const i = teams.findIndex(t=>t.id===S.team.id);\
-  if(i>=0)\{teams[i].members=teams[i].members.filter(m=>m.userId!==S.user.id); lsSet(LS.teams, teams);\}\
-  _updateUser(\{teamId:null,teamRole:null,plan:'free'\}); S.team=null;\
-\}\
-function removeMember(userId) \{\
-  if(!S.team||S.user.teamRole!=='owner') return;\
-  const teams = lsGet(LS.teams, []);\
-  const i = teams.findIndex(t=>t.id===S.team.id);\
-  if(i>=0)\{\
-    teams[i].members=teams[i].members.filter(m=>m.userId!==userId);\
-    lsSet(LS.teams, teams);\
-    // downgrade removed user\
-    const users = lsGet(LS.u, []);\
-    const ui = users.findIndex(u=>u.id===userId);\
-    if(ui>=0)\{users[ui].teamId=null;users[ui].teamRole=null;users[ui].plan='free'; lsSet(LS.u, users);\}\
-    S.team=teams[i];\
-  \}\
-\}\
-function regenInviteCode() \{\
-  if(!S.team||S.user.teamRole!=='owner') return;\
-  const teams = lsGet(LS.teams, []);\
-  const i = teams.findIndex(t=>t.id===S.team.id);\
-  if(i>=0)\{teams[i].inviteCode=_code(); lsSet(LS.teams, teams); S.team=teams[i]; notify('\uc0\u36992 \u35531 \u30908 \u24050 \u26356 \u26032 \u65281 ','ok'); render();\}\
-\}\
-function upgradePlan(plan) \{\
-  _updateUser(\{plan\}); notify(`\uc0\u24050 \u20999 \u25563 \u33267 $\{PLANS[plan].name\}\u65281 `,'ok');\
-  S.modal=null; render();\
-\}\
-function _updateUser(fields) \{\
-  const users = lsGet(LS.u, []);\
-  const i = users.findIndex(u=>u.id===S.user.id);\
-  if(i>=0)\{Object.assign(users[i],fields); lsSet(LS.u, users); S.user=users[i]; lsSet(LS.me, S.user);\}\
-\}\
-\
-// ================================================================\
-// \uc0\u55357 \u56516  PDF EXPORT (print-based, supports Chinese)\
-// ================================================================\
-function exportPDF(rec) \{\
-  const d = rec.data;\
-  const w = window.open('','_blank');\
-  const scenes = (d.scenes||[]).map(s=>`\
-    <div class="scene">\
-      <div class="sh"><span class="sn">\uc0\u22580 \u26223 $\{s.id\}</span><span class="st">$\{s.timeStart\}\'97$\{s.timeEnd\}</span><span class="stl">$\{s.title\}</span></div>\
-      <table><tbody>\
-        <tr><td class="k">\uc0\u37857 \u38957 </td><td>$\{s.camera||''\}</td></tr>\
-        <tr><td class="k">\uc0\u21205 \u20316 </td><td>$\{s.action||''\}</td></tr>\
-        $\{s.caption?`<tr><td class="k">\uc0\u23383 \u24149 </td><td>$\{s.caption\}</td></tr>`:''\}\
-        $\{s.emotion?`<tr><td class="k">\uc0\u27675 \u22285 </td><td>$\{s.emotion\}</td></tr>`:''\}\
-      </tbody></table>\
-      $\{(s.dialogue||[]).length?`<div class="dlg"><div class="dk">\uc0\u23565 \u35441 \u33139 \u26412 </div>$\{s.dialogue.map(l=>`<div class="dl"><span class="ds" style="color:$\{l.speaker.includes('\u25484 \u37857 ')?'#FF6B4A':'#00D4AA'\}">$\{l.speaker\}\u65306 </span>$\{l.line\}<span class="dt">[$\{l.tone||''\}]</span></div>`).join('')\}</div>`:''\}\
-    </div>`).join('');\
-  const sch = (d.schedule||[]).map(s=>`<tr><td>$\{s.time\}</td><td>$\{s.duration\}</td><td>$\{s.task\}</td><td>$\{\{prep:'\uc0\u28310 \u20633 ',shoot:'\u25293 \u25885 ',wrap:'\u25910 \u24037 ',break:'\u20241 \u24687 '\}[s.type]||s.type\}</td><td>$\{s.notes||''\}</td></tr>`).join('');\
-  const props = (d.props||[]).map(p=>`<tr><td>$\{p.icon||''\} $\{p.name\}</td><td>$\{p.priority\}</td><td>$\{p.desc\}</td></tr>`).join('');\
-  const tips = (d.tips||[]).map(t=>`<div class="tip"><b>$\{t.icon||''\} $\{t.title\}</b><p>$\{t.desc\}</p></div>`).join('');\
-  w.document.write(`<!DOCTYPE html><html lang="zh-TW"><head><meta charset="UTF-8">\
-<title>$\{d.meta?.title||rec.title\}</title>\
-<style>\
-*\{margin:0;padding:0;box-sizing:border-box\}\
-body\{font-family:'Noto Sans TC','Microsoft JhengHei',sans-serif;font-size:11.5px;color:#1a1a1a;padding:18mm 20mm;line-height:1.7\}\
-h1\{font-size:18px;color:#FF6B4A;margin-bottom:3px\}\
-.meta-line\{font-size:10px;color:#888;margin-bottom:18px\}\
-h2\{font-size:13px;font-weight:700;color:#333;margin:18px 0 8px;border-left:3px solid #FF6B4A;padding-left:8px\}\
-.hook\{background:#FFF3F0;border:1px solid #FF6B4A55;border-radius:6px;padding:10px 14px;margin-bottom:14px\}\
-.hook-lbl\{font-size:9px;font-weight:700;letter-spacing:2px;color:#FF6B4A;margin-bottom:4px\}\
-.hook-txt\{font-size:13px;font-weight:700;color:#FF6B4A;margin-bottom:6px\}\
-.hook-hl\{font-size:11px;color:#666\}\
-.scene\{border:1px solid #e8e8e8;border-radius:6px;padding:12px;margin-bottom:10px;break-inside:avoid\}\
-.sh\{display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap\}\
-.sn\{background:#FF6B4A;color:#fff;font-size:9px;font-weight:700;padding:1px 7px;border-radius:4px\}\
-.st\{font-size:10px;color:#FF6B4A;font-weight:700\}\
-.stl\{font-size:12px;font-weight:700\}\
-table\{width:100%;border-collapse:collapse;margin:4px 0\}\
-td\{padding:3px 6px;border-bottom:1px solid #f5f5f5;vertical-align:top\}\
-.k\{color:#aaa;font-size:10px;font-weight:700;width:36px;white-space:nowrap\}\
-.dlg\{background:#f8f8f8;border-radius:5px;padding:8px 10px;margin-top:8px\}\
-.dk\{font-size:9px;font-weight:700;letter-spacing:1px;color:#aaa;margin-bottom:5px\}\
-.dl\{padding:2px 0;font-size:11px\}\
-.ds\{font-weight:700\}\
-.dt\{color:#bbb;font-size:9px;margin-left:4px\}\
-.sch-tbl,.prop-tbl\{width:100%;border-collapse:collapse;margin-top:6px\}\
-.sch-tbl th,.prop-tbl th\{background:#f5f5f5;font-size:10px;padding:5px 8px;text-align:left;border:1px solid #eee\}\
-.sch-tbl td,.prop-tbl td\{padding:5px 8px;border:1px solid #eee;font-size:11px;vertical-align:top\}\
-.tags\{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px\}\
-.tag\{background:#f0eeff;color:#7B5FE0;padding:2px 9px;border-radius:10px;font-size:10px\}\
-.tip\{margin-bottom:8px;padding:8px 10px;background:#f9f9f9;border-radius:5px\}\
-.tip b\{font-size:12px;display:block;margin-bottom:3px\}\
-.tip p\{font-size:11px;color:#666\}\
-.footer\{margin-top:24px;border-top:1px solid #eee;padding-top:8px;font-size:9px;color:#ccc;text-align:center\}\
-@media print\{body\{padding:10mm\}\}\
-</style></head><body>\
-<h1>$\{d.meta?.title||rec.title\}</h1>\
-<div class="meta-line">\uc0\u20027 \u38988 \u65306 $\{rec.topic\} \'b7 \u24179 \u21488 \u65306 $\{PLATFORM_MAP[rec.platform]||rec.platform\} \'b7 \u26178 \u38263 \u65306 $\{rec.duration\}\u31186  \'b7 \u29983 \u25104 \u26085 \u26399 \u65306 $\{new Date(rec.createdAt).toLocaleDateString('zh-TW')\}</div>\
-$\{d.meta?.hook?`<div class="hook"><div class="hook-lbl">\uc0\u9889  \u38283 \u22580 \u37476 \u23376 \u65288 \u21069 3\u31186 \u65289 </div><div class="hook-txt">"$\{d.meta.hook\}"</div>$\{d.meta?.highlight?`<div class="hook-hl">\u10024  \u24433 \u29255 \u20142 \u40670 \u65306 $\{d.meta.highlight\}</div>`:''\}</div>`:''\}\
-<h2>\uc0\u55356 \u57260  \u36880 \u22580 \u26223 \u33139 \u26412 </h2>$\{scenes\}\
-$\{sch?`<h2>\uc0\u55357 \u56517  \u25293 \u25885 \u26178 \u31243 </h2><table class="sch-tbl"><tr><th>\u26178 \u38291 </th><th>\u26178 \u38263 </th><th>\u20219 \u21209 </th><th>\u39006 \u22411 </th><th>\u20633 \u35387 </th></tr>$\{sch\}</table>`:''\}\
-$\{props?`<h2>\uc0\u55358 \u56816  \u36947 \u20855 \u28165 \u21934 </h2><table class="prop-tbl"><tr><th>\u36947 \u20855 </th><th>\u20778 \u20808 \u24230 </th><th>\u35498 \u26126 </th></tr>$\{props\}</table>`:''\}\
-$\{tips?`<h2>\uc0\u55357 \u56481  \u25293 \u25885 \u25216 \u24039 </h2>$\{tips\}`:''\}\
-$\{(d.hashtags||[]).length?`<h2>\uc0\u55356 \u57335 \u65039  Hashtags</h2><div class="tags">$\{d.hashtags.map(h=>`<span class="tag">$\{h\}</span>`).join('')\}</div>$\{d.postingTime?`<p style="margin-top:6px;font-size:11px;color:#666">\u55357 \u56656  \u26368 \u20339 \u30332 \u25991 \u26178 \u38291 \u65306 <b>$\{d.postingTime\}</b></p>`:''\}`:''\}\
-<div class="footer">\uc0\u30001  ScriptAI Pro \u30701 \u24433 \u38899 \u33139 \u26412 \u26234 \u33021 \u39636 \u29983 \u25104  \'b7 $\{new Date().toLocaleDateString('zh-TW')\} \'b7 scriptai.tw</div>\
-</body></html>`);\
-  w.document.close(); setTimeout(()=>w.print(),600);\
-\}\
-\
-// ================================================================\
-// \uc0\u55357 \u56596  NOTIFY\
-// ================================================================\
-function notify(msg,type='ok')\{\
-  S.notif=\{msg,type\}; render();\
-  setTimeout(()=>\{S.notif=null; render();\},3000);\
-\}\
-\
-// ================================================================\
-// \uc0\u55358 \u56816  UTILS\
-// ================================================================\
-function _uid()\{return Date.now().toString(36)+Math.random().toString(36).slice(2)\}\
-function _monthKey()\{const n=new Date();return`$\{n.getFullYear()\}-$\{n.getMonth()\}`\}\
-function _code()\{return Math.random().toString(36).slice(2,8).toUpperCase()\}\
-function esc(s)\{return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')\}\
-\
-// ================================================================\
-// \uc0\u55356 \u57256  RENDER ENGINE\
-// ================================================================\
-function render() \{\
-  document.getElementById('app').innerHTML = buildApp();\
-  attachListeners();\
-\}\
-\
-function buildApp() \{\
-  if(!S.user) return buildAuth();\
-  return `\
-    $\{S.modal ? buildModal() : ''\}\
-    $\{S.notif ? `<div class="notif notif-$\{S.notif.type\}">$\{esc(S.notif.msg)\}</div>` : ''\}\
-    <div class="layout">\
-      $\{buildNav()\}\
-      <div class="main">\
-        <div class="page">$\{buildView()\}</div>\
-      </div>\
-    </div>`;\
-\}\
-\
-// ================================================================\
-// \uc0\u55357 \u56592  AUTH VIEW\
-// ================================================================\
-function buildAuth() \{\
-  const isLogin = S.authMode==='login';\
-  return `\
-  $\{S.notif?`<div class="notif notif-$\{S.notif.type\}">$\{esc(S.notif.msg)\}</div>`:''\}\
-  <div class="auth-wrap">\
-    <div class="auth-box">\
-      <div class="auth-logo">\
-        <div class="nav-logo-icon">\uc0\u55356 \u57260 </div>\
-        <div>\
-          <div style="font-size:17px;font-weight:700">ScriptAI</div>\
-          <div style="font-size:10px;color:var(--text3);letter-spacing:1px">\uc0\u30701 \u24433 \u38899 \u33139 \u26412 \u26234 \u33021 \u39636 </div>\
-        </div>\
-        <span class="nav-logo-badge">PRO</span>\
-      </div>\
-      <div class="auth-tabs">\
-        <button class="auth-tab $\{isLogin?'active':''\}" onclick="S.authMode='login';render()">\uc0\u30331 \u20837 </button>\
-        <button class="auth-tab $\{!isLogin?'active':''\}" onclick="S.authMode='signup';render()">\uc0\u20813 \u36027 \u35387 \u20874 </button>\
-      </div>\
-      $\{isLogin ? `\
-        <div class="field"><label class="lbl">\uc0\u38651 \u23376 \u20449 \u31665 </label><input class="inp" id="a-email" type="email" placeholder="your@email.com"></div>\
-        <div class="field"><label class="lbl">\uc0\u23494 \u30908 </label><input class="inp" id="a-pw" type="password" placeholder="\'95\'95\'95\'95\'95\'95\'95\'95"></div>\
-        <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:4px" onclick="doLogin()">\uc0\u30331 \u20837 \u24115 \u34399 </button>\
-        <div class="auth-divider">\uc0\u25110 </div>\
-        <button class="btn btn-secondary" style="width:100%;justify-content:center" onclick="demoLogin()">\uc0\u55356 \u57262  \u20351 \u29992 \u31034 \u31684 \u24115 \u34399 \u39636 \u39511 </button>\
-      ` : `\
-        <div class="field"><label class="lbl">\uc0\u22995 \u21517 </label><input class="inp" id="a-name" placeholder="\u29579 \u23567 \u26126 "></div>\
-        <div class="field"><label class="lbl">\uc0\u38651 \u23376 \u20449 \u31665 </label><input class="inp" id="a-email" type="email" placeholder="your@email.com"></div>\
-        <div class="field"><label class="lbl">\uc0\u23494 \u30908 </label><input class="inp" id="a-pw" type="password" placeholder="\u33267 \u23569 6\u20491 \u23383 \u20803 "></div>\
-        <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:4px" onclick="doSignup()">\uc0\u24314 \u31435 \u24115 \u34399 \u65288 \u20813 \u36027 \u65289 </button>\
-      `\}\
-      <p style="font-size:11px;color:var(--text3);text-align:center;margin-top:16px">\uc0\u32380 \u32396 \u21363 \u34920 \u31034 \u24744 \u21516 \u24847 \u26381 \u21209 \u26781 \u27454 \u33287 \u38577 \u31169 \u25919 \u31574 </p>\
-    </div>\
-  </div>`;\
-\}\
-\
-function doLogin() \{\
-  try \{\
-    const email=document.getElementById('a-email')?.value.trim();\
-    const pw=document.getElementById('a-pw')?.value;\
-    if(!email||!pw) throw new Error('\uc0\u35531 \u22635 \u23531 \u25152 \u26377 \u27396 \u20301 ');\
-    authLogin(email, pw);\
-    S.view='dashboard'; _loadScripts(); _loadTeam(); render();\
-  \} catch(e) \{ notify(e.message,'err'); \}\
-\}\
-function doSignup() \{\
-  try \{\
-    const name=document.getElementById('a-name')?.value.trim();\
-    const email=document.getElementById('a-email')?.value.trim();\
-    const pw=document.getElementById('a-pw')?.value;\
-    if(!name||!email||!pw) throw new Error('\uc0\u35531 \u22635 \u23531 \u25152 \u26377 \u27396 \u20301 ');\
-    if(pw.length<6) throw new Error('\uc0\u23494 \u30908 \u33267 \u23569 \u38656 \u35201 6\u20491 \u23383 \u20803 ');\
-    authSignup(name, email, pw);\
-    S.view='dashboard'; _loadScripts(); _loadTeam(); render();\
-  \} catch(e) \{ notify(e.message,'err'); \}\
-\}\
-function demoLogin() \{\
-  try \{\
-    try \{ authLogin('demo@scriptai.tw','demo1234'); \}\
-    catch \{ authSignup('\uc0\u31034 \u31684 \u29992 \u25142 ','demo@scriptai.tw','demo1234'); \}\
-    S.view='dashboard'; _loadScripts(); _loadTeam(); render();\
-  \} catch(e) \{ notify(e.message,'err'); \}\
-\}\
-\
-// ================================================================\
-// \uc0\u55357 \u56770 \u65039  NAV\
-// ================================================================\
-function buildNav() \{\
-  const plan = PLANS[S.user.plan];\
-  const pct = usagePct();\
-  const links = [\
-    \{id:'dashboard',icon:'\uc0\u55356 \u57312 ',label:'\u32317 \u35261 '\},\
-    \{id:'generator',icon:'\uc0\u10024 ',label:'\u29983 \u25104 \u33139 \u26412 '\},\
-    \{id:'history',icon:'\uc0\u55357 \u56514 ',label:'\u33139 \u26412 \u27511 \u21490 '\},\
-    \{id:'team',icon:'\uc0\u55357 \u56421 ',label:'\u25105 \u30340 \u22296 \u38538 '\},\
-    \{id:'settings',icon:'\uc0\u9881 \u65039 ',label:'\u35373 \u23450 '\},\
-  ];\
-  return `\
-  <nav class="nav">\
-    <div class="nav-logo">\
-      <div class="nav-logo-icon">\uc0\u55356 \u57260 </div>\
-      <div>\
-        <span class="nav-logo-text">ScriptAI</span>\
-        <span class="nav-logo-badge">PRO</span>\
-      </div>\
-    </div>\
-    <div class="nav-links">\
-      <div class="nav-section">\uc0\u20027 \u36984 \u21934 </div>\
-      $\{links.map(l=>`<div class="nav-link $\{S.view===l.id?'active':''\}" onclick="goTo('$\{l.id\}')"><span class="nicon">$\{l.icon\}</span><span>$\{l.label\}</span></div>`).join('')\}\
-    </div>\
-    <div class="nav-bottom">\
-      <div style="margin-bottom:8px;padding:0 2px">\
-        <div class="prog-row">\
-          <div class="prog-lbl" style="font-size:11px">\uc0\u26412 \u26376 \u29992 \u37327 </div>\
-          <div class="prog-val" style="font-size:11px;color:$\{pct>80?'var(--red)':'var(--text)'\}">$\{remaining()\}</div>\
-        </div>\
-        <div class="usage-bar"><div class="usage-fill" style="width:$\{pct\}%;background:$\{pct>80?'var(--red)':undefined\}"></div></div>\
-        <div style="font-size:10px;color:var(--text3);text-align:right">$\{PLANS[S.user.plan].limit===-1?'\uc0\u28961 \u38480 \u21046 ':PLANS[S.user.plan].limit\}\u27425 /\u26376 </div>\
-      </div>\
-      <div class="nav-user" onclick="goTo('settings')">\
-        <div class="nav-avatar">$\{(S.user.name||'?').charAt(0)\}</div>\
-        <div class="nav-user-info">\
-          <div class="nav-user-name">$\{esc(S.user.name)\}</div>\
-          <div class="nav-user-plan">$\{plan.name\} \'b7 $\{plan.limit===-1?'\uc0\u8734 ':remaining()\} \u27425 \u21097 \u39192 </div>\
-        </div>\
-      </div>\
-    </div>\
-  </nav>`;\
-\}\
-\
-function goTo(view) \{ S.view=view; S.generated=null; render(); \}\
-\
-// ================================================================\
-// \uc0\u55356 \u57312  DASHBOARD\
-// ================================================================\
-function buildDashboard() \{\
-  const total = S.scripts.length;\
-  const thisMonth = S.scripts.filter(s=>\{\
-    const d=new Date(s.createdAt); const n=new Date();\
-    return d.getMonth()===n.getMonth()&&d.getFullYear()===n.getFullYear();\
-  \}).length;\
-  const rem = remaining();\
-  const teamMembers = S.team?.members?.length||0;\
-  const recent = S.scripts.slice(0,3);\
-  const pct = usagePct();\
-  const canGen = canGenerate();\
-\
-  return `\
-  <div class="page-head">\
-    <div>\
-      <div class="page-title">\uc0\u55357 \u56395  \u27489 \u36814 \u22238 \u20358 \u65292 $\{esc(S.user.name.split(' ')[0])\}</div>\
-      <div class="page-sub">$\{new Date().toLocaleDateString('zh-TW',\{weekday:'long',year:'numeric',month:'long',day:'numeric'\})\}</div>\
-    </div>\
-    <button class="btn btn-primary" onclick="goTo('generator')">\uc0\u10024  \u38283 \u22987 \u29983 \u25104 \u33139 \u26412 </button>\
-  </div>\
-\
-  $\{!canGen ? `\
-  <div class="upgrade-banner">\
-    <div><div class="banner-txt">\uc0\u9888 \u65039  \u26412 \u26376 \u29992 \u37327 \u24050 \u36948 \u19978 \u38480 </div><div class="banner-sub">\u21319 \u32026 \u26041 \u26696 \u20197 \u32380 \u32396 \u29983 \u25104 \u33139 \u26412 </div></div>\
-    <button class="btn btn-primary btn-sm" onclick="S.modal='upgrade';render()">\uc0\u21319 \u32026 \u26041 \u26696 </button>\
-  </div>` : pct>70 ? `\
-  <div class="upgrade-banner">\
-    <div><div class="banner-txt">\uc0\u55357 \u56522  \u26412 \u26376 \u29992 \u37327 \u24050 \u36948  $\{pct\}%</div><div class="banner-sub">\u21097 \u39192  $\{rem\} \u27425 \u29983 \u25104 \u38989 \u24230 \u65292 \u32771 \u24942 \u21319 \u32026 \u26041 \u26696 \u65311 </div></div>\
-    <button class="btn btn-secondary btn-sm" onclick="S.modal='upgrade';render()">\uc0\u26597 \u30475 \u26041 \u26696 </button>\
-  </div>` : ''\}\
-\
-  <div class="grid4" style="margin-bottom:24px">\
-    <div class="stat-card">\
-      <div class="stat-val" style="color:var(--coral)">$\{total\}</div>\
-      <div class="stat-lbl">\uc0\u55357 \u56540  \u32317 \u33139 \u26412 \u25976 </div>\
-    </div>\
-    <div class="stat-card">\
-      <div class="stat-val" style="color:var(--teal)">$\{thisMonth\}</div>\
-      <div class="stat-lbl">\uc0\u55357 \u56517  \u26412 \u26376 \u29983 \u25104 </div>\
-    </div>\
-    <div class="stat-card">\
-      <div class="stat-val" style="color:var(--amber)">$\{typeof rem==='number'?rem:'\uc0\u8734 '\}</div>\
-      <div class="stat-lbl">\uc0\u9889  \u21097 \u39192 \u27425 \u25976 </div>\
-    </div>\
-    <div class="stat-card">\
-      <div class="stat-val" style="color:var(--purple)">$\{teamMembers||'\'97'\}</div>\
-      <div class="stat-lbl">\uc0\u55357 \u56421  \u22296 \u38538 \u20154 \u25976 </div>\
-    </div>\
-  </div>\
-\
-  <div class="grid2" style="margin-bottom:24px">\
-    <div class="card">\
-      <div style="font-size:14px;font-weight:700;margin-bottom:14px">\uc0\u55357 \u56522  \u26412 \u26376 \u29992 \u37327 </div>\
-      <div class="prog-row"><div class="prog-lbl">$\{PLANS[S.user.plan].name\}</div><div class="prog-val" style="color:var(--coral)">$\{S.user.usageCount||0\} / $\{PLANS[S.user.plan].limit===-1?'\uc0\u8734 ':PLANS[S.user.plan].limit\}</div></div>\
-      <div class="usage-bar"><div class="usage-fill" style="width:$\{pct\}%"></div></div>\
-      <div style="font-size:11px;color:var(--text3);margin-top:6px">\uc0\u27599 \u26376  $\{new Date().toLocaleDateString('zh-TW',\{day:'numeric'\})\} \u26085 \u37325 \u32622 </div>\
-      $\{S.user.plan!=='team'?`<button class="btn btn-secondary btn-sm" style="margin-top:12px" onclick="S.modal='upgrade';render()">\uc0\u55357 \u56960  \u21319 \u32026 \u26356 \u22810 \u38989 \u24230 </button>`:''\}\
-    </div>\
-    <div class="card">\
-      <div style="font-size:14px;font-weight:700;margin-bottom:14px">\uc0\u55356 \u57335 \u65039  \u26041 \u26696 \u36039 \u35338 </div>\
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">\
-        <span class="badge badge-$\{S.user.plan\}">$\{PLANS[S.user.plan].label\}</span>\
-        <span style="font-size:14px;font-weight:700">$\{PLANS[S.user.plan].name\}</span>\
-      </div>\
-      <div style="font-size:13px;color:var(--text2)">NT$$\{PLANS[S.user.plan].price\}<span style="color:var(--text3)">/\uc0\u26376 </span></div>\
-      <div style="font-size:12px;color:var(--text3);margin-top:4px">\uc0\u26368 \u22810  $\{PLANS[S.user.plan].members\} \u20301 \u25104 \u21729 </div>\
-      $\{S.team?`<div style="font-size:12px;color:var(--teal);margin-top:8px">\uc0\u10003  \u24050 \u21152 \u20837 \u12300 $\{esc(S.team.name)\}\u12301 </div>`:''\}\
-    </div>\
-  </div>\
-\
-  <div>\
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">\
-      <div style="font-size:14px;font-weight:700">\uc0\u55357 \u56540  \u26368 \u36817 \u33139 \u26412 </div>\
-      $\{total>0?`<button class="btn btn-ghost btn-sm" onclick="goTo('history')">\uc0\u26597 \u30475 \u20840 \u37096  \u8594 </button>`:''\}\
-    </div>\
-    $\{recent.length ? `\
-    <div class="script-grid">\
-      $\{recent.map(s=>buildScriptCard(s)).join('')\}\
-    </div>` : `\
-    <div class="empty-box" style="padding:40px">\
-      <div class="empty-icon">\uc0\u10024 </div>\
-      <div class="empty-ttl">\uc0\u36996 \u27794 \u26377 \u33139 \u26412 </div>\
-      <div class="empty-sub">\uc0\u40670 \u25802 \u12300 \u29983 \u25104 \u33139 \u26412 \u12301 \u38283 \u22987 \u20320 \u30340 \u31532 \u19968 \u25903 \u30701 \u24433 \u38899 </div>\
-      <button class="btn btn-primary" onclick="goTo('generator')">\uc0\u10024  \u38283 \u22987 \u29983 \u25104 </button>\
-    </div>`\}\
-  </div>`;\
-\}\
-\
-// ================================================================\
-// \uc0\u10024  GENERATOR\
-// ================================================================\
-function buildGenerator() \{\
-  const gs = S.genState;\
-  const canGen = canGenerate();\
-  return `\
-  <div class="page-head">\
-    <div>\
-      <div class="page-title">\uc0\u10024  \u29983 \u25104 \u33139 \u26412 </div>\
-      <div class="page-sub">\uc0\u34255 \u37857 \u20154 \u25484 \u37857 \u27169 \u24335  \'b7 \u21488 \u28771 \u24066 \u22580 \u20778 \u21270  \'b7 AI \u26234 \u33021 \u35215 \u21123 </div>\
-    </div>\
-    <div style="font-size:12px;color:var(--text3)">\uc0\u21097 \u39192  <b style="color:var(--coral)">$\{remaining()\}</b> \u27425 </div>\
-  </div>\
-\
-  <div class="gen-layout">\
-    <div class="gen-sidebar">\
-      <div class="card" style="margin-bottom:14px">\
-        <div style="font-size:12px;font-weight:700;letter-spacing:1.5px;color:var(--text3);text-transform:uppercase;margin-bottom:10px">\uc0\u24179 \u21488 </div>\
-        <div class="platform-grid">\
-          $\{[['tiktok','\uc0\u55356 \u57269 ','TikTok'],['instagram','\u55357 \u56568 ','Instagram Reels'],['youtube','\u9654 \u65039 ','YouTube Shorts'],['threads','\u55358 \u56821 ','Threads']].map(([p,ic,lb])=>`\
-          <div class="platform-btn $\{gs.platform===p?'on':''\}" onclick="S.genState.platform='$\{p\}';render()">\
-            <span class="p-icon">$\{ic\}</span>$\{lb\}\
-          </div>`).join('')\}\
-        </div>\
-      </div>\
-\
-      <div class="card" style="margin-bottom:14px">\
-        <div class="field">\
-          <label class="lbl">\uc0\u24433 \u29255 \u20027 \u38988  *</label>\
-          <input class="inp" id="g-topic" placeholder="\uc0\u20363 \u65306 \u24171 \u23458 \u20154 \u35299 \u27770 \u38263 \u26399 \u22833 \u30496 \u30340 \u35566 \u35426 \u36942 \u31243 " value="$\{esc(document.getElementById('g-topic')?.value||'')\}">\
-        </div>\
-        <div class="field">\
-          <label class="lbl">\uc0\u30446 \u27161 \u21463 \u30526 </label>\
-          <select class="sel" id="g-audience">\
-            $\{Object.entries(AUDIENCE_MAP).map(([v,l])=>`<option value="$\{v\}">$\{l\}</option>`).join('')\}\
-          </select>\
-        </div>\
-        <div class="field">\
-          <label class="lbl">\uc0\u26989 \u21209  / \u29986 \u21697 \u39006 \u22411 </label>\
-          <select class="sel" id="g-business">\
-            $\{Object.entries(BUSINESS_MAP).map(([v,l])=>`<option value="$\{v\}">$\{l\}</option>`).join('')\}\
-          </select>\
-        </div>\
-        <div class="field">\
-          <label class="lbl">\uc0\u24433 \u29255 \u38263 \u24230 \u65306 <b style="color:var(--coral)" id="g-dur-val">60\u31186 </b></label>\
-          <input type="range" id="g-dur" min="15" max="180" value="60" step="15" style="width:100%;accent-color:var(--coral)" oninput="document.getElementById('g-dur-val').textContent=this.value+'\uc0\u31186 '">\
-          <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text3)"><span>15\uc0\u31186 </span><span>3\u20998 \u37912 </span></div>\
-        </div>\
-        <div class="field" style="margin-bottom:0">\
-          <label class="lbl">\uc0\u29305 \u27530 \u38656 \u27714 \u65288 \u36984 \u22635 \u65289 </label>\
-          <textarea class="ta" id="g-notes" placeholder="\uc0\u20363 \u65306 \u26032 \u23458 \u12289 \u24076 \u26395 \u24118 \u20986 \u21697 \u29260 \u20449 \u20219 \u24863 \u12289 \u32080 \u23614 \u35201 \u26377 CTA\u12289 \u25630 \u31505 \u39080 \u26684 \'85" style="min-height:56px"></textarea>\
-        </div>\
-      </div>\
-\
-      <div class="card" style="margin-bottom:14px">\
-        <div style="font-size:12px;font-weight:700;letter-spacing:1.5px;color:var(--text3);text-transform:uppercase;margin-bottom:8px">\uc0\u25293 \u25885 \u39080 \u26684 </div>\
-        <div class="chips">\
-          $\{['\uc0\u34255 \u37857 \u20154 \u25484 \u37857 ','\u30495 \u23526 \u24863 \u35352 \u37636 ','\u24773 \u22659 \u21127 \u24773 ','\u25945 \u23416 \u35299 \u35498 ','\u34903 \u35370 style'].map(c=>`<span class="chip $\{gs.styles.includes(c)?'on':''\}" onclick="toggleStyle('$\{c\}')">$\{c\}</span>`).join('')\}\
-        </div>\
-        <div style="font-size:12px;font-weight:700;letter-spacing:1.5px;color:var(--text3);text-transform:uppercase;margin-top:14px;margin-bottom:8px">\uc0\u24433 \u29255 \u24773 \u32210 </div>\
-        <div class="chips">\
-          $\{['\uc0\u28331 \u26262 \u30274 \u30290 ','\u24189 \u40664 \u26377 \u36259 ','\u39514 \u21916 \u34909 \u31361 ','\u24863 \u21205 \u20849 \u40180 ','\u30693 \u35672 \u20094 \u36008 ','\u27491 \u33021 \u37327 '].map(c=>`<span class="chip teal $\{gs.moods.includes(c)?'on':''\}" onclick="toggleMood('$\{c\}')">$\{c\}</span>`).join('')\}\
-        </div>\
-      </div>\
-\
-      <button class="btn btn-primary" style="width:100%;justify-content:center;font-size:14px;padding:13px" onclick="generateScript()" $\{!canGen||S.genLoading?'disabled':''\}>\
-        $\{S.genLoading?'\uc0\u9203  AI \u27491 \u22312 \u35215 \u21123 \u33139 \u26412 \'85':'\u10024  \u38283 \u22987 \u29983 \u25104 \u33139 \u26412 '\}\
-      </button>\
-      $\{!canGen?`<p style="font-size:11px;color:var(--red);text-align:center;margin-top:8px">\uc0\u26412 \u26376 \u38989 \u24230 \u24050 \u29992 \u23436  <span style="cursor:pointer;text-decoration:underline" onclick="S.modal='upgrade';render()">\u21319 \u32026 \u26041 \u26696 </span></p>`:''\}\
-    </div>\
-\
-    <div class="gen-output">\
-      $\{S.genLoading ? `\
-      <div class="loading-box">\
-        <div class="spin"></div>\
-        <div class="loading-txt">AI \uc0\u27491 \u22312 \u28858 \u20320 \u35215 \u21123 \u21488 \u28771 \u24066 \u22580 \u30701 \u24433 \u38899 \u33139 \u26412 \'85</div>\
-        <div style="font-size:12px;color:var(--text3)">\uc0\u20998 \u26512 \u20027 \u38988  \u8594  \u35215 \u21123 \u22580 \u26223  \u8594  \u23531 \u23565 \u35441 \u33139 \u26412  \u8594  \u23433 \u25490 \u26178 \u31243 </div>\
-      </div>` : S.generated ? buildScriptOutput(S.generated) : `\
-      <div class="empty-box">\
-        <div class="empty-icon">\uc0\u55356 \u57260 </div>\
-        <div class="empty-ttl">\uc0\u22635 \u22909 \u34920 \u21934 \u65292 \u38283 \u22987 \u29983 \u25104 </div>\
-        <div class="empty-sub">AI \uc0\u26371 \u28858 \u20320 \u35215 \u21123 \u23436 \u25972 \u30340 \u30701 \u24433 \u38899 \u33139 \u26412 \u65292 \u21253 \u21547 \u34255 \u37857 \u20154 \u23565 \u35441 \u12289 \u25293 \u25885 \u26178 \u31243 \u33287 \u36947 \u20855 \u28165 \u21934 \u65292 \u29983 \u25104 \u24460 \u33258 \u21205 \u23384 \u20837 \u27511 \u21490 \u35352 \u37636 \u12290 </div>\
-      </div>`\}\
-    </div>\
-  </div>`;\
-\}\
-\
-function toggleStyle(c) \{ S.genState.styles=[c]; render(); \}\
-function toggleMood(c) \{\
-  if(S.genState.moods.includes(c)) S.genState.moods=S.genState.moods.filter(m=>m!==c);\
-  else S.genState.moods.push(c);\
-  render();\
-\}\
-\
-async function generateScript() \{\
-  const topic = document.getElementById('g-topic')?.value.trim();\
-  if(!topic)\{notify('\uc0\u35531 \u36664 \u20837 \u24433 \u29255 \u20027 \u38988 \u65281 ','err');return;\}\
-  if(!canGenerate())\{S.modal='upgrade';render();return;\}\
-\
-  const gs = S.genState;\
-  const meta = \{\
-    platform: gs.platform,\
-    topic,\
-    audience: document.getElementById('g-audience')?.value||'general',\
-    duration: document.getElementById('g-dur')?.value||60,\
-    business: document.getElementById('g-business')?.value||'service',\
-    style: gs.styles[0]||'\uc0\u34255 \u37857 \u20154 \u25484 \u37857 ',\
-    moods: gs.moods.join('\uc0\u12289 '),\
-    notes: document.getElementById('g-notes')?.value.trim()||'',\
-  \};\
-\
-  S.genLoading=true; S.generated=null; render();\
-\
-  const sys=`\uc0\u20320 \u26159 \u21488 \u28771 \u38914 \u23574 \u30340 \u30701 \u24433 \u38899 \u33139 \u26412 \u35215 \u21123 \u24107 \u65292 \u23560 \u31934 \u21488 \u28771 \u22312 \u22320 \u24066 \u22580 \u33287 \u27969 \u34892 \u25991 \u21270 \u12290 \
-\
-\uc0\u12304 \u34255 \u37857 \u20154 \u25484 \u37857 \u39080 \u26684 \u12305 \
-- \uc0\u25293 \u25885 \u32773 \u65288 \u21109 \u20316 \u32773 \u65289 \u25343 \u25163 \u27231 \u25484 \u37857 \u65292 \u37857 \u38957 \u23565 \u33879 \u23458 \u20154 \u65292 \u21109 \u20316 \u32773 \u19981 \u38706 \u33225 \
-- \uc0\u32882 \u38899 \u21487 \u20986 \u29694 \u25110 \u20197 \u23383 \u24149 \u21576 \u29694 \u65292 \u37857 \u38957 \u36319 \u33879 \u23458 \u20154 \u36208 \u12289 \u35352 \u37636 \u30495 \u23526 \u20114 \u21205 \
-- \uc0\u27675 \u22285 \u35201 \u26377 \u30495 \u23526 \u24863 \u12289 \u32000 \u37636 \u29255 \u24863 \u65292 \u19981 \u33021 \u22826 \u21051 \u24847 \u20570 \u20316 \
-\
-\uc0\u12304 \u21488 \u28771 \u24066 \u22580 \u37325 \u40670 \u12305 \
-- \uc0\u29992 \u35422 \u25509 \u22320 \u27683 \u65292 \u31526 \u21512 \u21488 \u28771 \u20154 \u35498 \u35441 \u32722 \u24931 \u65292 \u21487 \u36969 \u30070 \u29992 \u21488 \u24335 \u29992 \u35486 \
-- \uc0\u38283 \u22580 3\u31186 \u35201 \u26377 \u24375 \u28872 \u25080 \u24565 \u25110 \u20849 \u40180 \u24863 \u65288 \u21488 \u28771 \u20154 \u28369 \u25163 \u27231 \u36895 \u24230 \u24456 \u24555 \u65289 \
-- \uc0\u21892 \u29992 \u21488 \u28771 \u20154 \u21916 \u27489 \u30340 \u65306 \u30495 \u23526 \u25925 \u20107 \u12289 \u24773 \u24863 \u20849 \u40180 \u12289 \u20094 \u36008 \u30693 \u35672 \u12289 \u24189 \u40664 \u21453 \u24046 \
-- \uc0\u32080 \u23614 \u35201 \u26377 \u26126 \u30906 \u30340 \u20114 \u21205 \u24341 \u23566 \u65288 \u30041 \u35328 \u12289 \u36861 \u36452 \u12289 \u20998 \u20139 \u65289 \
-\
-\uc0\u21482 \u22238 \u20659 \u32020 JSON\u65292 \u19981 \u35201 markdown\u25110 \u20219 \u20309 \u38989 \u22806 \u35498 \u26126 \u65306 \
-\{\
-  "meta":\{"title":"\uc0\u24433 \u29255 \u27161 \u38988 \u65288 \u21547 emoji\u65292 \u21560 \u30555 \u65289 ","hook":"\u38283 \u22580 \u37476 \u23376 \u65288 \u21069 3\u31186 \u65289 ","highlight":"\u24433 \u29255 \u26368 \u22823 \u20142 \u40670 "\},\
-  "scenes":[\{"id":1,"title":"\uc0\u22580 \u26223 \u21517 \u31281 ","timeStart":"0:00","timeEnd":"0:15","camera":"\u37857 \u38957 \u25551 \u36848 \u65288 \u34255 \u37857 \u20154 \u35282 \u24230 \u65289 ","action":"\u30059 \u38754 \u21205 \u20316 ","dialogue":[\{"speaker":"\u25484 \u37857 \u32773 ","line":"\u35498 \u30340 \u35441 ","tone":"\u35486 \u27683 "\},\{"speaker":"\u23458 \u20154 ","line":"\u22238 \u25033 ","tone":"\u35486 \u27683 "\}],"caption":"\u24314 \u35696 \u23383 \u24149 ","emotion":"\u24773 \u32210 \u27675 \u22285 "\}],\
-  "schedule":[\{"time":"09:00","duration":"15\uc0\u20998 \u37912 ","task":"\u20219 \u21209 \u21517 \u31281 ","type":"prep/shoot/wrap/break","notes":"\u27880 \u24847 \u20107 \u38917 "\}],\
-  "props":[\{"name":"\uc0\u36947 \u20855 \u21517 \u31281 ","icon":"emoji","desc":"\u29992 \u36884 \u35498 \u26126 ","priority":"\u24517 \u20633 \u25110 \u36984 \u37197 "\}],\
-  "tips":[\{"icon":"emoji","title":"\uc0\u25216 \u24039 \u27161 \u38988 ","desc":"\u35443 \u32048 \u35498 \u26126 "\}],\
-  "hashtags":["#\uc0\u27161 \u31844 "],\
-  "postingTime":"\uc0\u26368 \u20339 \u30332 \u25991 \u26178 \u38291 \u24314 \u35696 "\
-\}`;\
-\
-  const usr=`\uc0\u12304 \u24433 \u29255 \u20027 \u38988 \u12305 $\{meta.topic\}\
-\uc0\u12304 \u30332 \u24067 \u24179 \u21488 \u12305 $\{PLATFORM_MAP[meta.platform]\}\
-\uc0\u12304 \u30446 \u27161 \u21463 \u30526 \u12305 $\{AUDIENCE_MAP[meta.audience]\}\
-\uc0\u12304 \u24433 \u29255 \u38263 \u24230 \u12305 $\{meta.duration\}\u31186 \
-\uc0\u12304 \u26989 \u21209 \u39006 \u22411 \u12305 $\{BUSINESS_MAP[meta.business]\}\
-\uc0\u12304 \u25293 \u25885 \u39080 \u26684 \u12305 $\{meta.style\}\
-\uc0\u12304 \u24433 \u29255 \u24773 \u32210 \u12305 $\{meta.moods\}\
-$\{meta.notes?`\uc0\u12304 \u29305 \u27530 \u38656 \u27714 \u12305 $\{meta.notes\}`:''\}\
-\
-\uc0\u35531 \u20197 \u34255 \u37857 \u20154 \u25484 \u37857 \u35282 \u24230 \u35215 \u21123 \u65292 \u22580 \u26223 \u25976 \u37327 \u31526 \u21512 $\{meta.duration\}\u31186 \u38263 \u24230 \u65292 \u26178 \u38291 \u36600 \u31934 \u30906 \u65292 \u21488 \u28771 \u24066 \u22580 \u39080 \u26684 \u65292 \u35486 \u27683 \u33258 \u28982 \u26377 \u28331 \u24230 \u12290 `;\
-\
-  try \{\
-    // \uc0\u55357 \u56481  \u21555 \u25026 \u65292 \u36889 \u35041 \u30340 \u32178 \u22336 \u24050 \u32147 \u25913 \u25104 \u30701 \u29256  '/api/generate' \u20102 \u65281 Vercel \u26371 \u33258 \u21205 \u34389 \u29702 \u22909 \u24460 \u31471 \u36899 \u25509 \u12290 \
-    const res = await fetch('/api/generate', \{\
-      method: 'POST',\
-      headers: \{ 'Content-Type': 'application/json' \},\
-      body: JSON.stringify(\{ system: sys, userPrompt: usr \})\
-    \});\
-    \
-    if (!res.ok) \{\
-        const errData = await res.json();\
-        throw new Error(errData.error || '\uc0\u20282 \u26381 \u22120 \u30332 \u29983 \u37679 \u35492 ');\
-    \}\
-\
-    const parsed = await res.json();\
-    S.generated = \{data: parsed, meta\};\
-    saveScript(parsed, meta);\
-    notify('\uc0\u33139 \u26412 \u29983 \u25104 \u25104 \u21151 \u65292 \u24050 \u33258 \u21205 \u23384 \u20837 \u27511 \u21490 \u35352 \u37636 \u65281 ','ok');\
-  \} catch(e) \{\
-    notify('\uc0\u29983 \u25104 \u22833 \u25943 \u65292 \u35531 \u31245 \u24460 \u20877 \u35430 \u65306 '+e.message,'err');\
-  \}\
-  S.genLoading=false; render();\
-\}\
-\
-function buildScriptOutput(gen) \{\
-  const d = gen.data;\
-  const scenesCount = d.scenes?.length||0;\
-  const dlgCount = (d.scenes||[]).reduce((a,s)=>a+(s.dialogue||[]).length,0);\
-\
-  return `\
-  <div style="margin-bottom:16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">\
-    <div style="flex:1"><div style="font-size:16px;font-weight:700">$\{esc(d.meta?.title||'')\}</div><div style="font-size:12px;color:var(--text3);margin-top:2px">$\{scenesCount\}\uc0\u20491 \u22580 \u26223  \'b7 $\{dlgCount\}\u26781 \u23565 \u35441  \'b7 $\{gen.meta.duration\}\u31186 </div></div>\
-    <button class="btn btn-secondary btn-sm" onclick="exportCurrentPDF()">\uc0\u55357 \u56516  \u21295 \u20986 PDF</button>\
-  </div>\
-\
-  <div class="tabs">\
-    $\{['\uc0\u55356 \u57260  \u33139 \u26412 ','\u55357 \u56517  \u26178 \u31243 ','\u55358 \u56816  \u36947 \u20855 ','\u55357 \u56481  \u25216 \u24039 '].map((t,i)=>`<button class="tab $\{S.genTab===i?'on':''\}" onclick="S.genTab=$\{i\};render()">$\{t\}</button>`).join('')\}\
-  </div>\
-\
-  $\{S.genTab===0 ? buildScriptTab(d) : ''\}\
-  $\{S.genTab===1 ? buildScheduleTab(d) : ''\}\
-  $\{S.genTab===2 ? buildPropsTab(d) : ''\}\
-  $\{S.genTab===3 ? buildTipsTab(d) : ''\}`;\
-\}\
-\
-function exportCurrentPDF() \{\
-  if(!S.generated) return;\
-  const fake = \{data:S.generated.data,platform:S.generated.meta.platform,duration:S.generated.meta.duration,topic:S.generated.meta.topic,title:S.generated.data.meta?.title||S.generated.meta.topic,createdAt:new Date().toISOString()\};\
-  exportPDF(fake);\
-\}\
-\
-function buildScriptTab(d) \{\
-  return `\
-  $\{d.meta?.hook?`<div class="hook-card"><div class="hook-lbl">\uc0\u9889  \u38283 \u22580 \u37476 \u23376 \u65288 \u21069 3\u31186 \u65289 </div><div class="hook-text">"$\{esc(d.meta.hook)\}"</div>$\{d.meta?.highlight?`<div class="hook-highlight">\u10024  $\{esc(d.meta.highlight)\}</div>`:''\}</div>`:''\}\
-  $\{(d.scenes||[]).map(s=>`\
-  <div class="scene-card">\
-    <div class="scene-hdr">\
-      <span class="scene-num">\uc0\u22580 \u26223  $\{s.id\}</span>\
-      <span class="scene-ts">$\{s.timeStart\} \'97 $\{s.timeEnd\}</span>\
-      <span class="scene-emo">$\{esc(s.emotion||'')\}</span>\
-    </div>\
-    <div class="scene-ttl">$\{esc(s.title)\}</div>\
-    <div class="scene-row"><b>\uc0\u55357 \u56567  \u37857 \u38957 </b>$\{esc(s.camera||'')\}</div>\
-    <div class="scene-row"><b>\uc0\u55356 \u57261  \u21205 \u20316 </b>$\{esc(s.action||'')\}</div>\
-    $\{(s.dialogue||[]).length?`\
-    <div class="dlg-box">\
-      <div class="dlg-lbl">\uc0\u55357 \u56492  \u23565 \u35441 \u33139 \u26412 </div>\
-      $\{s.dialogue.map(l=>`<div class="dlg-line"><span class="dlg-sp" style="color:$\{l.speaker.includes('\uc0\u25484 \u37857 ')?'var(--coral)':'var(--teal)'\}">$\{l.speaker.includes('\u25484 \u37857 ')?'\u55356 \u57253 ':'\u55357 \u56420 '\} $\{esc(l.speaker)\}\u65306 </span>$\{esc(l.line)\}<span class="dlg-tone">[$\{esc(l.tone||'')\}]</span></div>`).join('')\}\
-    </div>`:''\}\
-    $\{s.caption?`<div><span class="caption-tag">\uc0\u55357 \u56541  \u23383 \u24149 \u65306 $\{esc(s.caption)\}</span></div>`:''\}\
-  </div>`).join('')\}\
-  $\{(d.hashtags||[]).length?`\
-  <div class="card-sm" style="margin-top:12px">\
-    <div style="font-size:12px;font-weight:700;color:var(--text3);margin-bottom:8px">\uc0\u55356 \u57335 \u65039  \u25512 \u34214  Hashtags</div>\
-    <div class="tag-row">$\{d.hashtags.map(h=>`<span class="hash-tag">$\{esc(h)\}</span>`).join('')\}</div>\
-    $\{d.postingTime?`<div style="font-size:12px;color:var(--text2);margin-top:10px">\uc0\u55357 \u56656  \u26368 \u20339 \u30332 \u25991 \u26178 \u38291 \u65306 <b style="color:var(--teal)">$\{esc(d.postingTime)\}</b></div>`:''\}\
-  </div>`:''\}`\}\
-\
-function buildScheduleTab(d) \{\
-  if(!(d.schedule||[]).length) return `<div class="empty-box"><div class="empty-icon">\uc0\u55357 \u56517 </div><div class="empty-ttl">\u26283 \u28961 \u26178 \u31243 \u36039 \u26009 </div></div>`;\
-  const typeMap=\{prep:'prep',shoot:'shoot',wrap:'wrap',break:'break'\};\
-  const typeLbl=\{prep:'\uc0\u28310 \u20633 ',shoot:'\u25293 \u25885 ',wrap:'\u25910 \u24037 ',break:'\u20241 \u24687 '\};\
-  return `<div class="card">\
-    $\{d.schedule.map(s=>`<div class="sch-row">\
-      <div class="sch-time"><div class="sch-t">$\{esc(s.time)\}</div><div class="sch-d">$\{esc(s.duration)\}</div></div>\
-      <div><div class="sch-task">$\{esc(s.task)\}</div><div class="sch-note">$\{esc(s.notes||'')\}</div><span class="sch-type sch-$\{typeMap[s.type]||'prep'\}">$\{typeLbl[s.type]||s.type\}</span></div>\
-    </div>`).join('')\}\
-  </div>`;\
-\}\
-\
-function buildPropsTab(d) \{\
-  if(!(d.props||[]).length) return `<div class="empty-box"><div class="empty-icon">\uc0\u55358 \u56816 </div><div class="empty-ttl">\u26283 \u28961 \u36947 \u20855 \u36039 \u26009 </div></div>`;\
-  const must=d.props.filter(p=>p.priority==='\uc0\u24517 \u20633 ');\
-  const opt=d.props.filter(p=>p.priority!=='\uc0\u24517 \u20633 ');\
-  const section=(title,items,color)=>items.length?`\
-    <div style="margin-bottom:14px">\
-      <div style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:$\{color\};margin-bottom:10px">$\{title\}</div>\
-      <div class="props-grid">$\{items.map(p=>`<div class="prop-card"><div class="prop-icon">$\{p.icon||'\uc0\u55357 \u56550 '\}</div><div class="prop-name">$\{esc(p.name)\}</div><div class="prop-desc">$\{esc(p.desc)\}</div><span class="prop-pri $\{p.priority==='\u24517 \u20633 '?'pri-must':'pri-opt'\}">$\{p.priority\}</span></div>`).join('')\}</div>\
-    </div>`:'';\
-  return `<div class="card">$\{section('\uc0\u24517 \u20633 \u36947 \u20855 ',must,'var(--coral)')\}$\{section('\u21152 \u20998 \u36984 \u37197 ',opt,'var(--teal)')\}</div>`;\
-\}\
-\
-function buildTipsTab(d) \{\
-  if(!(d.tips||[]).length) return `<div class="empty-box"><div class="empty-icon">\uc0\u55357 \u56481 </div><div class="empty-ttl">\u26283 \u28961 \u25216 \u24039 \u36039 \u26009 </div></div>`;\
-  return `<div>$\{d.tips.map(t=>`<div class="card-sm" style="margin-bottom:10px;display:flex;gap:12px">\
-    <div style="font-size:24px;flex-shrink:0">$\{t.icon||'\uc0\u55357 \u56481 '\}</div>\
-    <div><div style="font-size:13px;font-weight:700;margin-bottom:4px">$\{esc(t.title)\}</div><div style="font-size:12px;color:var(--text2);line-height:1.7">$\{esc(t.desc)\}</div></div>\
-  </div>`).join('')\}</div>`;\
-\}\
-\
-// ================================================================\
-// \uc0\u55357 \u56514  HISTORY\
-// ================================================================\
-function buildHistory() \{\
-  const filtered = S.scripts.filter(s=>\{\
-    const q=S.histSearch.toLowerCase();\
-    const matchQ=!q||(s.title||'').toLowerCase().includes(q)||(s.topic||'').toLowerCase().includes(q);\
-    const matchF=S.histFilter==='all'||s.platform===S.histFilter;\
-    return matchQ&&matchF;\
-  \});\
-\
-  return `\
-  <div class="page-head">\
-    <div><div class="page-title">\uc0\u55357 \u56514  \u33139 \u26412 \u27511 \u21490 </div><div class="page-sub">\u20849  $\{S.scripts.length\} \u20491 \u33139 \u26412 </div></div>\
-  </div>\
-  <div class="search-row">\
-    <input class="inp search-inp" id="hist-search" placeholder="\uc0\u25628 \u23563 \u33139 \u26412 \u27161 \u38988 \u25110 \u20027 \u38988 \'85" value="$\{esc(S.histSearch)\}" oninput="S.histSearch=this.value;render()">\
-    <select class="sel" style="width:auto;min-width:120px" onchange="S.histFilter=this.value;render()">\
-      <option value="all" $\{S.histFilter==='all'?'selected':''\}>\uc0\u20840 \u37096 \u24179 \u21488 </option>\
-      $\{Object.entries(PLATFORM_MAP).map(([v,l])=>`<option value="$\{v\}" $\{S.histFilter===v?'selected':''\}>$\{l\}</option>`).join('')\}\
-    </select>\
-  </div>\
-  $\{filtered.length ? `\
-  <div class="script-grid">\
-    $\{filtered.map(s=>buildScriptCard(s,true)).join('')\}\
-  </div>` : `\
-  <div class="empty-box">\
-    <div class="empty-icon">$\{S.histSearch?'\uc0\u55357 \u56589 ':'\u55357 \u56514 '\}</div>\
-    <div class="empty-ttl">$\{S.histSearch?'\uc0\u25214 \u19981 \u21040 \u30456 \u31526 \u33139 \u26412 ':'\u36996 \u27794 \u26377 \u33139 \u26412 '\}</div>\
-    <div class="empty-sub">$\{S.histSearch?'\uc0\u35430 \u35430 \u20854 \u20182 \u38364 \u37749 \u23383 ':'\u21435 \u29983 \u25104 \u20320 \u30340 \u31532 \u19968 \u25903 \u30701 \u24433 \u38899 \u33139 \u26412 \u21543 \u65281 '\}</div>\
-    $\{!S.histSearch?`<button class="btn btn-primary" onclick="goTo('generator')">\uc0\u10024  \u38283 \u22987 \u29983 \u25104 </button>`:''\}\
-  </div>`\}`;\
-\}\
-\
-function buildScriptCard(s,showDel=false) \{\
-  const platColor=PLATFORM_COLOR[s.platform]||'var(--text3)';\
-  const date=new Date(s.createdAt).toLocaleDateString('zh-TW',\{month:'short',day:'numeric'\});\
-  const isTeamScript=s.teamId&&s.userId!==S.user?.id;\
-  return `\
-  <div class="script-card">\
-    <div class="script-card-head">\
-      <div class="script-card-title">$\{esc(s.title||s.topic)\}</div>\
-      <div class="platform-dot" style="background:$\{platColor\}"></div>\
-    </div>\
-    <div class="script-card-meta">\
-      <span class="meta-tag">$\{PLATFORM_MAP[s.platform]||s.platform\}</span>\
-      <span class="meta-tag">$\{s.duration\}\uc0\u31186 </span>\
-      <span class="meta-tag">$\{s.scenes||0\}\uc0\u22580 \u26223 </span>\
-      <span class="meta-tag">$\{date\}</span>\
-      $\{isTeamScript?`<span class="shared-dot">\uc0\u55357 \u56421  \u22296 \u38538 </span>`:''\}\
-      $\{s.shared&&!isTeamScript?`<span class="shared-dot">\uc0\u55357 \u56599  \u24050 \u20998 \u20139 </span>`:''\}\
-    </div>\
-    <div class="script-card-actions">\
-      <button class="btn btn-secondary btn-sm" onclick="viewScript('$\{s.id\}')">\uc0\u55357 \u56384  \u26597 \u30475 </button>\
-      <button class="btn btn-secondary btn-sm" onclick="exportScript('$\{s.id\}')">\uc0\u55357 \u56516  PDF</button>\
-      $\{S.team&&s.userId===S.user?.id?`<button class="btn btn-ghost btn-sm" onclick="toggleShared('$\{s.id\}');notify('$\{s.shared?'\uc0\u24050 \u21462 \u28040 \u20998 \u20139 ':'\u24050 \u20998 \u20139 \u32102 \u22296 \u38538 \u65281 '\}','ok')" title="$\{s.shared?'\u21462 \u28040 \u20998 \u20139 ':'\u20998 \u20139 \u32102 \u22296 \u38538 '\}">$\{s.shared?'\u55357 \u56599 ':'\u55357 \u56421 '\}</button>`:''\}\
-      $\{showDel&&s.userId===S.user?.id?`<button class="btn btn-danger btn-sm" onclick="if(confirm('\uc0\u30906 \u23450 \u21034 \u38500 \u36889 \u20491 \u33139 \u26412 \u65311 '))delScript('$\{s.id\}')">\u55357 \u56785 \u65039 </button>`:''\}\
-    </div>\
-  </div>`;\
-\}\
-\
-function viewScript(id) \{\
-  const s = lsGet(LS.scripts,[]).find(x=>x.id===id);\
-  if(!s) return;\
-  S.modal='viewScript'; S.modalData=s; render();\
-\}\
-function exportScript(id) \{\
-  const s = lsGet(LS.scripts,[]).find(x=>x.id===id);\
-  if(s) exportPDF(s);\
-\}\
-\
-// ================================================================\
-// \uc0\u55357 \u56421  TEAM\
-// ================================================================\
-function buildTeam() \{\
-  if(!S.team) return buildNoTeam();\
-  const isOwner = S.user.teamRole==='owner';\
-  return `\
-  <div class="page-head">\
-    <div><div class="page-title">\uc0\u55357 \u56421  \u25105 \u30340 \u22296 \u38538 </div><div class="page-sub">$\{esc(S.team.name)\} \'b7 $\{S.team.members.length\}/5 \u20301 \u25104 \u21729 </div></div>\
-    $\{isOwner?`<button class="btn btn-danger btn-sm" onclick="if(confirm('\uc0\u30906 \u23450 \u35299 \u25955 \u22296 \u38538 \u65311 \u36889 \u23559 \u31227 \u38500 \u25152 \u26377 \u25104 \u21729 \u12290 '))dissolveTeam()">\u35299 \u25955 \u22296 \u38538 </button>`:`<button class="btn btn-ghost btn-sm" onclick="if(confirm('\u30906 \u23450 \u38626 \u38283 \u27492 \u22296 \u38538 \u65311 '))leaveTeam();notify('\u24050 \u38626 \u38283 \u22296 \u38538 ','ok');render()">\u38626 \u38283 \u22296 \u38538 </button>`\}\
-  </div>\
-  <div class="grid2">\
-    <div class="card">\
-      <div style="font-size:14px;font-weight:700;margin-bottom:14px">\uc0\u55357 \u56421  \u25104 \u21729 \u21015 \u34920 </div>\
-      $\{S.team.members.map(m=>`\
-      <div class="member-row">\
-        <div class="member-avatar" style="background:$\{m.role==='owner'?'linear-gradient(135deg,var(--coral),var(--amber))':'var(--bg5)'\}">$\{m.name.charAt(0)\}</div>\
-        <div class="member-info">\
-          <div class="member-name">$\{esc(m.name)\} $\{m.role==='owner'?'<span style="font-size:10px;color:var(--amber)">\uc0\u55357 \u56401  \u31649 \u29702 \u21729 </span>':''\}</div>\
-          <div class="member-email">$\{esc(m.email)\}</div>\
-        </div>\
-        $\{isOwner&&m.userId!==S.user.id?`<button class="btn btn-ghost btn-sm" onclick="if(confirm('\uc0\u31227 \u38500 \u27492 \u25104 \u21729 \u65311 '))removeMember('$\{m.userId\}');notify('\u25104 \u21729 \u24050 \u31227 \u38500 ','ok');render()" style="font-size:11px">\u31227 \u38500 </button>`:''\}\
-      </div>`).join('')\}\
-      $\{S.team.members.length<5?`<div style="font-size:12px;color:var(--text3);margin-top:12px">\uc0\u36996 \u21487 \u20197 \u36992 \u35531  $\{5-S.team.members.length\} \u20301 \u25104 \u21729 </div>`:'<div style="font-size:12px;color:var(--amber);margin-top:12px">\u24050 \u36948 \u20154 \u25976 \u19978 \u38480 \u65288 5\u20154 \u65289 </div>'\}\
-    </div>\
-    <div>\
-      <div class="card" style="margin-bottom:14px">\
-        <div style="font-size:14px;font-weight:700;margin-bottom:4px">\uc0\u55357 \u56599  \u36992 \u35531 \u25104 \u21729 </div>\
-        <div style="font-size:12px;color:var(--text3);margin-bottom:14px">\uc0\u20998 \u20139 \u36992 \u35531 \u30908 \u32102 \u38538 \u21451 \u65292 \u35731 \u20182 \u20497 \u21152 \u20837 \u20320 \u30340 \u22296 \u38538 </div>\
-        <div class="invite-box">\
-          <div style="font-size:11px;color:var(--text3);margin-bottom:4px">\uc0\u36992 \u35531 \u30908 </div>\
-          <div class="invite-code">$\{S.team.inviteCode\}</div>\
-          <div style="display:flex;gap:8px;justify-content:center;margin-top:8px">\
-            <button class="btn btn-secondary btn-sm" onclick="navigator.clipboard.writeText('$\{S.team.inviteCode\}').then(()=>notify('\uc0\u24050 \u35079 \u35069 \u36992 \u35531 \u30908 \u65281 ','ok'))">\u55357 \u56523  \u35079 \u35069 </button>\
-            $\{isOwner?`<button class="btn btn-ghost btn-sm" onclick="regenInviteCode()">\uc0\u55357 \u56580  \u37325 \u26032 \u29986 \u29983 </button>`:''\}\
-          </div>\
-        </div>\
-      </div>\
-      <div class="card">\
-        <div style="font-size:14px;font-weight:700;margin-bottom:4px">\uc0\u55357 \u56522  \u20849 \u20139 \u33139 \u26412 </div>\
-        <div style="font-size:12px;color:var(--text3);margin-bottom:12px">\uc0\u22296 \u38538 \u25104 \u21729 \u21487 \u26597 \u30475 \u24050 \u20998 \u20139 \u30340 \u33139 \u26412 </div>\
-        $\{S.scripts.filter(s=>s.shared).length?`\
-        <div>$\{S.scripts.filter(s=>s.shared).slice(0,4).map(s=>`\
-          <div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border)">\
-            <div style="flex:1;font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">$\{esc(s.title||s.topic)\}</div>\
-            <button class="btn btn-ghost btn-sm" style="font-size:10px" onclick="viewScript('$\{s.id\}')">\uc0\u26597 \u30475 </button>\
-          </div>`).join('')\}</div>\
-        `:`<div style="font-size:12px;color:var(--text3)">\uc0\u23578 \u26410 \u20998 \u20139 \u20219 \u20309 \u33139 \u26412 \u12290 <br/>\u22312 \u27511 \u21490 \u35352 \u37636 \u20013 \u40670 \u25802  \u55357 \u56421  \u25353 \u37397 \u21363 \u21487 \u20998 \u20139 \u12290 </div>`\}\
-      </div>\
-    </div>\
-  </div>`;\
-\}\
-\
-function buildNoTeam() \{\
-  return `\
-  <div class="page-head">\
-    <div><div class="page-title">\uc0\u55357 \u56421  \u25105 \u30340 \u22296 \u38538 </div><div class="page-sub">\u33287 \u38538 \u21451 \u21332 \u20316 \u65292 \u20849 \u20139 \u33139 \u26412 \u36039 \u28304 </div></div>\
-  </div>\
-  <div class="grid2" style="max-width:700px">\
-    <div class="card" style="text-align:center;padding:28px">\
-      <div style="font-size:40px;margin-bottom:12px">\uc0\u55356 \u57303 \u65039 </div>\
-      <div style="font-size:15px;font-weight:700;margin-bottom:8px">\uc0\u24314 \u31435 \u26032 \u22296 \u38538 </div>\
-      <div style="font-size:12px;color:var(--text3);margin-bottom:16px;line-height:1.7">\uc0\u24314 \u31435 \u23660 \u26044 \u20320 \u30340 \u22296 \u38538 \u65292 \u36992 \u35531 \u38538 \u21451 \u21152 \u20837 \u65292 \u20849 \u20139 \u33139 \u26412 \u36039 \u28304 \u65292 \u20139 \u26377 \u22296 \u38538 \u29256 \u28961 \u38480 \u38989 \u24230 \u12290 </div>\
-      <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="S.modal='createTeam';render()">\uc0\u55356 \u57303 \u65039  \u24314 \u31435 \u22296 \u38538 </button>\
-    </div>\
-    <div class="card" style="text-align:center;padding:28px">\
-      <div style="font-size:40px;margin-bottom:12px">\uc0\u55357 \u56593 </div>\
-      <div style="font-size:15px;font-weight:700;margin-bottom:8px">\uc0\u21152 \u20837 \u26082 \u26377 \u22296 \u38538 </div>\
-      <div style="font-size:12px;color:var(--text3);margin-bottom:16px;line-height:1.7">\uc0\u24050 \u26377 \u38538 \u21451 \u24314 \u31435 \u20102 \u22296 \u38538 \u65311 \u36664 \u20837 \u36992 \u35531 \u30908 \u21363 \u21487 \u21152 \u20837 \u65292 \u20139 \u21463 \u22296 \u38538 \u29256 \u21151 \u33021 \u12290 </div>\
-      <button class="btn btn-secondary" style="width:100%;justify-content:center" onclick="S.modal='joinTeam';render()">\uc0\u55357 \u56593  \u36664 \u20837 \u36992 \u35531 \u30908 </button>\
-    </div>\
-  </div>\
-  <div class="card" style="max-width:700px;margin-top:14px">\
-    <div style="font-size:13px;font-weight:700;margin-bottom:10px">\uc0\u55357 \u56401  \u22296 \u38538 \u29256 \u21151 \u33021 </div>\
-    <div class="grid3">\
-      $\{[['\uc0\u8734  \u28961 \u38480 \u29983 \u25104 ','\u19981 \u38480 \u27425 \u25976 \u29983 \u25104 \u33139 \u26412 '],['\u55357 \u56421  \u26368 \u22810 5\u20154 ','\u36992 \u35531 \u38538 \u21451 \u20849 \u29992 \u24115 \u34399 '],['\u55357 \u56599  \u20849 \u20139 \u33139 \u26412 ','\u22296 \u38538 \u33139 \u26412 \u36039 \u28304 \u24235 '],['\u55357 \u56516  \u25209 \u37327 \u21295 \u20986 ','\u19968 \u37749 \u21295 \u20986 \u22810 \u20221 PDF'],['\u55357 \u56492  \u21332 \u20316 \u27161 \u35352 ','\u27161 \u35352 \u33139 \u26412 \u20633 \u35387 '],['\u55357 \u56580  \u29256 \u26412 \u31649 \u29702 ','\u20445 \u30041 \u33139 \u26412 \u20462 \u25913 \u32000 \u37636 ']].map(([t,d])=>`\
-      <div style="padding:10px;background:var(--bg3);border-radius:8px">\
-        <div style="font-size:12px;font-weight:700;margin-bottom:3px">$\{t\}</div>\
-        <div style="font-size:11px;color:var(--text3)">$\{d\}</div>\
-      </div>`).join('')\}\
-    </div>\
-    <div style="margin-top:14px;font-size:12px;color:var(--text3)">\uc0\u22296 \u38538 \u29256  NT$799/\u26376 \u65292 \u26368 \u22810 5\u20154 \u20351 \u29992 </div>\
-  </div>`;\
-\}\
-\
-function dissolveTeam() \{\
-  if(!S.team||S.user.teamRole!=='owner') return;\
-  const teams = lsGet(LS.teams,[]).filter(t=>t.id!==S.team.id);\
-  lsSet(LS.teams, teams);\
-  S.team.members.forEach(m=>\{\
-    const users=lsGet(LS.u,[]);\
-    const i=users.findIndex(u=>u.id===m.userId);\
-    if(i>=0)\{users[i].teamId=null;users[i].teamRole=null;if(users[i].plan==='team')users[i].plan='free';lsSet(LS.u,users);\}\
-  \});\
-  _updateUser(\{teamId:null,teamRole:null,plan:'free'\});\
-  S.team=null; notify('\uc0\u22296 \u38538 \u24050 \u35299 \u25955 ','ok'); render();\
-\}\
-\
-// ================================================================\
-// \uc0\u9881 \u65039  SETTINGS\
-// ================================================================\
-function buildSettings() \{\
-  const plan = PLANS[S.user.plan];\
-  return `\
-  <div class="page-head">\
-    <div><div class="page-title">\uc0\u9881 \u65039  \u35373 \u23450 </div><div class="page-sub">\u24115 \u34399 \u12289 \u26041 \u26696 \u33287 \u20559 \u22909 \u35373 \u23450 </div></div>\
-  </div>\
-  <div style="max-width:640px">\
-    <div class="card" style="margin-bottom:14px">\
-      <div style="font-size:14px;font-weight:700;margin-bottom:16px">\uc0\u55357 \u56420  \u20491 \u20154 \u36039 \u26009 </div>\
-      <div class="settings-row">\
-        <div><div class="settings-lbl">\uc0\u22995 \u21517 </div><div class="settings-sub">$\{esc(S.user.name)\}</div></div>\
-        <button class="btn btn-ghost btn-sm" onclick="editName()">\uc0\u32232 \u36655 </button>\
-      </div>\
-      <div class="settings-row">\
-        <div><div class="settings-lbl">\uc0\u38651 \u23376 \u20449 \u31665 </div><div class="settings-sub">$\{esc(S.user.email)\}</div></div>\
-      </div>\
-      <div class="settings-row">\
-        <div><div class="settings-lbl">\uc0\u21152 \u20837 \u26085 \u26399 </div><div class="settings-sub">$\{new Date(S.user.createdAt||Date.now()).toLocaleDateString('zh-TW')\}</div></div>\
-      </div>\
-    </div>\
-\
-    <div class="card" style="margin-bottom:14px">\
-      <div style="font-size:14px;font-weight:700;margin-bottom:16px">\uc0\u55357 \u56499  \u30446 \u21069 \u26041 \u26696 </div>\
-      <div class="settings-row">\
-        <div><div class="settings-lbl">$\{plan.name\} <span class="badge badge-$\{S.user.plan\}">$\{plan.label\}</span></div><div class="settings-sub">NT$$\{plan.price\}/\uc0\u26376  \'b7 \u27599 \u26376 $\{plan.limit===-1?'\u28961 \u38480 ':plan.limit\}\u27425  \'b7 \u26368 \u22810 $\{plan.members\}\u20154 </div></div>\
-        $\{S.user.plan!=='team'?`<button class="btn btn-primary btn-sm" onclick="S.modal='upgrade';render()">\uc0\u21319 \u32026 </button>`:''\}\
-      </div>\
-      <div style="margin-top:8px">\
-        <div class="prog-row">\
-          <div class="prog-lbl">\uc0\u26412 \u26376 \u29992 \u37327 </div>\
-          <div class="prog-val" style="color:var(--coral)">$\{S.user.usageCount||0\} / $\{plan.limit===-1?'\uc0\u8734 ':plan.limit\}</div>\
-        </div>\
-        <div class="usage-bar"><div class="usage-fill" style="width:$\{usagePct()\}%"></div></div>\
-        <div style="font-size:11px;color:var(--text3);margin-top:4px">\uc0\u27599 \u26376  1 \u26085 \u33258 \u21205 \u37325 \u32622 </div>\
-      </div>\
-    </div>\
-\
-    <div class="card" style="margin-bottom:14px">\
-      <div style="font-size:14px;font-weight:700;margin-bottom:16px">\uc0\u55356 \u57335 \u65039  \u26041 \u26696 \u27604 \u36611 </div>\
-      <div class="grid3">\
-        $\{Object.entries(PLANS).map(([k,p])=>`\
-        <div class="plan-card $\{S.user.plan===k?'selected':''\}">\
-          $\{k==='pro'?`<div class="plan-popular">\uc0\u25512 \u34214 </div>`:''\}\
-          <div><span class="badge badge-$\{k\}">$\{p.label\}</span></div>\
-          <div class="plan-price">NT$$\{p.price\}<span>/\uc0\u26376 </span></div>\
-          <ul class="plan-features">\
-            <li>$\{p.limit===-1?'\uc0\u28961 \u38480 \u27425 \u25976 ':p.limit+'\u27425 /\u26376 '\}</li>\
-            <li>\uc0\u26368 \u22810 $\{p.members\}\u20301 \u25104 \u21729 </li>\
-            <li>\uc0\u23436 \u25972 \u33139 \u26412 \u21151 \u33021 </li>\
-            <li>PDF \uc0\u21295 \u20986 </li>\
-            $\{k!=='free'?'<li>\uc0\u20778 \u20808 \u23458 \u26381 </li>':''\}\
-            $\{k==='team'?'<li>\uc0\u22296 \u38538 \u20849 \u20139 \u33139 \u26412 </li><li>\u36992 \u35531 \u30908 \u31649 \u29702 </li>':''\}\
-          </ul>\
-          $\{S.user.plan!==k?`<button class="btn btn-$\{k==='pro'?'primary':'secondary'\} btn-sm" style="width:100%;justify-content:center;margin-top:10px" onclick="upgradePlan('$\{k\}')">$\{k==='free'?'\uc0\u38477 \u32026 \u33267 \u20813 \u36027 ':'\u21319 \u32026 '\}</button>`:\
-          `<div style="text-align:center;font-size:12px;color:var(--teal);margin-top:10px;font-weight:600">\uc0\u10003  \u30446 \u21069 \u26041 \u26696 </div>`\}\
-        </div>`).join('')\}\
-      </div>\
-      <p style="font-size:11px;color:var(--text3);margin-top:12px">* \uc0\u36889 \u26159 \u28436 \u31034 \u29256 \u65292 \u23526 \u38555 \u25910 \u36027 \u35531 \u25509 \u20837 \u37329 \u27969 \u31995 \u32113 \u65288 \u22914 \u32160 \u30028 \u12289 \u34253 \u26032 \u65289 </p>\
-    </div>\
-\
-    <div class="card" style="margin-bottom:14px">\
-      <div style="font-size:14px;font-weight:700;margin-bottom:16px">\uc0\u55357 \u56615  \u38283 \u30332 \u32773 \u35373 \u23450 </div>\
-      <div class="settings-row">\
-        <div><div class="settings-lbl">Supabase \uc0\u25972 \u21512 </div><div class="settings-sub">$\{USE_SUPABASE?'\u10003  \u24050 \u36899 \u25509  Supabase':'\u30446 \u21069 \u20351 \u29992 \u26412 \u22320 \u20786 \u23384 \u27169 \u24335 '\}</div></div>\
-        <span class="badge $\{USE_SUPABASE?'badge-team':'badge-free'\}">$\{USE_SUPABASE?'\uc0\u24050 \u36899 \u25509 ':'\u26412 \u22320 \u27169 \u24335 '\}</span>\
-      </div>\
-      <div style="font-size:12px;color:var(--text3);margin-top:8px;background:var(--bg3);padding:10px;border-radius:8px;font-family:monospace;line-height:1.8">\
-        SUPABASE_URL = '$\{SUPABASE_URL||'\uc0\u65288 \u26410 \u35373 \u23450 \u65289 '\}'<br>\
-        SUPABASE_KEY = '$\{SUPABASE_KEY?'\'95\'95\'95\'95\'95\'95\'95\'95\'95\'95'+SUPABASE_KEY.slice(-6):'\uc0\u65288 \u26410 \u35373 \u23450 \u65289 '\}'\
-      </div>\
-    </div>\
-\
-    <div class="card" style="border-color:var(--red)30">\
-      <div style="font-size:14px;font-weight:700;margin-bottom:16px;color:var(--red)">\uc0\u9888 \u65039  \u21361 \u38570 \u21312 \u22495 </div>\
-      <div class="settings-row">\
-        <div><div class="settings-lbl">\uc0\u28165 \u38500 \u25152 \u26377 \u36039 \u26009 </div><div class="settings-sub">\u21034 \u38500 \u26412 \u22320 \u25152 \u26377 \u33139 \u26412 \u33287 \u35373 \u23450 \u65288 \u28961 \u27861 \u24489 \u21407 \u65289 </div></div>\
-        <button class="btn btn-danger btn-sm" onclick="if(confirm('\uc0\u30906 \u23450 \u28165 \u38500 \u25152 \u26377 \u36039 \u26009 \u65311 \u27492 \u25805 \u20316 \u28961 \u27861 \u24489 \u21407 \u65281 '))\{localStorage.clear();location.reload()\}">\u28165 \u38500 </button>\
-      </div>\
-      <div class="settings-row">\
-        <div><div class="settings-lbl">\uc0\u30331 \u20986 \u24115 \u34399 </div><div class="settings-sub">\u30331 \u20986 \u30446 \u21069 \u30340 \u24115 \u34399 </div></div>\
-        <button class="btn btn-ghost btn-sm" onclick="authLogout()">\uc0\u30331 \u20986 </button>\
-      </div>\
-    </div>\
-  </div>`;\
-\}\
-\
-function editName() \{\
-  const n = prompt('\uc0\u35531 \u36664 \u20837 \u26032 \u30340 \u22995 \u21517 \u65306 ', S.user.name);\
-  if(n&&n.trim()) \{ _updateUser(\{name:n.trim()\}); notify('\uc0\u22995 \u21517 \u24050 \u26356 \u26032 ','ok'); render(); \}\
-\}\
-\
-// ================================================================\
-// \uc0\u55358 \u56991  MODALS\
-// ================================================================\
-function buildModal() \{\
-  let content = '';\
-  if(S.modal==='upgrade') content = buildUpgradeModal();\
-  else if(S.modal==='viewScript') content = buildViewScriptModal();\
-  else if(S.modal==='createTeam') content = buildCreateTeamModal();\
-  else if(S.modal==='joinTeam') content = buildJoinTeamModal();\
-  return `<div class="modal-bg" onclick="if(event.target===this)\{S.modal=null;S.modalData=null;render()\}">$\{content\}</div>`;\
-\}\
-\
-function buildUpgradeModal() \{\
-  return `<div class="modal" onclick="event.stopPropagation()">\
-    <div class="modal-title">\uc0\u55357 \u56960  \u21319 \u32026 \u26041 \u26696 </div>\
-    <div class="modal-sub">\uc0\u36984 \u25799 \u36969 \u21512 \u20320 \u30340 \u26041 \u26696 \u65292 \u31435 \u21363 \u21319 \u32026 </div>\
-    <div style="display:flex;flex-direction:column;gap:10px">\
-      $\{Object.entries(PLANS).map(([k,p])=>`\
-      <div class="plan-card $\{S.user.plan===k?'selected':''\}" onclick="upgradePlan('$\{k\}')">\
-        $\{k==='pro'?`<div class="plan-popular">\uc0\u25512 \u34214 </div>`:''\}\
-        <div style="display:flex;align-items:center;justify-content:space-between">\
-          <div><span class="badge badge-$\{k\}">$\{p.label\}</span> <b style="font-size:14px">$\{p.name\}</b></div>\
-          <div class="plan-price" style="font-size:18px">NT$$\{p.price\}<span>/\uc0\u26376 </span></div>\
-        </div>\
-        <div style="font-size:12px;color:var(--text2);margin-top:4px">$\{p.limit===-1?'\uc0\u28961 \u38480 \u27425 \u25976 ':p.limit+'\u27425 /\u26376 '\} \'b7 \u26368 \u22810 $\{p.members\}\u20301 \u25104 \u21729 $\{k==='team'?' \'b7 \u22296 \u38538 \u20849 \u20139 \u33139 \u26412 ':''\}</div>\
-        $\{S.user.plan===k?`<div style="font-size:11px;color:var(--teal);margin-top:6px">\uc0\u10003  \u30446 \u21069 \u26041 \u26696 </div>`:`<div style="font-size:11px;color:var(--coral);margin-top:6px">\u40670 \u25802 \u36984 \u25799 \u27492 \u26041 \u26696  \u8594 </div>`\}\
-      </div>`).join('')\}\
-    </div>\
-    <p style="font-size:11px;color:var(--text3);margin-top:12px;text-align:center">* \uc0\u28436 \u31034 \u29256 \u65292 \u23526 \u38555 \u37096 \u32626 \u26178 \u35531 \u25509 \u20837 \u37329 \u27969 \u31995 \u32113 </p>\
-    <button class="btn btn-ghost" style="width:100%;justify-content:center;margin-top:8px" onclick="S.modal=null;render()">\uc0\u21462 \u28040 </button>\
-  </div>`;\
-\}\
-\
-function buildViewScriptModal() \{\
-  const s = S.modalData;\
-  if(!s) return '';\
-  const d = s.data;\
-  return `<div class="modal" style="max-width:680px" onclick="event.stopPropagation()">\
-    <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px">\
-      <div><div class="modal-title">$\{esc(s.title||s.topic)\}</div><div style="font-size:12px;color:var(--text3)">$\{PLATFORM_MAP[s.platform]||s.platform\} \'b7 $\{s.duration\}\uc0\u31186  \'b7 $\{new Date(s.createdAt).toLocaleDateString('zh-TW')\}</div></div>\
-      <div style="display:flex;gap:6px">\
-        <button class="btn btn-secondary btn-sm" onclick="exportPDF(S.modalData)">\uc0\u55357 \u56516  PDF</button>\
-        <button class="btn btn-ghost btn-sm" onclick="S.modal=null;S.modalData=null;render()">\uc0\u10005 </button>\
-      </div>\
-    </div>\
-    $\{d.meta?.hook?`<div class="hook-card" style="margin-bottom:14px"><div class="hook-lbl">\uc0\u9889  \u38283 \u22580 \u37476 \u23376 </div><div class="hook-text">"$\{esc(d.meta.hook)\}"</div></div>`:''\}\
-    $\{(d.scenes||[]).map(s=>`<div class="scene-card"><div class="scene-hdr"><span class="scene-num">\uc0\u22580 \u26223 $\{s.id\}</span><span class="scene-ts">$\{s.timeStart\}\'97$\{s.timeEnd\}</span></div><div class="scene-ttl">$\{esc(s.title)\}</div><div class="scene-row"><b>\u37857 \u38957 </b>$\{esc(s.camera||'')\}</div><div class="scene-row"><b>\u21205 \u20316 </b>$\{esc(s.action||'')\}</div>$\{(s.dialogue||[]).length?`<div class="dlg-box"><div class="dlg-lbl">\u23565 \u35441 </div>$\{s.dialogue.map(l=>`<div class="dlg-line"><span class="dlg-sp" style="color:$\{l.speaker.includes('\u25484 \u37857 ')?'var(--coral)':'var(--teal)'\}">$\{esc(l.speaker)\}\u65306 </span>$\{esc(l.line)\}</div>`).join('')\}</div>`:''\}</div>`).join('')\}\
-  </div>`;\
-\}\
-\
-function buildCreateTeamModal() \{\
-  return `<div class="modal" onclick="event.stopPropagation()">\
-    <div class="modal-title">\uc0\u55356 \u57303 \u65039  \u24314 \u31435 \u22296 \u38538 </div>\
-    <div class="modal-sub">\uc0\u24314 \u31435 \u20320 \u30340 \u21697 \u29260 \u22296 \u38538 \u65292 \u36992 \u35531 \u38538 \u21451 \u21152 \u20837 </div>\
-    <div class="field"><label class="lbl">\uc0\u22296 \u38538 \u21517 \u31281 </label><input class="inp" id="team-name" placeholder="\u20363 \u65306 \u21697 \u29260 \u21109 \u20316 \u24037 \u20316 \u23460 "></div>\
-    <div style="background:var(--bg3);border-radius:var(--r);padding:12px;margin-bottom:14px;font-size:12px;color:var(--text2);line-height:1.7">\
-      \uc0\u24314 \u31435 \u22296 \u38538 \u24460 \u65292 \u20320 \u23559 \u33258 \u21205 \u21319 \u32026 \u33267 <b style="color:var(--teal)">\u22296 \u38538 \u29256 </b>\u65288 NT$799/\u26376 \u65289 \u65292 \u20139 \u26377 \u28961 \u38480 \u29983 \u25104 \u27425 \u25976 \u33287 \u26368 \u22810 5\u20301 \u25104 \u21729 \u12290 \
-    </div>\
-    <div style="display:flex;gap:8px">\
-      <button class="btn btn-primary" style="flex:1;justify-content:center" onclick="doCreateTeam()">\uc0\u24314 \u31435 \u22296 \u38538 </button>\
-      <button class="btn btn-ghost" onclick="S.modal=null;render()">\uc0\u21462 \u28040 </button>\
-    </div>\
-  </div>`;\
-\}\
-\
-function buildJoinTeamModal() \{\
-  return `<div class="modal" onclick="event.stopPropagation()">\
-    <div class="modal-title">\uc0\u55357 \u56593  \u21152 \u20837 \u22296 \u38538 </div>\
-    <div class="modal-sub">\uc0\u36664 \u20837 \u38538 \u21451 \u25552 \u20379 \u30340 \u36992 \u35531 \u30908 </div>\
-    <div class="field"><label class="lbl">\uc0\u36992 \u35531 \u30908 </label><input class="inp" id="invite-code" placeholder="\u20363 \u65306 A1B2C3" style="letter-spacing:4px;font-size:18px;font-weight:700;text-align:center" maxlength="6" oninput="this.value=this.value.toUpperCase()"></div>\
-    <div style="display:flex;gap:8px">\
-      <button class="btn btn-primary" style="flex:1;justify-content:center" onclick="doJoinTeam()">\uc0\u21152 \u20837 \u22296 \u38538 </button>\
-      <button class="btn btn-ghost" onclick="S.modal=null;render()">\uc0\u21462 \u28040 </button>\
-    </div>\
-  </div>`;\
-\}\
-\
-function doCreateTeam() \{\
-  try \{ createTeam(document.getElementById('team-name')?.value||''); S.modal=null; notify('\uc0\u22296 \u38538 \u24314 \u31435 \u25104 \u21151 \u65281 ','ok'); render(); \}\
-  catch(e) \{ notify(e.message,'err'); \}\
-\}\
-function doJoinTeam() \{\
-  try \{ joinTeam(document.getElementById('invite-code')?.value||''); S.modal=null; notify('\uc0\u25104 \u21151 \u21152 \u20837 \u22296 \u38538 \u65281 ','ok'); render(); \}\
-  catch(e) \{ notify(e.message,'err'); \}\
-\}\
-\
-// ================================================================\
-// \uc0\u55356 \u57303 \u65039  MAIN VIEW ROUTER\
-// ================================================================\
-function buildView() \{\
-  switch(S.view) \{\
-    case 'dashboard': return buildDashboard();\
-    case 'generator': return buildGenerator();\
-    case 'history':   return buildHistory();\
-    case 'team':      return buildTeam();\
-    case 'settings':  return buildSettings();\
-    default: return buildDashboard();\
-  \}\
-\}\
-\
-// ================================================================\
-// \uc0\u55356 \u57263  EVENT LISTENERS\
-// ================================================================\
-function attachListeners() \{\
-  // keyboard shortcuts\
-\}\
-\
-// ================================================================\
-// \uc0\u55357 \u56960  INIT\
-// ================================================================\
-render();\
-</script>\
-</body>\
-</html>}
+// ================================================================
+// 📋 PLANS 方案設定
+// ================================================================
+const PLANS = {
+  free:  {name:'免費版',price:0,   limit:5,  members:1,label:'Free', color:'var(--text3)'},
+  pro:   {name:'專業版',price:299, limit:50, members:1,label:'Pro',  color:'var(--coral)'},
+  team:  {name:'團隊版',price:799, limit:-1, members:5,label:'Team', color:'var(--teal)'},
+};
+
+const PLATFORM_MAP = {tiktok:'TikTok',instagram:'Instagram Reels',youtube:'YouTube Shorts',threads:'Threads'};
+const AUDIENCE_MAP = {general:'一般大眾（18-45歲）',young:'年輕族群（18-30歲）',parents:'父母族群',office:'上班族',senior:'熟齡族群（45+）',student:'學生族群'};
+const BUSINESS_MAP = {service:'服務業（諮詢/教練/顧問）',beauty:'美容美髮',food:'餐飲食品',health:'健康養生',education:'教育培訓',retail:'零售商品',fitness:'健身運動',other:'其他'};
+const PLATFORM_COLOR = {tiktok:'#FF6B4A',instagram:'#C77DFF',youtube:'#FF4D4D',threads:'#9AA3B8'};
+
+// ================================================================
+// 💾 LOCAL STORAGE (Mock Backend)
+// ================================================================
+const LS = {u:'sai_users',me:'sai_me',scripts:'sai_scripts',teams:'sai_teams'};
+const lsGet = (k,d=null)=>{try{const v=JSON.parse(localStorage.getItem(k));return v??d}catch{return d}};
+const lsSet = (k,v)=>localStorage.setItem(k,JSON.stringify(v));
+
+// ================================================================
+// 📦 STATE
+// ================================================================
+let S = {
+  user: lsGet(LS.me),
+  view: 'auth',
+  scripts: [],
+  team: null,
+  generated: null,
+  genLoading: false,
+  genTab: 0,
+  authMode: 'login',
+  histSearch: '',
+  histFilter: 'all',
+  genState: {platform:'tiktok',styles:['藏鏡人掌鏡'],moods:['溫暖療癒']},
+  modal: null, // null | 'upgrade' | 'viewScript' | 'joinTeam' | 'createTeam'
+  modalData: null,
+  notif: null,
+};
+
+if (S.user) { S.view = 'dashboard'; _loadScripts(); _loadTeam(); }
+
+// ================================================================
+// 🔐 AUTH
+// ================================================================
+function authLogin(email, pw) {
+  const users = lsGet(LS.u, []);
+  const u = users.find(u=>u.email===email&&u.pw===pw);
+  if (!u) throw new Error('帳號或密碼錯誤，請再試一次');
+  _resetMonthlyUsage(u, users);
+  S.user = u; lsSet(LS.me, u);
+}
+function authSignup(name, email, pw) {
+  const users = lsGet(LS.u, []);
+  if (users.find(u=>u.email===email)) throw new Error('此信箱已被使用');
+  const now = new Date();
+  const u = {id:_uid(),name,email,pw,plan:'free',usageCount:0,usageMonth:_monthKey(),teamId:null,teamRole:null,createdAt:now.toISOString()};
+  users.push(u); lsSet(LS.u, users);
+  S.user = u; lsSet(LS.me, u);
+}
+function authLogout() {
+  S.user=null; S.view='auth'; S.generated=null; S.scripts=[]; S.team=null;
+  localStorage.removeItem(LS.me); render();
+}
+function _resetMonthlyUsage(u, users) {
+  if (u.usageMonth !== _monthKey()) {
+    u.usageMonth = _monthKey(); u.usageCount = 0;
+    const idx = users.findIndex(x=>x.id===u.id);
+    if (idx>=0){users[idx]=u; lsSet(LS.u, users);}
+  }
+}
+
+// ================================================================
+// 📜 SCRIPTS
+// ================================================================
+function _loadScripts() {
+  const all = lsGet(LS.scripts, []);
+  S.scripts = all.filter(s=>s.userId===S.user?.id||(S.user?.teamId&&s.teamId===S.user.teamId&&s.shared));
+}
+function saveScript(data, meta) {
+  if (!canGenerate()) return;
+  const s = {
+    id:_uid(),userId:S.user.id,teamId:S.user.teamId||null,
+    shared:false,title:data.meta?.title||meta.topic,
+    platform:meta.platform,duration:meta.duration,topic:meta.topic,
+    scenes:data.scenes?.length||0,data,createdAt:new Date().toISOString()
+  };
+  const all = lsGet(LS.scripts, []);
+  all.unshift(s); lsSet(LS.scripts, all);
+  _incrUsage(); _loadScripts();
+}
+function delScript(id) {
+  lsSet(LS.scripts, lsGet(LS.scripts,[]).filter(s=>s.id!==id));
+  _loadScripts(); render();
+}
+function toggleShared(id) {
+  const all = lsGet(LS.scripts, []);
+  const i = all.findIndex(s=>s.id===id);
+  if(i>=0){all[i].shared=!all[i].shared; lsSet(LS.scripts,all); _loadScripts(); render();}
+}
+function _incrUsage() {
+  const users = lsGet(LS.u, []);
+  const i = users.findIndex(u=>u.id===S.user.id);
+  if(i>=0){
+    if(users[i].usageMonth!==_monthKey()){users[i].usageMonth=_monthKey();users[i].usageCount=0;}
+    users[i].usageCount=(users[i].usageCount||0)+1;
+    lsSet(LS.u, users); S.user=users[i]; lsSet(LS.me, S.user);
+  }
+}
+function canGenerate() {
+  if(!S.user) return false;
+  const p = PLANS[S.user.plan];
+  return p.limit===-1 || (S.user.usageCount||0) < p.limit;
+}
+function remaining() {
+  if(!S.user) return 0;
+  const p = PLANS[S.user.plan];
+  return p.limit===-1 ? '∞' : Math.max(0, p.limit-(S.user.usageCount||0));
+}
+function usagePct() {
+  if(!S.user) return 0;
+  const p = PLANS[S.user.plan];
+  if(p.limit===-1) return 20;
+  return Math.min(100, Math.round(((S.user.usageCount||0)/p.limit)*100));
+}
+
+// ================================================================
+// 👥 TEAM
+// ================================================================
+function _loadTeam() {
+  if(!S.user?.teamId){S.team=null;return;}
+  S.team = lsGet(LS.teams,[]).find(t=>t.id===S.user.teamId)||null;
+}
+function createTeam(name) {
+  if(!name.trim()) throw new Error('請輸入團隊名稱');
+  const t = {id:_uid(),name:name.trim(),ownerId:S.user.id,inviteCode:_code(),
+    members:[{userId:S.user.id,name:S.user.name,email:S.user.email,role:'owner',joinedAt:new Date().toISOString()}],
+    createdAt:new Date().toISOString()};
+  const teams = lsGet(LS.teams,[]); teams.push(t); lsSet(LS.teams, teams);
+  _updateUser({teamId:t.id,teamRole:'owner',plan:'team'}); S.team=t;
+}
+function joinTeam(code) {
+  if(!code.trim()) throw new Error('請輸入邀請碼');
+  const teams = lsGet(LS.teams, []);
+  const i = teams.findIndex(t=>t.inviteCode===code.trim().toUpperCase());
+  if(i<0) throw new Error('邀請碼無效，請確認後再試');
+  if(teams[i].members.length>=5) throw new Error('此團隊已達人數上限（5人）');
+  if(teams[i].members.find(m=>m.userId===S.user.id)) throw new Error('您已是此團隊成員');
+  teams[i].members.push({userId:S.user.id,name:S.user.name,email:S.user.email,role:'member',joinedAt:new Date().toISOString()});
+  lsSet(LS.teams, teams);
+  _updateUser({teamId:teams[i].id,teamRole:'member',plan:'team'}); S.team=teams[i];
+}
+function leaveTeam() {
+  if(!S.team) return;
+  const teams = lsGet(LS.teams, []);
+  const i = teams.findIndex(t=>t.id===S.team.id);
+  if(i>=0){teams[i].members=teams[i].members.filter(m=>m.userId!==S.user.id); lsSet(LS.teams, teams);}
+  _updateUser({teamId:null,teamRole:null,plan:'free'}); S.team=null;
+}
+function removeMember(userId) {
+  if(!S.team||S.user.teamRole!=='owner') return;
+  const teams = lsGet(LS.teams, []);
+  const i = teams.findIndex(t=>t.id===S.team.id);
+  if(i>=0){
+    teams[i].members=teams[i].members.filter(m=>m.userId!==userId);
+    lsSet(LS.teams, teams);
+    // downgrade removed user
+    const users = lsGet(LS.u, []);
+    const ui = users.findIndex(u=>u.id===userId);
+    if(ui>=0){users[ui].teamId=null;users[ui].teamRole=null;users[ui].plan='free'; lsSet(LS.u, users);}
+    S.team=teams[i];
+  }
+}
+function regenInviteCode() {
+  if(!S.team||S.user.teamRole!=='owner') return;
+  const teams = lsGet(LS.teams, []);
+  const i = teams.findIndex(t=>t.id===S.team.id);
+  if(i>=0){teams[i].inviteCode=_code(); lsSet(LS.teams, teams); S.team=teams[i]; notify('邀請碼已更新！','ok'); render();}
+}
+function upgradePlan(plan) {
+  _updateUser({plan}); notify(`已切換至${PLANS[plan].name}！`,'ok');
+  S.modal=null; render();
+}
+function _updateUser(fields) {
+  const users = lsGet(LS.u, []);
+  const i = users.findIndex(u=>u.id===S.user.id);
+  if(i>=0){Object.assign(users[i],fields); lsSet(LS.u, users); S.user=users[i]; lsSet(LS.me, S.user);}
+}
+
+// ================================================================
+// 📄 PDF EXPORT (print-based, supports Chinese)
+// ================================================================
+function exportPDF(rec) {
+  const d = rec.data;
+  const w = window.open('','_blank');
+  const scenes = (d.scenes||[]).map(s=>`
+    <div class="scene">
+      <div class="sh"><span class="sn">場景${s.id}</span><span class="st">${s.timeStart}—${s.timeEnd}</span><span class="stl">${s.title}</span></div>
+      <table><tbody>
+        <tr><td class="k">鏡頭</td><td>${s.camera||''}</td></tr>
+        <tr><td class="k">動作</td><td>${s.action||''}</td></tr>
+        ${s.caption?`<tr><td class="k">字幕</td><td>${s.caption}</td></tr>`:''}
+        ${s.emotion?`<tr><td class="k">氛圍</td><td>${s.emotion}</td></tr>`:''}
+      </tbody></table>
+      ${(s.dialogue||[]).length?`<div class="dlg"><div class="dk">對話腳本</div>${s.dialogue.map(l=>`<div class="dl"><span class="ds" style="color:${l.speaker.includes('掌鏡')?'#FF6B4A':'#00D4AA'}">${l.speaker}：</span>${l.line}<span class="dt">[${l.tone||''}]</span></div>`).join('')}</div>`:''}
+    </div>`).join('');
+  const sch = (d.schedule||[]).map(s=>`<tr><td>${s.time}</td><td>${s.duration}</td><td>${s.task}</td><td>${{prep:'準備',shoot:'拍攝',wrap:'收工',break:'休息'}[s.type]||s.type}</td><td>${s.notes||''}</td></tr>`).join('');
+  const props = (d.props||[]).map(p=>`<tr><td>${p.icon||''} ${p.name}</td><td>${p.priority}</td><td>${p.desc}</td></tr>`).join('');
+  const tips = (d.tips||[]).map(t=>`<div class="tip"><b>${t.icon||''} ${t.title}</b><p>${t.desc}</p></div>`).join('');
+  w.document.write(`<!DOCTYPE html><html lang="zh-TW"><head><meta charset="UTF-8">
+<title>${d.meta?.title||rec.title}</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans TC','Microsoft JhengHei',sans-serif;font-size:11.5px;color:#1a1a1a;padding:18mm 20mm;line-height:1.7}
+h1{font-size:18px;color:#FF6B4A;margin-bottom:3px}
+.meta-line{font-size:10px;color:#888;margin-bottom:18px}
+h2{font-size:13px;font-weight:700;color:#333;margin:18px 0 8px;border-left:3px solid #FF6B4A;padding-left:8px}
+.hook{background:#FFF3F0;border:1px solid #FF6B4A55;border-radius:6px;padding:10px 14px;margin-bottom:14px}
+.hook-lbl{font-size:9px;font-weight:700;letter-spacing:2px;color:#FF6B4A;margin-bottom:4px}
+.hook-txt{font-size:13px;font-weight:700;color:#FF6B4A;margin-bottom:6px}
+.hook-hl{font-size:11px;color:#666}
+.scene{border:1px solid #e8e8e8;border-radius:6px;padding:12px;margin-bottom:10px;break-inside:avoid}
+.sh{display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap}
+.sn{background:#FF6B4A;color:#fff;font-size:9px;font-weight:700;padding:1px 7px;border-radius:4px}
+.st{font-size:10px;color:#FF6B4A;font-weight:700}
+.stl{font-size:12px;font-weight:700}
+table{width:100%;border-collapse:collapse;margin:4px 0}
+td{padding:3px 6px;border-bottom:1px solid #f5f5f5;vertical-align:top}
+.k{color:#aaa;font-size:10px;font-weight:700;width:36px;white-space:nowrap}
+.dlg{background:#f8f8f8;border-radius:5px;padding:8px 10px;margin-top:8px}
+.dk{font-size:9px;font-weight:700;letter-spacing:1px;color:#aaa;margin-bottom:5px}
+.dl{padding:2px 0;font-size:11px}
+.ds{font-weight:700}
+.dt{color:#bbb;font-size:9px;margin-left:4px}
+.sch-tbl,.prop-tbl{width:100%;border-collapse:collapse;margin-top:6px}
+.sch-tbl th,.prop-tbl th{background:#f5f5f5;font-size:10px;padding:5px 8px;text-align:left;border:1px solid #eee}
+.sch-tbl td,.prop-tbl td{padding:5px 8px;border:1px solid #eee;font-size:11px;vertical-align:top}
+.tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+.tag{background:#f0eeff;color:#7B5FE0;padding:2px 9px;border-radius:10px;font-size:10px}
+.tip{margin-bottom:8px;padding:8px 10px;background:#f9f9f9;border-radius:5px}
+.tip b{font-size:12px;display:block;margin-bottom:3px}
+.tip p{font-size:11px;color:#666}
+.footer{margin-top:24px;border-top:1px solid #eee;padding-top:8px;font-size:9px;color:#ccc;text-align:center}
+@media print{body{padding:10mm}}
+</style></head><body>
+<h1>${d.meta?.title||rec.title}</h1>
+<div class="meta-line">主題：${rec.topic} · 平台：${PLATFORM_MAP[rec.platform]||rec.platform} · 時長：${rec.duration}秒 · 生成日期：${new Date(rec.createdAt).toLocaleDateString('zh-TW')}</div>
+${d.meta?.hook?`<div class="hook"><div class="hook-lbl">⚡ 開場鉤子（前3秒）</div><div class="hook-txt">"${d.meta.hook}"</div>${d.meta?.highlight?`<div class="hook-hl">✨ 影片亮點：${d.meta.highlight}</div>`:''}</div>`:''}
+<h2>🎬 逐場景腳本</h2>${scenes}
+${sch?`<h2>📅 拍攝時程</h2><table class="sch-tbl"><tr><th>時間</th><th>時長</th><th>任務</th><th>類型</th><th>備註</th></tr>${sch}</table>`:''}
+${props?`<h2>🧰 道具清單</h2><table class="prop-tbl"><tr><th>道具</th><th>優先度</th><th>說明</th></tr>${props}</table>`:''}
+${tips?`<h2>💡 拍攝技巧</h2>${tips}`:''}
+${(d.hashtags||[]).length?`<h2>🏷️ Hashtags</h2><div class="tags">${d.hashtags.map(h=>`<span class="tag">${h}</span>`).join('')}</div>${d.postingTime?`<p style="margin-top:6px;font-size:11px;color:#666">🕐 最佳發文時間：<b>${d.postingTime}</b></p>`:''}`:''}
+<div class="footer">由 ScriptAI Pro 短影音腳本智能體生成 · ${new Date().toLocaleDateString('zh-TW')} · scriptai.tw</div>
+</body></html>`);
+  w.document.close(); setTimeout(()=>w.print(),600);
+}
+
+// ================================================================
+// 🔔 NOTIFY
+// ================================================================
+function notify(msg,type='ok'){
+  S.notif={msg,type}; render();
+  setTimeout(()=>{S.notif=null; render();},3000);
+}
+
+// ================================================================
+// 🧰 UTILS
+// ================================================================
+function _uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2)}
+function _monthKey(){const n=new Date();return`${n.getFullYear()}-${n.getMonth()}`}
+function _code(){return Math.random().toString(36).slice(2,8).toUpperCase()}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+
+// ================================================================
+// 🎨 RENDER ENGINE
+// ================================================================
+function render() {
+  document.getElementById('app').innerHTML = buildApp();
+  attachListeners();
+}
+
+function buildApp() {
+  if(!S.user) return buildAuth();
+  return `
+    ${S.modal ? buildModal() : ''}
+    ${S.notif ? `<div class="notif notif-${S.notif.type}">${esc(S.notif.msg)}</div>` : ''}
+    <div class="layout">
+      ${buildNav()}
+      <div class="main">
+        <div class="page">${buildView()}</div>
+      </div>
+    </div>`;
+}
+
+// ================================================================
+// 🔐 AUTH VIEW
+// ================================================================
+function buildAuth() {
+  const isLogin = S.authMode==='login';
+  return `
+  ${S.notif?`<div class="notif notif-${S.notif.type}">${esc(S.notif.msg)}</div>`:''}
+  <div class="auth-wrap">
+    <div class="auth-box">
+      <div class="auth-logo">
+        <div class="nav-logo-icon">🎬</div>
+        <div>
+          <div style="font-size:17px;font-weight:700">ScriptAI</div>
+          <div style="font-size:10px;color:var(--text3);letter-spacing:1px">短影音腳本智能體</div>
+        </div>
+        <span class="nav-logo-badge">PRO</span>
+      </div>
+      <div class="auth-tabs">
+        <button class="auth-tab ${isLogin?'active':''}" onclick="S.authMode='login';render()">登入</button>
+        <button class="auth-tab ${!isLogin?'active':''}" onclick="S.authMode='signup';render()">免費註冊</button>
+      </div>
+      ${isLogin ? `
+        <div class="field"><label class="lbl">電子信箱</label><input class="inp" id="a-email" type="email" placeholder="your@email.com"></div>
+        <div class="field"><label class="lbl">密碼</label><input class="inp" id="a-pw" type="password" placeholder="••••••••"></div>
+        <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:4px" onclick="doLogin()">登入帳號</button>
+        <div class="auth-divider">或</div>
+        <button class="btn btn-secondary" style="width:100%;justify-content:center" onclick="demoLogin()">🎮 使用示範帳號體驗</button>
+      ` : `
+        <div class="field"><label class="lbl">姓名</label><input class="inp" id="a-name" placeholder="王小明"></div>
+        <div class="field"><label class="lbl">電子信箱</label><input class="inp" id="a-email" type="email" placeholder="your@email.com"></div>
+        <div class="field"><label class="lbl">密碼</label><input class="inp" id="a-pw" type="password" placeholder="至少6個字元"></div>
+        <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:4px" onclick="doSignup()">建立帳號（免費）</button>
+      `}
+      <p style="font-size:11px;color:var(--text3);text-align:center;margin-top:16px">繼續即表示您同意服務條款與隱私政策</p>
+    </div>
+  </div>`;
+}
+
+function doLogin() {
+  try {
+    const email=document.getElementById('a-email')?.value.trim();
+    const pw=document.getElementById('a-pw')?.value;
+    if(!email||!pw) throw new Error('請填寫所有欄位');
+    authLogin(email, pw);
+    S.view='dashboard'; _loadScripts(); _loadTeam(); render();
+  } catch(e) { notify(e.message,'err'); }
+}
+function doSignup() {
+  try {
+    const name=document.getElementById('a-name')?.value.trim();
+    const email=document.getElementById('a-email')?.value.trim();
+    const pw=document.getElementById('a-pw')?.value;
+    if(!name||!email||!pw) throw new Error('請填寫所有欄位');
+    if(pw.length<6) throw new Error('密碼至少需要6個字元');
+    authSignup(name, email, pw);
+    S.view='dashboard'; _loadScripts(); _loadTeam(); render();
+  } catch(e) { notify(e.message,'err'); }
+}
+function demoLogin() {
+  try {
+    try { authLogin('demo@scriptai.tw','demo1234'); }
+    catch { authSignup('示範用戶','demo@scriptai.tw','demo1234'); }
+    S.view='dashboard'; _loadScripts(); _loadTeam(); render();
+  } catch(e) { notify(e.message,'err'); }
+}
+
+// ================================================================
+// 🗂️ NAV
+// ================================================================
+function buildNav() {
+  const plan = PLANS[S.user.plan];
+  const pct = usagePct();
+  const links = [
+    {id:'dashboard',icon:'🏠',label:'總覽'},
+    {id:'generator',icon:'✨',label:'生成腳本'},
+    {id:'history',icon:'📂',label:'腳本歷史'},
+    {id:'team',icon:'👥',label:'我的團隊'},
+    {id:'settings',icon:'⚙️',label:'設定'},
+  ];
+  return `
+  <nav class="nav">
+    <div class="nav-logo">
+      <div class="nav-logo-icon">🎬</div>
+      <div>
+        <span class="nav-logo-text">ScriptAI</span>
+        <span class="nav-logo-badge">PRO</span>
+      </div>
+    </div>
+    <div class="nav-links">
+      <div class="nav-section">主選單</div>
+      ${links.map(l=>`<div class="nav-link ${S.view===l.id?'active':''}" onclick="goTo('${l.id}')"><span class="nicon">${l.icon}</span><span>${l.label}</span></div>`).join('')}
+    </div>
+    <div class="nav-bottom">
+      <div style="margin-bottom:8px;padding:0 2px">
+        <div class="prog-row">
+          <div class="prog-lbl" style="font-size:11px">本月用量</div>
+          <div class="prog-val" style="font-size:11px;color:${pct>80?'var(--red)':'var(--text)'}">${remaining()}</div>
+        </div>
+        <div class="usage-bar"><div class="usage-fill" style="width:${pct}%;background:${pct>80?'var(--red)':undefined}"></div></div>
+        <div style="font-size:10px;color:var(--text3);text-align:right">${PLANS[S.user.plan].limit===-1?'無限制':PLANS[S.user.plan].limit}次/月</div>
+      </div>
+      <div class="nav-user" onclick="goTo('settings')">
+        <div class="nav-avatar">${(S.user.name||'?').charAt(0)}</div>
+        <div class="nav-user-info">
+          <div class="nav-user-name">${esc(S.user.name)}</div>
+          <div class="nav-user-plan">${plan.name} · ${plan.limit===-1?'∞':remaining()} 次剩餘</div>
+        </div>
+      </div>
+    </div>
+  </nav>`;
+}
+
+function goTo(view) { S.view=view; S.generated=null; render(); }
+
+// ================================================================
+// 🏠 DASHBOARD
+// ================================================================
+function buildDashboard() {
+  const total = S.scripts.length;
+  const thisMonth = S.scripts.filter(s=>{
+    const d=new Date(s.createdAt); const n=new Date();
+    return d.getMonth()===n.getMonth()&&d.getFullYear()===n.getFullYear();
+  }).length;
+  const rem = remaining();
+  const teamMembers = S.team?.members?.length||0;
+  const recent = S.scripts.slice(0,3);
+  const pct = usagePct();
+  const canGen = canGenerate();
+
+  return `
+  <div class="page-head">
+    <div>
+      <div class="page-title">👋 歡迎回來，${esc(S.user.name.split(' ')[0])}</div>
+      <div class="page-sub">${new Date().toLocaleDateString('zh-TW',{weekday:'long',year:'numeric',month:'long',day:'numeric'})}</div>
+    </div>
+    <button class="btn btn-primary" onclick="goTo('generator')">✨ 開始生成腳本</button>
+  </div>
+
+  ${!canGen ? `
+  <div class="upgrade-banner">
+    <div><div class="banner-txt">⚠️ 本月用量已達上限</div><div class="banner-sub">升級方案以繼續生成腳本</div></div>
+    <button class="btn btn-primary btn-sm" onclick="S.modal='upgrade';render()">升級方案</button>
+  </div>` : pct>70 ? `
+  <div class="upgrade-banner">
+    <div><div class="banner-txt">📊 本月用量已達 ${pct}%</div><div class="banner-sub">剩餘 ${rem} 次生成額度，考慮升級方案？</div></div>
+    <button class="btn btn-secondary btn-sm" onclick="S.modal='upgrade';render()">查看方案</button>
+  </div>` : ''}
+
+  <div class="grid4" style="margin-bottom:24px">
+    <div class="stat-card">
+      <div class="stat-val" style="color:var(--coral)">${total}</div>
+      <div class="stat-lbl">📜 總腳本數</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val" style="color:var(--teal)">${thisMonth}</div>
+      <div class="stat-lbl">📅 本月生成</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val" style="color:var(--amber)">${typeof rem==='number'?rem:'∞'}</div>
+      <div class="stat-lbl">⚡ 剩餘次數</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val" style="color:var(--purple)">${teamMembers||'—'}</div>
+      <div class="stat-lbl">👥 團隊人數</div>
+    </div>
+  </div>
+
+  <div class="grid2" style="margin-bottom:24px">
+    <div class="card">
+      <div style="font-size:14px;font-weight:700;margin-bottom:14px">📊 本月用量</div>
+      <div class="prog-row"><div class="prog-lbl">${PLANS[S.user.plan].name}</div><div class="prog-val" style="color:var(--coral)">${S.user.usageCount||0} / ${PLANS[S.user.plan].limit===-1?'∞':PLANS[S.user.plan].limit}</div></div>
+      <div class="usage-bar"><div class="usage-fill" style="width:${pct}%"></div></div>
+      <div style="font-size:11px;color:var(--text3);margin-top:6px">每月 ${new Date().toLocaleDateString('zh-TW',{day:'numeric'})} 日重置</div>
+      ${S.user.plan!=='team'?`<button class="btn btn-secondary btn-sm" style="margin-top:12px" onclick="S.modal='upgrade';render()">🚀 升級更多額度</button>`:''}
+    </div>
+    <div class="card">
+      <div style="font-size:14px;font-weight:700;margin-bottom:14px">🏷️ 方案資訊</div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+        <span class="badge badge-${S.user.plan}">${PLANS[S.user.plan].label}</span>
+        <span style="font-size:14px;font-weight:700">${PLANS[S.user.plan].name}</span>
+      </div>
+      <div style="font-size:13px;color:var(--text2)">NT$${PLANS[S.user.plan].price}<span style="color:var(--text3)">/月</span></div>
+      <div style="font-size:12px;color:var(--text3);margin-top:4px">最多 ${PLANS[S.user.plan].members} 位成員</div>
+      ${S.team?`<div style="font-size:12px;color:var(--teal);margin-top:8px">✓ 已加入「${esc(S.team.name)}」</div>`:''}
+    </div>
+  </div>
+
+  <div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+      <div style="font-size:14px;font-weight:700">📜 最近腳本</div>
+      ${total>0?`<button class="btn btn-ghost btn-sm" onclick="goTo('history')">查看全部 →</button>`:''}
+    </div>
+    ${recent.length ? `
+    <div class="script-grid">
+      ${recent.map(s=>buildScriptCard(s)).join('')}
+    </div>` : `
+    <div class="empty-box" style="padding:40px">
+      <div class="empty-icon">✨</div>
+      <div class="empty-ttl">還沒有腳本</div>
+      <div class="empty-sub">點擊「生成腳本」開始你的第一支短影音</div>
+      <button class="btn btn-primary" onclick="goTo('generator')">✨ 開始生成</button>
+    </div>`}
+  </div>`;
+}
+
+// ================================================================
+// ✨ GENERATOR
+// ================================================================
+function buildGenerator() {
+  const gs = S.genState;
+  const canGen = canGenerate();
+  return `
+  <div class="page-head">
+    <div>
+      <div class="page-title">✨ 生成腳本</div>
+      <div class="page-sub">藏鏡人掌鏡模式 · 台灣市場優化 · AI 智能規劃</div>
+    </div>
+    <div style="font-size:12px;color:var(--text3)">剩餘 <b style="color:var(--coral)">${remaining()}</b> 次</div>
+  </div>
+
+  <div class="gen-layout">
+    <div class="gen-sidebar">
+      <div class="card" style="margin-bottom:14px">
+        <div style="font-size:12px;font-weight:700;letter-spacing:1.5px;color:var(--text3);text-transform:uppercase;margin-bottom:10px">平台</div>
+        <div class="platform-grid">
+          ${[['tiktok','🎵','TikTok'],['instagram','📸','Instagram Reels'],['youtube','▶️','YouTube Shorts'],['threads','🧵','Threads']].map(([p,ic,lb])=>`
+          <div class="platform-btn ${gs.platform===p?'on':''}" onclick="S.genState.platform='${p}';render()">
+            <span class="p-icon">${ic}</span>${lb}
+          </div>`).join('')}
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:14px">
+        <div class="field">
+          <label class="lbl">影片主題 *</label>
+          <input class="inp" id="g-topic" placeholder="例：幫客人解決長期失眠的諮詢過程" value="${esc(document.getElementById('g-topic')?.value||'')}">
+        </div>
+        <div class="field">
+          <label class="lbl">目標受眾</label>
+          <select class="sel" id="g-audience">
+            ${Object.entries(AUDIENCE_MAP).map(([v,l])=>`<option value="${v}">${l}</option>`).join('')}
+          </select>
+        </div>
+        <div class="field">
+          <label class="lbl">業務 / 產品類型</label>
+          <select class="sel" id="g-business">
+            ${Object.entries(BUSINESS_MAP).map(([v,l])=>`<option value="${v}">${l}</option>`).join('')}
+          </select>
+        </div>
+        <div class="field">
+          <label class="lbl">影片長度：<b style="color:var(--coral)" id="g-dur-val">60秒</b></label>
+          <input type="range" id="g-dur" min="15" max="180" value="60" step="15" style="width:100%;accent-color:var(--coral)" oninput="document.getElementById('g-dur-val').textContent=this.value+'秒'">
+          <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text3)"><span>15秒</span><span>3分鐘</span></div>
+        </div>
+        <div class="field" style="margin-bottom:0">
+          <label class="lbl">特殊需求（選填）</label>
+          <textarea class="ta" id="g-notes" placeholder="例：新客、希望帶出品牌信任感、結尾要有CTA、搞笑風格…" style="min-height:56px"></textarea>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:14px">
+        <div style="font-size:12px;font-weight:700;letter-spacing:1.5px;color:var(--text3);text-transform:uppercase;margin-bottom:8px">拍攝風格</div>
+        <div class="chips">
+          ${['藏鏡人掌鏡','真實感記錄','情境劇情','教學解說','街訪style'].map(c=>`<span class="chip ${gs.styles.includes(c)?'on':''}" onclick="toggleStyle('${c}')">${c}</span>`).join('')}
+        </div>
+        <div style="font-size:12px;font-weight:700;letter-spacing:1.5px;color:var(--text3);text-transform:uppercase;margin-top:14px;margin-bottom:8px">影片情緒</div>
+        <div class="chips">
+          ${['溫暖療癒','幽默有趣','驚喜衝突','感動共鳴','知識乾貨','正能量'].map(c=>`<span class="chip teal ${gs.moods.includes(c)?'on':''}" onclick="toggleMood('${c}')">${c}</span>`).join('')}
+        </div>
+      </div>
+
+      <button class="btn btn-primary" style="width:100%;justify-content:center;font-size:14px;padding:13px" onclick="generateScript()" ${!canGen||S.genLoading?'disabled':''}>
+        ${S.genLoading?'⏳ AI 正在規劃腳本…':'✨ 開始生成腳本'}
+      </button>
+      ${!canGen?`<p style="font-size:11px;color:var(--red);text-align:center;margin-top:8px">本月額度已用完 <span style="cursor:pointer;text-decoration:underline" onclick="S.modal='upgrade';render()">升級方案</span></p>`:''}
+    </div>
+
+    <div class="gen-output">
+      ${S.genLoading ? `
+      <div class="loading-box">
+        <div class="spin"></div>
+        <div class="loading-txt">AI 正在為你規劃台灣市場短影音腳本…</div>
+        <div style="font-size:12px;color:var(--text3)">分析主題 → 規劃場景 → 寫對話腳本 → 安排時程</div>
+      </div>` : S.generated ? buildScriptOutput(S.generated) : `
+      <div class="empty-box">
+        <div class="empty-icon">🎬</div>
+        <div class="empty-ttl">填好表單，開始生成</div>
+        <div class="empty-sub">AI 會為你規劃完整的短影音腳本，包含藏鏡人對話、拍攝時程與道具清單，生成後自動存入歷史記錄。</div>
+      </div>`}
+    </div>
+  </div>`;
+}
+
+function toggleStyle(c) { S.genState.styles=[c]; render(); }
+function toggleMood(c) {
+  if(S.genState.moods.includes(c)) S.genState.moods=S.genState.moods.filter(m=>m!==c);
+  else S.genState.moods.push(c);
+  render();
+}
+
+async function generateScript() {
+  const topic = document.getElementById('g-topic')?.value.trim();
+  if(!topic){notify('請輸入影片主題！','err');return;}
+  if(!canGenerate()){S.modal='upgrade';render();return;}
+
+  const gs = S.genState;
+  const meta = {
+    platform: gs.platform,
+    topic,
+    audience: document.getElementById('g-audience')?.value||'general',
+    duration: document.getElementById('g-dur')?.value||60,
+    business: document.getElementById('g-business')?.value||'service',
+    style: gs.styles[0]||'藏鏡人掌鏡',
+    moods: gs.moods.join('、'),
+    notes: document.getElementById('g-notes')?.value.trim()||'',
+  };
+
+  S.genLoading=true; S.generated=null; render();
+
+  const sys=`你是台灣頂尖的短影音腳本規劃師，專精台灣在地市場與流行文化。
+
+【藏鏡人掌鏡風格】
+- 拍攝者（創作者）拿手機掌鏡，鏡頭對著客人，創作者不露臉
+- 聲音可出現或以字幕呈現，鏡頭跟著客人走、記錄真實互動
+- 氛圍要有真實感、紀錄片感，不能太刻意做作
+
+【台灣市場重點】
+- 用詞接地氣，符合台灣人說話習慣，可適當用台式用語
+- 開場3秒要有強烈懸念或共鳴感（台灣人滑手機速度很快）
+- 善用台灣人喜歡的：真實故事、情感共鳴、乾貨知識、幽默反差
+- 結尾要有明確的互動引導（留言、追蹤、分享）
+
+只回傳純JSON，不要markdown或任何額外說明：
+{
+  "meta":{"title":"影片標題（含emoji，吸睛）","hook":"開場鉤子（前3秒）","highlight":"影片最大亮點"},
+  "scenes":[{"id":1,"title":"場景名稱","timeStart":"0:00","timeEnd":"0:15","camera":"鏡頭描述（藏鏡人角度）","action":"畫面動作","dialogue":[{"speaker":"掌鏡者","line":"說的話","tone":"語氣"},{"speaker":"客人","line":"回應","tone":"語氣"}],"caption":"建議字幕","emotion":"情緒氛圍"}],
+  "schedule":[{"time":"09:00","duration":"15分鐘","task":"任務名稱","type":"prep/shoot/wrap/break","notes":"注意事項"}],
+  "props":[{"name":"道具名稱","icon":"emoji","desc":"用途說明","priority":"必備或選配"}],
+  "tips":[{"icon":"emoji","title":"技巧標題","desc":"詳細說明"}],
+  "hashtags":["#標籤"],
+  "postingTime":"最佳發文時間建議"
+}`;
+
+  const usr=`【影片主題】${meta.topic}
+【發布平台】${PLATFORM_MAP[meta.platform]}
+【目標受眾】${AUDIENCE_MAP[meta.audience]}
+【影片長度】${meta.duration}秒
+【業務類型】${BUSINESS_MAP[meta.business]}
+【拍攝風格】${meta.style}
+【影片情緒】${meta.moods}
+${meta.notes?`【特殊需求】${meta.notes}`:''}
+
+請以藏鏡人掌鏡角度規劃，場景數量符合${meta.duration}秒長度，時間軸精確，台灣市場風格，語氣自然有溫度。`;
+
+  try {
+    const res = await fetch('/api/generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ system: sys, userPrompt: usr })
+    });
+    
+    if (!res.ok) {
+        const errData = await res.json();
+        throw new Error(errData.error || '伺服器發生錯誤');
+    }
+
+    const parsed = await res.json();
+    S.generated = {data: parsed, meta};
+    saveScript(parsed, meta);
+    notify('腳本生成成功，已自動存入歷史記錄！','ok');
+  } catch(e) {
+    notify('生成失敗，請稍後再試：'+e.message,'err');
+  }
+  S.genLoading=false; render();
+}
+
+function buildScriptOutput(gen) {
+  const d = gen.data;
+  const scenesCount = d.scenes?.length||0;
+  const dlgCount = (d.scenes||[]).reduce((a,s)=>a+(s.dialogue||[]).length,0);
+
+  return `
+  <div style="margin-bottom:16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+    <div style="flex:1"><div style="font-size:16px;font-weight:700">${esc(d.meta?.title||'')}</div><div style="font-size:12px;color:var(--text3);margin-top:2px">${scenesCount}個場景 · ${dlgCount}條對話 · ${gen.meta.duration}秒</div></div>
+    <button class="btn btn-secondary btn-sm" onclick="exportCurrentPDF()">📄 匯出PDF</button>
+  </div>
+
+  <div class="tabs">
+    ${['🎬 腳本','📅 時程','🧰 道具','💡 技巧'].map((t,i)=>`<button class="tab ${S.genTab===i?'on':''}" onclick="S.genTab=${i};render()">${t}</button>`).join('')}
+  </div>
+
+  ${S.genTab===0 ? buildScriptTab(d) : ''}
+  ${S.genTab===1 ? buildScheduleTab(d) : ''}
+  ${S.genTab===2 ? buildPropsTab(d) : ''}
+  ${S.genTab===3 ? buildTipsTab(d) : ''}`;
+}
+
+function exportCurrentPDF() {
+  if(!S.generated) return;
+  const fake = {data:S.generated.data,platform:S.generated.meta.platform,duration:S.generated.meta.duration,topic:S.generated.meta.topic,title:S.generated.data.meta?.title||S.generated.meta.topic,createdAt:new Date().toISOString()};
+  exportPDF(fake);
+}
+
+function buildScriptTab(d) {
+  return `
+  ${d.meta?.hook?`<div class="hook-card"><div class="hook-lbl">⚡ 開場鉤子（前3秒）</div><div class="hook-text">"${esc(d.meta.hook)}"</div>${d.meta?.highlight?`<div class="hook-highlight">✨ ${esc(d.meta.highlight)}</div>`:''}</div>`:''}
+  ${(d.scenes||[]).map(s=>`
+  <div class="scene-card">
+    <div class="scene-hdr">
+      <span class="scene-num">場景 ${s.id}</span>
+      <span class="scene-ts">${s.timeStart} — ${s.timeEnd}</span>
+      <span class="scene-emo">${esc(s.emotion||'')}</span>
+    </div>
+    <div class="scene-ttl">${esc(s.title)}</div>
+    <div class="scene-row"><b>📷 鏡頭</b>${esc(s.camera||'')}</div>
+    <div class="scene-row"><b>🎭 動作</b>${esc(s.action||'')}</div>
+    ${(s.dialogue||[]).length?`
+    <div class="dlg-box">
+      <div class="dlg-lbl">💬 對話腳本</div>
+      ${s.dialogue.map(l=>`<div class="dlg-line"><span class="dlg-sp" style="color:${l.speaker.includes('掌鏡')?'var(--coral)':'var(--teal)'}">${l.speaker.includes('掌鏡')?'🎥':'👤'} ${esc(l.speaker)}：</span>${esc(l.line)}<span class="dlg-tone">[${esc(l.tone||'')}]</span></div>`).join('')}
+    </div>`:''}
+    ${s.caption?`<div><span class="caption-tag">📝 字幕：${esc(s.caption)}</span></div>`:''}
+  </div>`).join('')}
+  ${(d.hashtags||[]).length?`
+  <div class="card-sm" style="margin-top:12px">
+    <div style="font-size:12px;font-weight:700;color:var(--text3);margin-bottom:8px">🏷️ 推薦 Hashtags</div>
+    <div class="tag-row">${d.hashtags.map(h=>`<span class="hash-tag">${esc(h)}</span>`).join('')}</div>
+    ${d.postingTime?`<div style="font-size:12px;color:var(--text2);margin-top:10px">🕐 最佳發文時間：<b style="color:var(--teal)">${esc(d.postingTime)}</b></div>`:''}
+  </div>`:''}`}
+
+function buildScheduleTab(d) {
+  if(!(d.schedule||[]).length) return `<div class="empty-box"><div class="empty-icon">📅</div><div class="empty-ttl">暫無時程資料</div></div>`;
+  const typeMap={prep:'prep',shoot:'shoot',wrap:'wrap',break:'break'};
+  const typeLbl={prep:'準備',shoot:'拍攝',wrap:'收工',break:'休息'};
+  return `<div class="card">
+    ${d.schedule.map(s=>`<div class="sch-row">
+      <div class="sch-time"><div class="sch-t">${esc(s.time)}</div><div class="sch-d">${esc(s.duration)}</div></div>
+      <div><div class="sch-task">${esc(s.task)}</div><div class="sch-note">${esc(s.notes||'')}</div><span class="sch-type sch-${typeMap[s.type]||'prep'}">${typeLbl[s.type]||s.type}</span></div>
+    </div>`).join('')}
+  </div>`;
+}
+
+function buildPropsTab(d) {
+  if(!(d.props||[]).length) return `<div class="empty-box"><div class="empty-icon">🧰</div><div class="empty-ttl">暫無道具資料</div></div>`;
+  const must=d.props.filter(p=>p.priority==='必備');
+  const opt=d.props.filter(p=>p.priority!=='必備');
+  const section=(title,items,color)=>items.length?`
+    <div style="margin-bottom:14px">
+      <div style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:${color};margin-bottom:10px">${title}</div>
+      <div class="props-grid">${items.map(p=>`<div class="prop-card"><div class="prop-icon">${p.icon||'📦'}</div><div class="prop-name">${esc(p.name)}</div><div class="prop-desc">${esc(p.desc)}</div><span class="prop-pri ${p.priority==='必備'?'pri-must':'pri-opt'}">${p.priority}</span></div>`).join('')}</div>
+    </div>`:'';
+  return `<div class="card">${section('必備道具',must,'var(--coral)')}${section('加分選配',opt,'var(--teal)')}</div>`;
+}
+
+function buildTipsTab(d) {
+  if(!(d.tips||[]).length) return `<div class="empty-box"><div class="empty-icon">💡</div><div class="empty-ttl">暫無技巧資料</div></div>`;
+  return `<div>${d.tips.map(t=>`<div class="card-sm" style="margin-bottom:10px;display:flex;gap:12px">
+    <div style="font-size:24px;flex-shrink:0">${t.icon||'💡'}</div>
+    <div><div style="font-size:13px;font-weight:700;margin-bottom:4px">${esc(t.title)}</div><div style="font-size:12px;color:var(--text2);line-height:1.7">${esc(t.desc)}</div></div>
+  </div>`).join('')}</div>`;
+}
+
+// ================================================================
+// 📂 HISTORY
+// ================================================================
+function buildHistory() {
+  const filtered = S.scripts.filter(s=>{
+    const q=S.histSearch.toLowerCase();
+    const matchQ=!q||(s.title||'').toLowerCase().includes(q)||(s.topic||'').toLowerCase().includes(q);
+    const matchF=S.histFilter==='all'||s.platform===S.histFilter;
+    return matchQ&&matchF;
+  });
+
+  return `
+  <div class="page-head">
+    <div><div class="page-title">📂 腳本歷史</div><div class="page-sub">共 ${S.scripts.length} 個腳本</div></div>
+  </div>
+  <div class="search-row">
+    <input class="inp search-inp" id="hist-search" placeholder="搜尋腳本標題或主題…" value="${esc(S.histSearch)}" oninput="S.histSearch=this.value;render()">
+    <select class="sel" style="width:auto;min-width:120px" onchange="S.histFilter=this.value;render()">
+      <option value="all" ${S.histFilter==='all'?'selected':''}>全部平台</option>
+      ${Object.entries(PLATFORM_MAP).map(([v,l])=>`<option value="${v}" ${S.histFilter===v?'selected':''}>${l}</option>`).join('')}
+    </select>
+  </div>
+  ${filtered.length ? `
+  <div class="script-grid">
+    ${filtered.map(s=>buildScriptCard(s,true)).join('')}
+  </div>` : `
+  <div class="empty-box">
+    <div class="empty-icon">${S.histSearch?'🔍':'📂'}</div>
+    <div class="empty-ttl">${S.histSearch?'找不到相符腳本':'還沒有腳本'}</div>
+    <div class="empty-sub">${S.histSearch?'試試其他關鍵字':'去生成你的第一支短影音腳本吧！'}</div>
+    ${!S.histSearch?`<button class="btn btn-primary" onclick="goTo('generator')">✨ 開始生成</button>`:''}
+  </div>`}`;
+}
+
+function buildScriptCard(s,showDel=false) {
+  const platColor=PLATFORM_COLOR[s.platform]||'var(--text3)';
+  const date=new Date(s.createdAt).toLocaleDateString('zh-TW',{month:'short',day:'numeric'});
+  const isTeamScript=s.teamId&&s.userId!==S.user?.id;
+  return `
+  <div class="script-card">
+    <div class="script-card-head">
+      <div class="script-card-title">${esc(s.title||s.topic)}</div>
+      <div class="platform-dot" style="background:${platColor}"></div>
+    </div>
+    <div class="script-card-meta">
+      <span class="meta-tag">${PLATFORM_MAP[s.platform]||s.platform}</span>
+      <span class="meta-tag">${s.duration}秒</span>
+      <span class="meta-tag">${s.scenes||0}场景</span>
+      <span class="meta-tag">${date}</span>
+      ${isTeamScript?`<span class="shared-dot">👥 團隊</span>`:''}
+      ${s.shared&&!isTeamScript?`<span class="shared-dot">🔗 已分享</span>`:''}
+    </div>
+    <div class="script-card-actions">
+      <button class="btn btn-secondary btn-sm" onclick="viewScript('${s.id}')">👀 查看</button>
+      <button class="btn btn-secondary btn-sm" onclick="exportScript('${s.id}')">📄 PDF</button>
+      ${S.team&&s.userId===S.user?.id?`<button class="btn btn-ghost btn-sm" onclick="toggleShared('${s.id}');notify('${s.shared?'已取消分享':'已分享給團隊！'}','ok')" title="${s.shared?'取消分享':'分享給團隊'}">${s.shared?'🔗':'👥'}</button>`:''}
+      ${showDel&&s.userId===S.user?.id?`<button class="btn btn-danger btn-sm" onclick="if(confirm('確定刪除這個腳本？'))delScript('${s.id}')">🗑️</button>`:''}
+    </div>
+  </div>`;
+}
+
+function viewScript(id) {
+  const s = lsGet(LS.scripts,[]).find(x=>x.id===id);
+  if(!s) return;
+  S.modal='viewScript'; S.modalData=s; render();
+}
+function exportScript(id) {
+  const s = lsGet(LS.scripts,[]).find(x=>x.id===id);
+  if(s) exportPDF(s);
+}
+
+// ================================================================
+// 👥 TEAM
+// ================================================================
+function buildTeam() {
+  if(!S.team) return buildNoTeam();
+  const isOwner = S.user.teamRole==='owner';
+  return `
+  <div class="page-head">
+    <div><div class="page-title">👥 我的團隊</div><div class="page-sub">${esc(S.team.name)} · ${S.team.members.length}/5 位成員</div></div>
+    ${isOwner?`<button class="btn btn-danger btn-sm" onclick="if(confirm('確定解散團隊？這將移除所有成員。'))dissolveTeam()">解散團隊</button>`:`<button class="btn btn-ghost btn-sm" onclick="if(confirm('確定離開此團隊？'))leaveTeam();notify('已離開團隊','ok');render()">離開團隊</button>`}
+  </div>
+  <div class="grid2">
+    <div class="card">
+      <div style="font-size:14px;font-weight:700;margin-bottom:14px">👥 成員列表</div>
+      ${S.team.members.map(m=>`
+      <div class="member-row">
+        <div class="member-avatar" style="background:${m.role==='owner'?'linear-gradient(135deg,var(--coral),var(--amber))':'var(--bg5)'}">${m.name.charAt(0)}</div>
+        <div class="member-info">
+          <div class="member-name">${esc(m.name)} ${m.role==='owner'?'<span style="font-size:10px;color:var(--amber)">👑 管理員</span>':''}</div>
+          <div class="member-email">${esc(m.email)}</div>
+        </div>
+        ${isOwner&&m.userId!==S.user.id?`<button class="btn btn-ghost btn-sm" onclick="if(confirm('移除此成員？'))removeMember('${m.userId}');notify('成員已移除','ok');render()" style="font-size:11px">移除</button>`:''}
+      </div>`).join('')}
+      ${S.team.members.length<5?`<div style="font-size:12px;color:var(--text3);margin-top:12px">還可以邀請 ${5-S.team.members.length} 位成員</div>`:'<div style="font-size:12px;color:var(--amber);margin-top:12px">已達人數上限（5人）</div>'}
+    </div>
+    <div>
+      <div class="card" style="margin-bottom:14px">
+        <div style="font-size:14px;font-weight:700;margin-bottom:4px">🔗 邀請成員</div>
+        <div style="font-size:12px;color:var(--text3);margin-bottom:14px">分享邀請碼給隊友，讓他們加入你的團隊</div>
+        <div class="invite-box">
+          <div style="font-size:11px;color:var(--text3);margin-bottom:4px">邀請碼</div>
+          <div class="invite-code">${S.team.inviteCode}</div>
+          <div style="display:flex;gap:8px;justify-content:center;margin-top:8px">
+            <button class="btn btn-secondary btn-sm" onclick="navigator.clipboard.writeText('${S.team.inviteCode}').then(()=>notify('已複製邀請碼！','ok'))">📋 複製</button>
+            ${isOwner?`<button class="btn btn-ghost btn-sm" onclick="regenInviteCode()">🔄 重新產生</button>`:''}
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div style="font-size:14px;font-weight:700;margin-bottom:4px">📊 共享腳本</div>
+        <div style="font-size:12px;color:var(--text3);margin-bottom:12px">團隊成員可查看已分享的腳本</div>
+        ${S.scripts.filter(s=>s.shared).length?`
+        <div>${S.scripts.filter(s=>s.shared).slice(0,4).map(s=>`
+          <div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border)">
+            <div style="flex:1;font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(s.title||s.topic)}</div>
+            <button class="btn btn-ghost btn-sm" style="font-size:10px" onclick="viewScript('${s.id}')">查看</button>
+          </div>`).join('')}</div>
+        `:`<div style="font-size:12px;color:var(--text3)">尚未分享任何腳本。<br/>在歷史記錄中點擊 👥 按鈕即可分享。</div>`}
+      </div>
+    </div>
+  </div>`;
+}
+
+function buildNoTeam() {
+  return `
+  <div class="page-head">
+    <div><div class="page-title">👥 我的團隊</div><div class="page-sub">與隊友協作，共享腳本資源</div></div>
+  </div>
+  <div class="grid2" style="max-width:700px">
+    <div class="card" style="text-align:center;padding:28px">
+      <div style="font-size:40px;margin-bottom:12px">🏗️</div>
+      <div style="font-size:15px;font-weight:700;margin-bottom:8px">建立新團隊</div>
+      <div style="font-size:12px;color:var(--text3);margin-bottom:16px;line-height:1.7">建立屬於你的團隊，邀請隊友加入，共享腳本資源，享有團隊版無限額度。</div>
+      <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="S.modal='createTeam';render()">🏗️ 建立團隊</button>
+    </div>
+    <div class="card" style="text-align:center;padding:28px">
+      <div style="font-size:40px;margin-bottom:12px">🔑</div>
+      <div style="font-size:15px;font-weight:700;margin-bottom:8px">加入既有團隊</div>
+      <div style="font-size:12px;color:var(--text3);margin-bottom:16px;line-height:1.7">已有隊友建立了團隊？輸入邀請碼即可加入，享受團隊版功能。</div>
+      <button class="btn btn-secondary" style="width:100%;justify-content:center" onclick="S.modal='joinTeam';render()">🔑 輸入邀請碼</button>
+    </div>
+  </div>
+  <div class="card" style="max-width:700px;margin-top:14px">
+    <div style="font-size:13px;font-weight:700;margin-bottom:10px">👑 團隊版功能</div>
+    <div class="grid3">
+      ${[['∞ 無限生成','不限次數生成腳本'],['👥 最多5人','邀請隊友共用帳號'],['🔗 共享腳本','團隊腳本資源庫'],['📄 批量匯出','一鍵匯出多份PDF'],['💬 協作標記','標記腳本備註'],['🔄 版本管理','保留腳本修改紀錄']].map(([t,d])=>`
+      <div style="padding:10px;background:var(--bg3);border-radius:8px">
+        <div style="font-size:12px;font-weight:700;margin-bottom:3px">${t}</div>
+        <div style="font-size:11px;color:var(--text3)">${d}</div>
+      </div>`).join('')}
+    </div>
+    <div style="margin-top:14px;font-size:12px;color:var(--text3)">團隊版 NT$799/月，最多5人使用</div>
+  </div>`;
+}
+
+function dissolveTeam() {
+  if(!S.team||S.user.teamRole!=='owner') return;
+  const teams = lsGet(LS.teams,[]).filter(t=>t.id!==S.team.id);
+  lsSet(LS.teams, teams);
+  S.team.members.forEach(m=>{
+    const users=lsGet(LS.u,[]);
+    const i=users.findIndex(u=>u.id===m.userId);
+    if(i>=0){users[i].teamId=null;users[i].teamRole=null;if(users[i].plan==='team')users[i].plan='free';lsSet(LS.u,users);}
+  });
+  _updateUser({teamId:null,teamRole:null,plan:'free'});
+  S.team=null; notify('團隊已解散','ok'); render();
+}
+
+// ================================================================
+// ⚙️ SETTINGS
+// ================================================================
+function buildSettings() {
+  const plan = PLANS[S.user.plan];
+  return `
+  <div class="page-head">
+    <div><div class="page-title">⚙️ 設定</div><div class="page-sub">帳號、方案與偏好設定</div></div>
+  </div>
+  <div style="max-width:640px">
+    <div class="card" style="margin-bottom:14px">
+      <div style="font-size:14px;font-weight:700;margin-bottom:16px">👤 個人資料</div>
+      <div class="settings-row">
+        <div><div class="settings-lbl">姓名</div><div class="settings-sub">${esc(S.user.name)}</div></div>
+        <button class="btn btn-ghost btn-sm" onclick="editName()">編輯</button>
+      </div>
+      <div class="settings-row">
+        <div><div class="settings-lbl">電子信箱</div><div class="settings-sub">${esc(S.user.email)}</div></div>
+      </div>
+      <div class="settings-row">
+        <div><div class="settings-lbl">加入日期</div><div class="settings-sub">${new Date(S.user.createdAt||Date.now()).toLocaleDateString('zh-TW')}</div></div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:14px">
+      <div style="font-size:14px;font-weight:700;margin-bottom:16px">💳 目前方案</div>
+      <div class="settings-row">
+        <div><div class="settings-lbl">${plan.name} <span class="badge badge-${S.user.plan}">${plan.label}</span></div><div class="settings-sub">NT$${plan.price}/月 · 每月${plan.limit===-1?'無限':plan.limit}次 · 最多${plan.members}人</div></div>
+        ${S.user.plan!=='team'?`<button class="btn btn-primary btn-sm" onclick="S.modal='upgrade';render()">升級</button>`:''}
+      </div>
+      <div style="margin-top:8px">
+        <div class="prog-row">
+          <div class="prog-lbl">本月用量</div>
+          <div class="prog-val" style="color:var(--coral)">${S.user.usageCount||0} / ${plan.limit===-1?'∞':plan.limit}</div>
+        </div>
+        <div class="usage-bar"><div class="usage-fill" style="width:${usagePct()}%"></div></div>
+        <div style="font-size:11px;color:var(--text3);margin-top:4px">每月 1 日自動重置</div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:14px">
+      <div style="font-size:14px;font-weight:700;margin-bottom:16px">🏷️ 方案比較</div>
+      <div class="grid3">
+        ${Object.entries(PLANS).map(([k,p])=>`
+        <div class="plan-card ${S.user.plan===k?'selected':''}">
+          ${k==='pro'?`<div class="plan-popular">推薦</div>`:''}
+          <div><span class="badge badge-${k}">${p.label}</span></div>
+          <div class="plan-price">NT$${p.price}<span>/月</span></div>
+          <ul class="plan-features">
+            <li>${p.limit===-1?'無限次數':p.limit+'次/月'}</li>
+            <li>最多${p.members}位成員</li>
+            <li>完整腳本功能</li>
+            <li>PDF 匯出</li>
+            ${k!=='free'?'<li>優先客服</li>':''}
+            ${k==='team'?'<li>團隊共享腳本</li><li>邀請碼管理</li>':''}
+          </ul>
+          ${S.user.plan!==k?`<button class="btn btn-${k==='pro'?'primary':'secondary'} btn-sm" style="width:100%;justify-content:center;margin-top:10px" onclick="upgradePlan('${k}')">${k==='free'?'降級至免費':'升級'}</button>`:
+          `<div style="text-align:center;font-size:12px;color:var(--teal);margin-top:10px;font-weight:600">✓ 目前方案</div>`}
+        </div>`).join('')}
+      </div>
+      <p style="font-size:11px;color:var(--text3);margin-top:12px">* 這是演示版，實際收費請接入金流系統（如綠界、藍新）</p>
+    </div>
+
+    <div class="card" style="margin-bottom:14px">
+      <div style="font-size:14px;font-weight:700;margin-bottom:16px">🔧 開發者設定</div>
+      <div class="settings-row">
+        <div><div class="settings-lbl">Supabase 整合</div><div class="settings-sub">${USE_SUPABASE?'✓ 已連接 Supabase':'目前使用本地儲存模式'}</div></div>
+        <span class="badge ${USE_SUPABASE?'badge-team':'badge-free'}">${USE_SUPABASE?'已連接':'本地模式'}</span>
+      </div>
+      <div style="font-size:12px;color:var(--text3);margin-top:8px;background:var(--bg3);padding:10px;border-radius:8px;font-family:monospace;line-height:1.8">
+        SUPABASE_URL = '${SUPABASE_URL||'（未設定）'}'<br>
+        SUPABASE_KEY = '${SUPABASE_KEY?'••••••••••'+SUPABASE_KEY.slice(-6):'（未設定）'}'
+      </div>
+    </div>
+
+    <div class="card" style="border-color:var(--red)30">
+      <div style="font-size:14px;font-weight:700;margin-bottom:16px;color:var(--red)">⚠️ 危險區域</div>
+      <div class="settings-row">
+        <div><div class="settings-lbl">清除所有資料</div><div class="settings-sub">刪除本地所有腳本與設定（無法復原）</div></div>
+        <button class="btn btn-danger btn-sm" onclick="if(confirm('確定清除所有資料？此操作無法復原！')){localStorage.clear();location.reload()}">清除</button>
+      </div>
+      <div class="settings-row">
+        <div><div class="settings-lbl">登出帳號</div><div class="settings-sub">登出目前的帳號</div></div>
+        <button class="btn btn-ghost btn-sm" onclick="authLogout()">登出</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function editName() {
+  const n = prompt('請輸入新的姓名：', S.user.name);
+  if(n&&n.trim()) { _updateUser({name:n.trim()}); notify('姓名已更新','ok'); render(); }
+}
+
+// ================================================================
+// 🪟 MODALS
+// ================================================================
+function buildModal() {
+  let content = '';
+  if(S.modal==='upgrade') content = buildUpgradeModal();
+  else if(S.modal==='viewScript') content = buildViewScriptModal();
+  else if(S.modal==='createTeam') content = buildCreateTeamModal();
+  else if(S.modal==='joinTeam') content = buildJoinTeamModal();
+  return `<div class="modal-bg" onclick="if(event.target===this){S.modal=null;S.modalData=null;render()}">${content}</div>`;
+}
+
+function buildUpgradeModal() {
+  return `<div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-title">🚀 升級方案</div>
+    <div class="modal-sub">選擇適合你的方案，立即升級</div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      ${Object.entries(PLANS).map(([k,p])=>`
+      <div class="plan-card ${S.user.plan===k?'selected':''}" onclick="upgradePlan('${k}')">
+        ${k==='pro'?`<div class="plan-popular">推薦</div>`:''}
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div><span class="badge badge-${k}">${p.label}</span> <b style="font-size:14px">${p.name}</b></div>
+          <div class="plan-price" style="font-size:18px">NT$${p.price}<span>/月</span></div>
+        </div>
+        <div style="font-size:12px;color:var(--text2);margin-top:4px">${p.limit===-1?'無限次數':p.limit+'次/月'} · 最多${p.members}位成員${k==='team'?' · 團隊共享腳本':''}</div>
+        ${S.user.plan===k?`<div style="font-size:11px;color:var(--teal);margin-top:6px">✓ 目前方案</div>`:`<div style="font-size:11px;color:var(--coral);margin-top:6px">點擊選擇此方案 →</div>`}
+      </div>`).join('')}
+    </div>
+    <p style="font-size:11px;color:var(--text3);margin-top:12px;text-align:center">* 演示版，實際部署時請接入金流系統</p>
+    <button class="btn btn-ghost" style="width:100%;justify-content:center;margin-top:8px" onclick="S.modal=null;render()">取消</button>
+  </div>`;
+}
+
+function buildViewScriptModal() {
+  const s = S.modalData;
+  if(!s) return '';
+  const d = s.data;
+  return `<div class="modal" style="max-width:680px" onclick="event.stopPropagation()">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px">
+      <div><div class="modal-title">${esc(s.title||s.topic)}</div><div style="font-size:12px;color:var(--text3)">${PLATFORM_MAP[s.platform]||s.platform} · ${s.duration}秒 · ${new Date(s.createdAt).toLocaleDateString('zh-TW')}</div></div>
+      <div style="display:flex;gap:6px">
+        <button class="btn btn-secondary btn-sm" onclick="exportPDF(S.modalData)">📄 PDF</button>
+        <button class="btn btn-ghost btn-sm" onclick="S.modal=null;S.modalData=null;render()">✕</button>
+      </div>
+    </div>
+    ${d.meta?.hook?`<div class="hook-card" style="margin-bottom:14px"><div class="hook-lbl">⚡ 開場鉤子</div><div class="hook-text">"${esc(d.meta.hook)}"</div></div>`:''}
+    ${(d.scenes||[]).map(s=>`<div class="scene-card"><div class="scene-hdr"><span class="scene-num">場景${s.id}</span><span class="scene-ts">${s.timeStart}—${s.timeEnd}</span></div><div class="scene-ttl">${esc(s.title)}</div><div class="scene-row"><b>鏡頭</b>${esc(s.camera||'')}</div><div class="scene-row"><b>動作</b>${esc(s.action||'')}</div>${(s.dialogue||[]).length?`<div class="dlg-box"><div class="dlg-lbl">對話</div>${s.dialogue.map(l=>`<div class="dlg-line"><span class="dlg-sp" style="color:${l.speaker.includes('掌鏡')?'var(--coral)':'var(--teal)'}">${esc(l.speaker)}：</span>${esc(l.line)}</div>`).join('')}</div>`:''}</div>`).join('')}
+  </div>`;
+}
+
+function buildCreateTeamModal() {
+  return `<div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-title">🏗️ 建立團隊</div>
+    <div class="modal-sub">建立你的品牌團隊，邀請隊友加入</div>
+    <div class="field"><label class="lbl">團隊名稱</label><input class="inp" id="team-name" placeholder="例：品牌創作工作室"></div>
+    <div style="background:var(--bg3);border-radius:var(--r);padding:12px;margin-bottom:14px;font-size:12px;color:var(--text2);line-height:1.7">
+      建立團隊後，你將自動升級至<b style="color:var(--teal)">團隊版</b>（NT$799/月），享有無限生成次數與最多5位成員。
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-primary" style="flex:1;justify-content:center" onclick="doCreateTeam()">建立團隊</button>
+      <button class="btn btn-ghost" onclick="S.modal=null;render()">取消</button>
+    </div>
+  </div>`;
+}
+
+function buildJoinTeamModal() {
+  return `<div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-title">🔑 加入團隊</div>
+    <div class="modal-sub">輸入隊友提供的邀請碼</div>
+    <div class="field"><label class="lbl">邀請碼</label><input class="inp" id="invite-code" placeholder="例：A1B2C3" style="letter-spacing:4px;font-size:18px;font-weight:700;text-align:center" maxlength="6" oninput="this.value=this.value.toUpperCase()"></div>
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-primary" style="flex:1;justify-content:center" onclick="doJoinTeam()">加入團隊</button>
+      <button class="btn btn-ghost" onclick="S.modal=null;render()">取消</button>
+    </div>
+  </div>`;
+}
+
+function doCreateTeam() {
+  try { createTeam(document.getElementById('team-name')?.value||''); S.modal=null; notify('團隊建立成功！','ok'); render(); }
+  catch(e) { notify(e.message,'err'); }
+}
+function doJoinTeam() {
+  try { joinTeam(document.getElementById('invite-code')?.value||''); S.modal=null; notify('成功加入團隊！','ok'); render(); }
+  catch(e) { notify(e.message,'err'); }
+}
+
+// ================================================================
+// 🏗️ MAIN VIEW ROUTER
+// ================================================================
+function buildView() {
+  switch(S.view) {
+    case 'dashboard': return buildDashboard();
+    case 'generator': return buildGenerator();
+    case 'history':   return buildHistory();
+    case 'team':      return buildTeam();
+    case 'settings':  return buildSettings();
+    default: return buildDashboard();
+  }
+}
+
+// ================================================================
+// 🎯 EVENT LISTENERS
+// ================================================================
+function attachListeners() {
+  // keyboard shortcuts
+}
+
+// ================================================================
+// 🚀 INIT
+// ================================================================
+render();
+</script>
+</body>
+</html>
