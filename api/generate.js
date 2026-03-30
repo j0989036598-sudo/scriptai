@@ -1,4 +1,3 @@
-// 檔案位置：api/generate.js
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method Not Allowed' });
 
@@ -12,7 +11,8 @@ export default async function handler(req, res) {
         'anthropic-version': '2023-06-01'
       },
       body: JSON.stringify({
-        model: 'claude-3-5-sonnet-20241022',
+        // 💡 換成 Haiku 大腦：速度超快、成本極低，且新帳號絕對可用！
+        model: 'claude-3-haiku-20240307',
         max_tokens: 4000,
         system: system,
         messages: [{ role: 'user', content: userPrompt }]
@@ -20,12 +20,14 @@ export default async function handler(req, res) {
     });
 
     const data = await aiRes.json();
-    if (data.error) throw new Error(data.error.message);
+    
+    // 捕捉 Anthropic 給的真實錯誤訊息
+    if (data.error) throw new Error(data.error.message || 'AI 拒絕連線');
 
-    // 💡 吳懂，這段過濾器非常重要，它會踢掉 AI 說的廢話，只留下腳本 JSON
-    let raw = data.content.map(b => b.text || '').join('');
-    const jsonMatch = raw.match(/\{[\s\S]*\}/); // 尋找大括號內容
-    if (!jsonMatch) throw new Error('AI 回傳格式錯誤');
+    // 提取內容並確保它是乾淨的 JSON
+    let raw = data.content[0].text;
+    const jsonMatch = raw.match(/\{[\s\S]*\}/);
+    if (!jsonMatch) throw new Error('AI 回傳格式無法解析');
     
     const parsed = JSON.parse(jsonMatch[0]);
     res.status(200).json(parsed);
